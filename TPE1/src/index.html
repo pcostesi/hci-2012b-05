@@ -26,7 +26,40 @@
         </div>
 
         <div id="main" class="wrapper main">
-            <div id="view">EMPTY</div>
+                <form class="searchbox">
+                    <div class="tabs">
+                        <div id="tab-vuelos">
+                            Vuelos
+                        </div>
+                        <div id="tab-hoteles">
+                            Hoteles
+                        </div>
+                    </div>
+                    <div id="search-flights">
+                        <div class="black" id="flight-block">
+                            Origen
+                            <input type="text" placeholder="Ingrese una ciudad de origen" name="origin-flight" id="text-input">
+                            <input type="checkbox" name="tripType" checked="checked" value="close-airport-origin" id="checkbox"> Aeropuertos Cercanos <br>
+                            <input type="radio" name="round-trip" value="round">Round<br>
+                            <input type="radio" name="round-trip" value="one-way">Ida<br>
+                        </div>
+                        <div class="black" id="flight-block">
+                            Destino
+                            <input type="text" placeholder="Ingrese una ciudad de destino" name="origin-flight" id="text-input">
+                            <input type="checkbox" name="tripType" checked="checked" value="close-airport-origin" id="checkbox"> Aeropuertos Cercanos <br>
+                            <input type="radio" name="scale" value="with-scale">Con Escala<br>
+                            <input type="radio" name="scale" value="no-scale">Sin Escala<br>
+                        </div>
+                        <div class="black" id="flight-block">
+                            Pasajes
+                            <input type="text" placeholder="Ingrese una ciudad de origen" name="origin-flight">
+                            <input type="checkbox" name="tripType" checked="checked" value="close-airport-origin">
+                            <input type="radio" name="round-trip" value="round">Ida y Vuelta<br>
+                            <input type="radio" name="sex" value="one-way">Ida Solo<br>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
 
         <div id="footer" class="black"> 
@@ -41,12 +74,12 @@
         
         
         
-        <script type="text/x-mustache" id="_template-test">
+        <!--<script type="text/x-mustache" id="_template-test">
             <p>Hello {{world}}</p>
             <input type="date" id="dates">
         </script>
         
         <script src="static/js/main.js"></script>
-        
+        -->
     </body>
 </html>
