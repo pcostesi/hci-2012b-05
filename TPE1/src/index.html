@@ -40,15 +40,19 @@
                             Origen
                             <input type="text" placeholder="Ingrese una ciudad de origen" name="origin-flight" id="text-input">
                             <input type="checkbox" name="tripType" checked="checked" value="close-airport-origin" id="checkbox"> Aeropuertos Cercanos <br>
-                            <input type="radio" name="round-trip" value="round">Round<br>
-                            <input type="radio" name="round-trip" value="one-way">Ida<br>
+                            <div id="round-container">
+                                <input type="radio" name="round-trip" value="round" id="round-check" checked="checked"><span>Ida y Vuelta</span>
+                                <input type="radio" name="round-trip" value="one-way" id="round-check"><span>Solo Ida</span>
+                            </div>
                         </div>
                         <div class="black" id="flight-block">
                             Destino
                             <input type="text" placeholder="Ingrese una ciudad de destino" name="origin-flight" id="text-input">
                             <input type="checkbox" name="tripType" checked="checked" value="close-airport-origin" id="checkbox"> Aeropuertos Cercanos <br>
-                            <input type="radio" name="scale" value="with-scale">Con Escala<br>
-                            <input type="radio" name="scale" value="no-scale">Sin Escala<br>
+                            <div id="round-container">
+                                <input type="radio" name="scale" value="with-scale" id="round-check" checked="checked"><span>Con Escala</span>
+                                <input type="radio" name="scale" value="no-scale" id="round-check"><span>Sin Escala</span>
+                            </div>
                         </div>
                         <div class="black" id="flight-block">
                             Pasajes
@@ -58,8 +62,21 @@
                             <input type="radio" name="sex" value="one-way">Ida Solo<br>
                         </div>
                     </div>
+                </form>
+                <div class="adsense">
+                    <script type="text/javascript"><!--
+                        google_ad_client = "ca-pub-0957257725547822";
+                        /* mindtrips */
+                        google_ad_slot = "5799305060";
+                        google_ad_width = 250;
+                        google_ad_height = 250;
+                        //-->
+                    </script>
+                    <script type="text/javascript"
+                        src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+                    </script>
                 </div>
-            </form>
+            </div>
         </div>
 
         <div id="footer" class="black"> 

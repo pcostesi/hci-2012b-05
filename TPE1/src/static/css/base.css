@@ -2,7 +2,7 @@ body {
 	margin: 0 auto;
 	padding: 0;
 	border: 0px;
-	background-color: #fff;
+	background:#F3F3F3 url("back.gif") repeat;
 }
 
 
@@ -23,7 +23,7 @@ body {
 }
 
 .main {
-	padding-top: 35px;
+	padding-top: 40px;
 	padding-bottom: 80px;
 }
 
@@ -81,6 +81,7 @@ body {
 }
 
 .searchbox{
+	float:left;
 	width:550px;
 	padding-top:5px;
 }
@@ -137,4 +138,18 @@ body {
 
 #checkbox{
 	margin:5px;
+}
+
+#round-container{
+	font-size: 14px;
+}
+
+#round-check{
+	margin: 5px;
+}
+
+.adsense{
+	float:right;
+	border:5px solid #009BDB;
+	height: 250px;
 }
