@@ -28,8 +28,11 @@
         $(document).ready(function() {
             $("#return-dates").datepicker();
         });
-        function changeClass(){
+        function addHiddenToReturn(){
             $("#return-dates").addClass("hidden");
+        }
+        function removeHiddenToReturn(){
+            $("#return-dates").removeClass("hidden");
         }
     </script>
  
@@ -60,8 +63,8 @@
                             <input type="text" id="origin-tags" placeholder="Ingrese una ciudad de origen" name="origin-flight">
                             <input type="checkbox" name="tripType" checked="checked" value="close-airport-origin" id="checkbox"> Aeropuertos Cercanos <br>
                             <div id="round-container">
-                                <input type="radio" name="round-trip" value="round" id="round-check" checked="checked"><span>Ida y Vuelta</span>
-                                <input type="radio" name="round-trip" value="one-way" id="round-check" onclick="changeClass()"><span>Solo Ida</span>
+                                <input type="radio" name="round-trip" value="round" id="round-check" checked="checked" onclick="removeHiddenToReturn()"><span>Ida y Vuelta</span>
+                                <input type="radio" name="round-trip" value="one-way" id="round-check" onclick="addHiddenToReturn()"><span>Solo Ida</span>
                             </div>
                             <input type="text" id="go-dates" placeholder="Ingrese fecha de salida">
                         </div>
