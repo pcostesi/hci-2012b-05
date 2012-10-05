@@ -152,4 +152,32 @@ body {
 	float:right;
 	border:5px solid #009BDB;
 	height: 250px;
+	width:250px;
+	background: #009BDB;
+}
+
+.submit{
+	float:bottom;
+}
+
+.ui-autocomplete-input{
+	width: 80%;
+	border: 1px solid #009BDB;
+	border-radius: 3px;
+	font-size: 0.95em;
+	outline: none;
+	padding: 8px 10px 7px;
+	margin: 5px;
+	font-size: 10px
+}
+
+.hasDatepicker{
+	width: 80%;
+	border: 1px solid #009BDB;
+	border-radius: 3px;
+	font-size: 0.95em;
+	outline: none;
+	padding: 8px 10px 7px;
+	margin: 5px;
+	font-size: 13px
 }
