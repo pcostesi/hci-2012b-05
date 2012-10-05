@@ -1,13 +1,14 @@
 // Create the namespace
 MindTrips = window.MindTrips || {}
 
-markup = $('#_template-test').html().replace(/\s\s+/g, '');
-template = Mustache.compile(markup);
-var text = "";
-for (var i = 0; i < 1000; i++) {
-	text += " lorem ipsum ";
-}
+//markup = $('#_template-test').html().replace(/\s\s+/g, '');
+//template = Mustache.compile(markup);
+//$("#view").html(template({world:text}));
+$(function(){
+	$("input[data-date-picker]").each(function(){
+		$(this).datepicker();
+	});
+	$("input[name='round-trip' value='round']").click(addHiddenToReturn);
+	$("input[name='round-trip' value='one-way']").click(removeHiddenToReturn);
 
-
-$("#view").html(template({world:text}));
-$("#dates").datepicker();
+})

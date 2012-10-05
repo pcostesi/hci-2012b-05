@@ -22,12 +22,6 @@
         $(document).ready(function() {
             $("#return-tags").autocomplete( { source:["ARG","USA","RUS"] });
         });
-        $(document).ready(function() {
-            $("#go-dates").datepicker();
-        });
-        $(document).ready(function() {
-            $("#return-dates").datepicker();
-        });
         function addHiddenToReturn(){
             $("#return-dates").addClass("hidden");
         }
@@ -66,7 +60,7 @@
                                 <input type="radio" name="round-trip" value="round" id="round-check" checked="checked" onclick="removeHiddenToReturn()"><span>Ida y Vuelta</span>
                                 <input type="radio" name="round-trip" value="one-way" id="round-check" onclick="addHiddenToReturn()"><span>Solo Ida</span>
                             </div>
-                            <input type="text" id="go-dates" placeholder="Ingrese fecha de salida">
+                            <input type="text" id="go-dates" data-date-picker="true" placeholder="Ingrese fecha de salida">
                         </div>
                         <div id="flight-block">
                             Destino
@@ -76,7 +70,7 @@
                                 <input type="radio" name="scale" value="with-scale" id="round-check" checked="checked"><span>Con Escala</span>
                                 <input type="radio" name="scale" value="no-scale" id="round-check"><span>Sin Escala</span>
                             </div>
-                            <input type="text" id="return-dates" placeholder="Ingrese fecha de vuelta" >
+                            <input type="text" id="return-dates" data-date-picker="true" placeholder="Ingrese fecha de vuelta" >
                         </div>
                         <div id="flight-block">
                             Pasajes
