@@ -28,8 +28,9 @@
         $(document).ready(function() {
             $("#return-dates").datepicker();
         });
-                
-
+        function changeClass(){
+            $("#return-dates").addClass("hidden");
+        }
     </script>
  
 
@@ -53,18 +54,18 @@
                             Hoteles
                         </div>
                     </div>
-                    <div id="search-flights">
-                        <div class="black" id="flight-block">
+                    <div class="black" id="search-flights">
+                        <div id="flight-block">
                             Origen
                             <input type="text" id="origin-tags" placeholder="Ingrese una ciudad de origen" name="origin-flight">
                             <input type="checkbox" name="tripType" checked="checked" value="close-airport-origin" id="checkbox"> Aeropuertos Cercanos <br>
                             <div id="round-container">
                                 <input type="radio" name="round-trip" value="round" id="round-check" checked="checked"><span>Ida y Vuelta</span>
-                                <input type="radio" name="round-trip" value="one-way" id="round-check"><span>Solo Ida</span>
+                                <input type="radio" name="round-trip" value="one-way" id="round-check" onclick="changeClass()"><span>Solo Ida</span>
                             </div>
                             <input type="text" id="go-dates" placeholder="Ingrese fecha de salida">
                         </div>
-                        <div class="black" id="flight-block">
+                        <div id="flight-block">
                             Destino
                             <input type="text" id="return-tags" placeholder="Ingrese una ciudad de destino" name="return-flight">
                             <input type="checkbox" name="tripType" checked="checked" value="close-airport-origin" id="checkbox"> Aeropuertos Cercanos <br>
@@ -74,7 +75,7 @@
                             </div>
                             <input type="text" id="return-dates" placeholder="Ingrese fecha de vuelta" >
                         </div>
-                        <div class="black" id="flight-block">
+                        <div id="flight-block">
                             Pasajes
                             <input type="submit" value="Submit" id="submit">
                         </div>

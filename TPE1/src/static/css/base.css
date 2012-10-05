@@ -181,3 +181,7 @@ body {
 	margin: 5px;
 	font-size: 13px
 }
+
+.hidden{
+	display:none;
+}
