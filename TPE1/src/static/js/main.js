@@ -10,5 +10,20 @@ $(function(){
 	});
 	$("input[name='round-trip' value='round']").click(addHiddenToReturn);
 	$("input[name='round-trip' value='one-way']").click(removeHiddenToReturn);
-
+	$("input[id='go-dates']").change(checkDates);
+	$("input[id='return-tags']").change(checkOrigin);
 })
+function checkDates(){
+	initial = new Date($("input[id='go-dates']").val());
+	$("input[id='return-dates']").datepicker("option", "minDate", initial);
+	$("input[id='return-dates']").focus();
+}
+function checkOrigin(){
+	destination = $("input[id='return-tags']").val();
+	origin = $("input[id='origin-tags']").val();
+	alert(origin);
+	alert(destination);
+	if(origin == destination){
+		alert("son iguales");
+	}
+}
