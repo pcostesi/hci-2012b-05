@@ -173,7 +173,7 @@ h1, h2, h3 {
 
 .hasDatepicker{
 	border: none;
-	width: 80%;
+	width: 100%;
 	overflow: hidden;
 	font-size: small;
 }
