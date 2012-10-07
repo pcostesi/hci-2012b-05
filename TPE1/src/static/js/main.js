@@ -5,13 +5,13 @@ MindTrips = window.MindTrips || {}
 //template = Mustache.compile(markup);
 //$("#view").html(template({world:text}));
 $(function(){
-	$("input[data-date-picker]").each(function(){
+	$("[data-date-picker]").each(function(){
 		$(this).datepicker();
 	});
-	$("input[name='round-trip' value='round']").click(addHiddenToReturn);
-	$("input[name='round-trip' value='one-way']").click(removeHiddenToReturn);
-	$("input[id='go-dates']").change(checkDates);
-	$("input[id='return-tags']").change(checkOrigin);
+	$("[name='round-trip' value='round']").click(addHiddenToReturn);
+	$("[name='round-trip' value='one-way']").click(removeHiddenToReturn);
+	$("#go-dates").change(checkDates);
+	$("#return-tags").change(checkOrigin);
 })
 function checkDates(){
 	initial = new Date($("input[id='go-dates']").val());
