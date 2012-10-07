@@ -91,7 +91,6 @@ html, body {
 }
 
 .searchbox{
-	float:left;
 	padding-top:5px;
 }
 
@@ -114,7 +113,7 @@ html, body {
 }
 
 .flight-block{
-	width: 45%;
+	width: 31%;
 	float: left;
 }
 
@@ -166,7 +165,7 @@ html, body {
 
 .hasDatepicker{
 	border: none;
-	width: 80%;
+	width: 100%;
 	overflow: hidden;
 	font-size: small;
 }

@@ -16,7 +16,6 @@ $(function(){
 function checkDates(){
 	initial = new Date($("input[id='go-dates']").val());
 	$("input[id='return-dates']").datepicker("option", "minDate", initial);
-	$("input[id='return-dates']").focus();
 }
 function checkOrigin(){
 	destination = $("input[id='return-tags']").val();
