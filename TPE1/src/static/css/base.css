@@ -1,3 +1,5 @@
+
+
 html, body {
 	margin: 0;
 	padding: 0;
@@ -7,9 +9,12 @@ html, body {
 	height:100%;
 }
 
+h1, h2, h3 {
+	color: #009BDB;
+}
+
 
 .black {
-	color: #009BDB;
 	background-color: #f0f0f7; //rgba(216, 217, 221, 0.9);
 }
 
@@ -23,42 +28,44 @@ html, body {
 	border-color: #009BDB;
 	overflow: hidden;
 	z-index: 9999999;
+	color: #009BDB;
 }
 
 .main {
-	padding-top: 40px;
-	padding-bottom: 180px;
+	color: #000;
 
 }
 
 #footer {
-	border-top: 1px solid;
-	border-color: #009BDB;
+	opacity: 0.75;
+	background-color: transparent;
+	border-top: none;
 	position: relative;
-	margin-top: -151px;
-	height: 140px;
+	margin-top: -51px;
+	height: 40px;
 	padding-top: 10px;
 	width: 100%;
 	clear:both;
 }
 
-.footer_column {
-	display: block;
-	float: left;
-	margin-right: 25px;
-	overflow: hidden;
-}
-
-.wrapper {
+.center {
 	display: block;
 	float: none;
 	width: 960px;
 	margin: 0 auto;
-	overflow: hidden;
 	position:relative;
+}
+
+.pusher {
+	overflow:auto;
     min-height:100%;
     height:100%;
     height:auto !important;
+}
+
+#main {
+	padding-top: 40px;
+	padding-bottom: 60px;
 }
 
 .copyright {
@@ -91,6 +98,7 @@ html, body {
 }
 
 .searchbox{
+	width: 100% !important;
 	float:left;
 	padding-top:5px;
 }
@@ -102,7 +110,6 @@ html, body {
 }
 
 .tabs{
-	width:550px;
 	float:left;
 }
 
@@ -114,12 +121,12 @@ html, body {
 }
 
 .flight-block{
-	width: 45%;
 	float: left;
+	width: auto;
+	margin: 10px auto;
 }
 
 .text-input{
-	width: 80%;
 	border: 1px solid #009BDB;
 	border-radius: 3px;
 	font-size: 0.95em;
@@ -130,7 +137,7 @@ html, body {
 }
 
 #checkbox{
-	margin:5px;
+	padding:5px;
 }
 
 #round-container{

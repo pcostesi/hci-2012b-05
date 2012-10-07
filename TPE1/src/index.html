@@ -14,7 +14,7 @@
     <script src="http://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.5.0-dev/mustache.min.js"></script>
 
     <script type="text/javascript"
-      src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDrn5EN6Zz9Q6k49KoDVt43dLBpDJPFebQ&sensor=false">
+      src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDrn5EN6Zz9Q6k49KoDVt43dLBpDJPFebQ&amp;sensor=false">
     </script>
 
     <script src="static/js/main.js"></script>
@@ -43,12 +43,12 @@
             <a href="/"><img src="static/img/logo.png" alt="MindTrips" height="35px"></img></a>
             <span id="breadcrum"><a href="#" class="breadcrum">test</a><a href="#" class="breadcrum">test</a><a href="#" class="breadcrum">test</a><a href="#" class="breadcrum">test</a><a href="#" class="breadcrum">test</a></span>
         </div>
-        <div class="wrapper">
-        <div id="main" class="main">
+        <div class="center pusher">
+            <div id="main">
                 <form class="searchbox">
                     <div class="black" id="search-flights">
                         <div class="flight-block">
-                            Origen
+                            <h2>Origen</h2>
                             <input type="text" id="origin-tags" placeholder="Ingrese una ciudad de origen" name="origin-flight">
                             <br>
                             <label><input type="checkbox" name="tripType" checked="checked" value="close-airport-origin" id="checkbox">Aeropuertos Cercanos</label>
@@ -59,7 +59,7 @@
                             <div id="go-dates" data-date-picker="true"></div>
                         </div>
                         <div class="flight-block">
-                            Destino
+                            <h2>Destino</h2>
                             <input type="text" id="return-tags" placeholder="Ingrese una ciudad de destino" name="return-flight"><br>
                             <label>
                                 <input type="checkbox" name="tripType" checked="checked" value="close-airport-origin" id="checkbox">
@@ -72,7 +72,7 @@
                             <div id="return-dates" data-date-picker="true"></div>
                         </div>
                         <div class="flight-block">
-                            Pasajes
+                            <h2>Pasajes</h2>
                             <select name="children">
                                 <option value="2" selected="selected">1</option>
                                 <option value="2">2</option>
@@ -87,14 +87,9 @@
                 </form>
             </div>
         </div>
-        </div>
 
         <div id="footer" class="black"> 
-            <div class="wrapper">
-                <div class="footer_column">Quienes Somos</div>
-                <div class="footer_column">Política de Privacidad</div>
-                <div class="footer_column">Ayuda</div>
-                <div class="clearfix"></div>
+            <div class="center">
                 <div class="copyright">Copyright MindTrips© 2012</div>
             </div>
         </div>
