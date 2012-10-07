@@ -96,7 +96,7 @@ h1, h2, h3 {
 }
 
 .searchbox{
-	width: 100% !important;
+	width: 100%;
 	float:left;
 	padding-top:5px;
 }

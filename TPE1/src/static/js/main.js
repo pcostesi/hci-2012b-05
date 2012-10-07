@@ -106,7 +106,6 @@ MindTrips.AppRouter = Backbone.Router.extend({
 		$("[name='round-trip' value='one-way']").click(removeHiddenToReturn);
 		$("#go-dates").change(checkDates);
 		$("#return-tags").change(checkOrigin);
-
     },
  
 });
