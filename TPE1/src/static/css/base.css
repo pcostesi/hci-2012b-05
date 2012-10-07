@@ -31,15 +31,11 @@ h1, h2, h3 {
 	color: #009BDB;
 }
 
-.main {
-	color: #000;
-
-}
 
 #footer {
 	opacity: 0.75;
-	background-color: transparent;
-	border-top: none;
+	background:#F3F3F3 url("back.gif") repeat;
+	border: none;
 	position: relative;
 	margin-top: -51px;
 	height: 40px;
@@ -63,9 +59,11 @@ h1, h2, h3 {
     height:auto !important;
 }
 
-#main {
+#main{
 	padding-top: 40px;
 	padding-bottom: 60px;
+	color: #000;
+	overflow:auto;
 }
 
 .copyright {
@@ -126,14 +124,20 @@ h1, h2, h3 {
 	margin: 10px auto;
 }
 
-.text-input{
+input {
 	border: 1px solid #009BDB;
 	border-radius: 3px;
-	font-size: 0.95em;
+//	font-size: 0.95em;
 	outline: none;
+	margin-left: 10px;
+	font-size: 10px;
+}
+
+input[type="text"]{
 	padding: 8px 10px 7px;
-	margin: 5px;
-	font-size: 10px
+	margin: 0px 10px 0px 10px;
+	width: 85%;
+
 }
 
 #checkbox{
@@ -161,7 +165,6 @@ h1, h2, h3 {
 }
 
 .ui-autocomplete-input{
-	width: 80%;
 	border: 1px solid #009BDB;
 	border-radius: 3px;
 	font-size: 0.95em;
