@@ -90,14 +90,41 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
         this.from = from;
         this.to = to;
     },
+
 });
 
 MindTrips.MapView = MindTrips.BaseView.extend({
-	templateName: "map",
 
-	initialize: function(selector){
+    template: Mustache.compile("<div id='map_canvas_main'></div><div id='map_overlay'></div>"),
+    message: Mustache.compile("{{from}} &#x2708; {{to}}"),
 
-	},
+	initialize: function(selector, from, to){
+        this.from = from;
+        this.to = to;
+        this.selector = selector;
+        selector.html(this.template());
+        var mapdiv = document.getElementById('map_canvas_main');
+        var mapOptions = {
+          center: new google.maps.LatLng(-34.397, 150.644),
+          zoom: 1,
+          mapTypeId: google.maps.MapTypeId.ROADMAP,
+          panControl: false,
+          zoomControl: false,
+          mapTypeControl: false,
+          scaleControl: true,
+          streetViewControl: false,
+          overviewMapControl: false,
+        };
+        var map = new google.maps.Map(mapdiv, mapOptions);
+        this.render();
+        console.log("Map created");
+    },
+
+    render: function(eventName){
+        console.log("Rendering map");
+        $("#map_overlay").html(this.message(this));
+    }
+
 });
 
 MindTrips.BreadcrumView = MindTrips.BaseView.extend({
@@ -155,6 +182,7 @@ MindTrips.AppRouter = Backbone.Router.extend({
 
     flights: function(from, to){
         this.showView("#main", new MindTrips.FlightListView(from, to));
+        var map = new MindTrips.MapView($("#map_canvas"), from, to);
     },
 
     payment: function(flight) {
@@ -177,16 +205,6 @@ function checkOrigin(){
 	if(origin == destination){
 		alert("son iguales");
 	}
-}
-
-function initialize() {
-	var mapOptions = {
-    	center: new google.maps.LatLng(-33, 151),
-        zoom: 8,
-        disableDefaultUI: true,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-    };
-    var map = new google.maps.Map(document.getElementById("map_canvas"),mapOptions);
 }
 
 function addHiddenToReturn(){
