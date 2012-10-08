@@ -197,8 +197,66 @@ input[type="text"]{
 #flight-data{
 	width: 96% !important;
 	float:left;
-	border-radius: 3px;
+	border-radius: 10px;
 	margin: 10px;
 	border: 1px solid;
 	border-color: #009BDB;
+	padding-top: 7px;
+	padding-left: 7px;
+	padding-bottom: 3px;
+}
+
+#airline-logo{
+	float:left;
+}
+
+#airline-name{
+	float:left;
+	font-size: 15px;
+	padding-top: 6px;
+	margin-left: 10px;
+}
+#flight-price{
+	float:left;
+	font-size: 15px;
+	padding-top: 6px;
+	margin-left: 10px;
+}
+
+#flight-time{
+	float:right;
+	font-size: 15px;
+	padding-top: 6px;
+	margin-right: 10px;
+}
+#flight-long{
+	float:right;
+	font-size: 15px;
+	padding-top: 6px;
+	margin-right: 10px;
+}
+#flight-scales{
+	float:right;
+	font-size: 15px;
+	padding-top: 6px;
+	margin-right: 10px;
+}
+#flight-more{
+	float:right;
+	font-size: 15px;
+	padding-top: 5px;
+	margin-right: 10px;
+}
+#flight-confirm{
+	float:right;
+	font-size: 15px;
+	padding-top: 5px;
+	margin-right: 10px;
+}
+
+#flight-tickets{
+	float:left;
+	font-size: 15px;
+	padding-top: 6px;
+	margin-left: 10px;
 }
