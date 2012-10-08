@@ -217,29 +217,29 @@ input[type="text"]{
 	margin-left: 10px;
 }
 #flight-price{
+	float:right;
+	font-size: 15px;
+	padding-top: 6px;
+	margin-right: 10px;
+}
+
+#flight-time{
 	float:left;
 	font-size: 15px;
 	padding-top: 6px;
 	margin-left: 10px;
 }
-
-#flight-time{
-	float:right;
-	font-size: 15px;
-	padding-top: 6px;
-	margin-right: 10px;
-}
 #flight-long{
-	float:right;
+	float:left;
 	font-size: 15px;
 	padding-top: 6px;
-	margin-right: 10px;
+	margin-left: 10px;
 }
 #flight-scales{
-	float:right;
+	float:left;
 	font-size: 15px;
 	padding-top: 6px;
-	margin-right: 10px;
+	margin-left: 10px;
 }
 #flight-more{
 	float:right;
@@ -255,6 +255,13 @@ input[type="text"]{
 }
 
 #flight-tickets{
+	float:right;
+	font-size: 15px;
+	padding-top: 6px;
+	margin-right: 10px;
+}
+
+#flight-outbound{
 	float:left;
 	font-size: 15px;
 	padding-top: 6px;
