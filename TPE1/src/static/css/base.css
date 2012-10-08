@@ -181,3 +181,17 @@ h1, h2, h3 {
 .hidden{
 	display:none;
 }
+
+#map_canvas { 
+	height:200px; 
+	width:98%;
+}
+
+#flight-data{
+	width: 96% !important;
+	float:left;
+	border-radius: 3px;
+	margin: 10px;
+	border: 1px solid;
+	border-color: #009BDB;
+}

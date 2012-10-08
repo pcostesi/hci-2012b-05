@@ -26,3 +26,25 @@ function checkOrigin(){
 		alert("son iguales");
 	}
 }
+
+function initialize() {
+	var mapOptions = {
+    	center: new google.maps.LatLng(-33, 151),
+        zoom: 8,
+        disableDefaultUI: true,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    var map = new google.maps.Map(document.getElementById("map_canvas"),mapOptions);
+}
+
+function codeAddress() {
+   	var address = document.getElementById("address").value;
+    geocoder.geocode( { 'address': address}, function(results, status) {
+      	if (status == google.maps.GeocoderStatus.OK) {
+        	map.setCenter(results[0].geometry.location);
+        	var marker = new google.maps.Marker({ map: map, position: results[0].geometry.location});
+      	} else {
+        	alert("Geocode was not successful for the following reason: " + status);
+      	}
+    });
+}
