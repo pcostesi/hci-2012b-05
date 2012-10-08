@@ -83,6 +83,11 @@ h1, h2, h3 {
 	background-image: url(/static/img/logo2.png);
 }
 
+.template {
+	display:none;
+	overflow:hidden;
+}
+
 .copyright {
 	width: 100%;
 	text-align: center;

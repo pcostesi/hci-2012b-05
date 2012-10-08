@@ -183,9 +183,10 @@ function removeHiddenToReturn(){
 
 // On load:
 $(function(){
-	MindTrips.templates.loadTemplates(["search"], function(){
+	MindTrips.templates.loadTemplates(["search", "selector", "payment"], function(){
 		var router = new MindTrips.AppRouter();
     	var history = Backbone.history.start();
+        window.router = router;
 	});
 
 });
