@@ -4,7 +4,7 @@ html, body {
 	margin: 0;
 	padding: 0;
 	border: 0px;
-	background:#F3F3F3 url("back.gif") repeat;
+	background:#F3F3F3 url(back.gif) repeat;
 	font-family: arial;
 	height:100%;
 }
@@ -34,7 +34,7 @@ h1, h2, h3 {
 
 #footer {
 	opacity: 0.75;
-	background:#F3F3F3 url("back.gif") repeat;
+	background:#F3F3F3 url(back.gif) repeat;
 	border: none;
 	position: relative;
 	margin-top: -51px;
@@ -64,6 +64,19 @@ h1, h2, h3 {
 	padding-bottom: 60px;
 	color: #000;
 	overflow:auto;
+	z-index: 100;
+}
+
+#background{
+	position: absolute;
+	opacity: 0.15;
+	background-position: center;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	margin: 0 auto;
+	background-image: url(/static/img/logo2.png);
 }
 
 .copyright {
