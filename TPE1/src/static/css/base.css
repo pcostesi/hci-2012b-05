@@ -4,7 +4,7 @@ html, body {
 	margin: 0;
 	padding: 0;
 	border: 0px;
-	background:#F3F3F3 url("back.gif") repeat;
+	background:#F3F3F3 url(back.gif) repeat;
 	font-family: arial;
 	height:100%;
 }
@@ -15,7 +15,8 @@ h1, h2, h3 {
 
 
 .black {
-	background-color: #f0f0f7; //rgba(216, 217, 221, 0.9);
+	background-color: #eaeaf7;
+	overflow:hidden;
 }
 
 #header {
@@ -29,17 +30,14 @@ h1, h2, h3 {
 	overflow: hidden;
 	z-index: 9999999;
 	color: #009BDB;
+	box-shadow: 0px 5px 5px rgba(0, 155, 219, 0.1);
 }
 
-.main {
-	color: #000;
-
-}
 
 #footer {
 	opacity: 0.75;
-	background-color: transparent;
-	border-top: none;
+	background:#F3F3F3 url(back.gif) repeat;
+	border: none;
 	position: relative;
 	margin-top: -51px;
 	height: 40px;
@@ -57,15 +55,32 @@ h1, h2, h3 {
 }
 
 .pusher {
-	overflow:auto;
-    min-height:100%;
+	min-height:100%;
     height:100%;
     height:auto !important;
 }
 
-#main {
+#main{
 	padding-top: 40px;
 	padding-bottom: 60px;
+	color: #000;
+	z-index: 100;
+	float: none;
+}
+
+.background{
+	position: absolute;
+	opacity: 0.15;
+	background-position: center;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	margin: 0 auto;
+}
+
+#logo-watermark {
+	background-image: url(/static/img/logo2.png);
 }
 
 .copyright {
@@ -98,26 +113,21 @@ h1, h2, h3 {
 }
 
 .searchbox{
-	width: 100% !important;
-	float:left;
+	width: 100%;
 	padding-top:5px;
 }
 
 .searchbox div{
-	border-radius: 5px;
+	border-radius: 15px;
 	padding: 10px;
 	margin: 0px;
 }
 
-.tabs{
-	float:left;
-}
-
 #search-flights{
-	border: 1px solid;
 	border-color: #009BDB;
-	overflow: hidden;
 	height: auto;
+	border: none;
+	box-shadow: 5px 8px 18px rgba(40, 40, 50, 0.3);
 }
 
 .flight-block{
@@ -126,14 +136,19 @@ h1, h2, h3 {
 	margin: 10px auto;
 }
 
-.text-input{
+input {
 	border: 1px solid #009BDB;
 	border-radius: 3px;
-	font-size: 0.95em;
 	outline: none;
+	margin-left: 10px;
+	font-size: 10px;
+}
+
+input[type="text"]{
 	padding: 8px 10px 7px;
-	margin: 5px;
-	font-size: 10px
+	margin: 0px 10px 0px 10px;
+	width: 85%;
+
 }
 
 #checkbox{
@@ -148,20 +163,12 @@ h1, h2, h3 {
 	margin: 5px;
 }
 
-.adsense{
-	float:right;
-	border:5px solid #009BDB;
-	height: 250px;
-	width:250px;
-	background: #009BDB;
-}
 
 .submit{
 	float:bottom;
 }
 
 .ui-autocomplete-input{
-	width: 80%;
 	border: 1px solid #009BDB;
 	border-radius: 3px;
 	font-size: 0.95em;

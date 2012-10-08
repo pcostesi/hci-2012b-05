@@ -1,0 +1,52 @@
+<form class="searchbox">
+    <div class="black" id="search-flights">
+        <div class="flight-block">
+            <h2>Origen</h2>
+            <input type="text" id="origin-tags" placeholder="Ingrese una ciudad de origen" name="origin-flight">
+            <br>
+            <label><input type="checkbox" name="tripType" checked="checked" value="close-airport-origin" id="checkbox">Aeropuertos Cercanos</label>
+            <div id="round-container">
+                <input type="radio" name="round-trip" value="round" id="round-check" checked="checked" onclick="removeHiddenToReturn()"><span>Ida y Vuelta</span>
+                <input type="radio" name="round-trip" value="one-way" id="round-check" onclick="addHiddenToReturn()"><span>Solo Ida</span>
+            </div>
+            <div id="go-dates" data-date-picker="true"></div>
+        </div>
+        <div class="flight-block">
+            <h2>Destino</h2>
+            <input type="text" id="return-tags" placeholder="Ingrese una ciudad de destino" name="return-flight"><br>
+            <label>
+                <input type="checkbox" name="tripType" checked="checked" value="close-airport-origin" id="checkbox">
+                Aeropuertos Cercanos
+            </label>
+            <div id="round-container">
+                <input type="radio" name="scale" value="with-scale" id="round-check" checked="checked"><span>Con Escala</span>
+                <input type="radio" name="scale" value="no-scale" id="round-check"><span>Sin Escala</span>
+            </div>
+            <div id="return-dates" data-date-picker="true"></div>
+        </div>
+        <div class="flight-block">
+            <h2>Pasajes</h2>
+            <select name="children">
+                <option value="2" selected="selected">1</option>
+                <option value="2">2</option>
+                <option value="2">3</option>
+                <option value="2">4</option>
+                <option value="2">5</option>
+                <option value="2">6</option>
+            </select>
+            <input type="submit" value="Submit" id="submit">
+        </div>
+
+        <div class="clearfix"></div>
+        <div> Add button to submit / search / query </div>
+    </div>
+</form>
+
+<script>
+        $(document).ready(function() {
+            $("#origin-tags").autocomplete( { source:["ARG","USA","RUS"] });
+        });
+        $(document).ready(function() {
+            $("#return-tags").autocomplete( { source:["ARG","USA","RUS"] });
+        });
+</script>
