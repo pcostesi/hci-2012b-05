@@ -70,7 +70,7 @@ MindTrips.BaseView = Backbone.View.extend({
 	},
 
 	render: function (eventName) {
-		console.log("Rendering: " + this.templateName);
+		console.log("Rendering: " + this.templateName + " for event " + eventName);
 		$(this.el).html(this.template(this.model.toJSON()));
         return this;
 	},
@@ -84,7 +84,12 @@ MindTrips.SearchView = MindTrips.BaseView.extend({
 });
 
 MindTrips.FlightListView = MindTrips.BaseView.extend({
-	templateName: "flightlist",
+	templateName: "selector",
+
+    initialize: function(from, to){
+        this.from = from;
+        this.to = to;
+    },
 });
 
 MindTrips.MapView = MindTrips.BaseView.extend({
@@ -105,12 +110,28 @@ MindTrips.BreadcrumView = MindTrips.BaseView.extend({
 	},
 });
 
+MindTrips.PaymentView = MindTrips.BaseView.extend({
+    templateName: "payment",
+
+    initialize: function(payment){
+
+    },
+
+});
 
 // Router (controllers).
 MindTrips.AppRouter = Backbone.Router.extend({
  
     routes: {
-        "" : "search"
+        "test": "test",
+        "" : "search",
+        "flight/:flight/payment" : "payment",
+        "flights/:from/to/:to" : "flights",
+
+    },
+
+    test: function(){
+        $("#main").html("");
     },
 
     showView: function(selector, view) {
@@ -130,6 +151,14 @@ MindTrips.AppRouter = Backbone.Router.extend({
 		$("[name='round-trip' value='one-way']").click(removeHiddenToReturn);
 		$("#go-dates").change(checkDates);
 		$("#return-tags").change(checkOrigin);
+    },
+
+    flights: function(from, to){
+        this.showView("#main", new MindTrips.FlightListView(from, to));
+    },
+
+    payment: function(flight) {
+        this.showView("#main", new MindTrips.PaymentView(flight));
     },
  
 });
@@ -185,7 +214,8 @@ function removeHiddenToReturn(){
 $(function(){
 	MindTrips.templates.loadTemplates(["search", "selector", "payment"], function(){
 		var router = new MindTrips.AppRouter();
-    	var history = Backbone.history.start();
+//        var history = Backbone.history.start({pushState: true});
+        var history = Backbone.history.start();
         window.router = router;
 	});
 
