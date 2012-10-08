@@ -194,7 +194,7 @@ input[type="text"]{
 	width:98%;
 }
 
-#flight-data{
+.flight-data{
 	width: 96% !important;
 	float:left;
 	border-radius: 10px;
@@ -206,64 +206,83 @@ input[type="text"]{
 	padding-bottom: 3px;
 }
 
-#airline-logo{
+.airline-logo{
 	float:left;
 }
 
-#airline-name{
+.airline-name{
 	float:left;
 	font-size: 15px;
 	padding-top: 6px;
 	margin-left: 10px;
 }
-#flight-price{
+.flight-price{
 	float:right;
 	font-size: 15px;
 	padding-top: 6px;
 	margin-right: 10px;
 }
 
-#flight-time{
+.flight-time{
 	float:left;
 	font-size: 15px;
 	padding-top: 6px;
 	margin-left: 10px;
 }
-#flight-long{
+.flight-long{
 	float:left;
 	font-size: 15px;
 	padding-top: 6px;
 	margin-left: 10px;
 }
-#flight-scales{
+.flight-scales{
 	float:left;
 	font-size: 15px;
 	padding-top: 6px;
 	margin-left: 10px;
 }
-#flight-more{
-	float:right;
-	font-size: 15px;
-	padding-top: 5px;
-	margin-right: 10px;
-}
-#flight-confirm{
+.flight-more{
 	float:right;
 	font-size: 15px;
 	padding-top: 5px;
 	margin-right: 10px;
 }
+.flight-confirm{
+	float:right;
+	font-size: 15px;
+	padding-top: 5px;
+	margin-right: 10px;
+}
 
-#flight-tickets{
+.flight-tickets{
 	float:right;
 	font-size: 15px;
 	padding-top: 6px;
 	margin-right: 10px;
 }
 
-#flight-outbound{
+.flight-outbound{
 	float:left;
 	font-size: 15px;
 	padding-top: 6px;
 	margin-left: 10px;
+}
+
+.flight-time-selector{
+	font-size: 12px;
+	padding-top: 6px;
+	margin-left: 30px;	
+}
+.flight-text{
+	font-size: 12px;
+	padding-top: 6px;
+	margin-left: 30px;	
+}
+.flight-info{
+	float:left;
+	width:100%;
+}
+
+.flight-buttons{
+	float:right;
 }
