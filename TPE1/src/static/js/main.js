@@ -17,6 +17,8 @@ MindTrips.templates = {
  
     // Hash of preloaded templates for the app
     templates: {},
+
+    language: "es",
  
     // Recursively pre-load all the templates for the app.
     // This implementation should be changed in a production environment:
@@ -28,7 +30,7 @@ MindTrips.templates = {
         var loadTemplate = function(index) {
             var name = names[index];
             console.log('Loading template: ' + name);
-            $.get('static/template/' + name + '.html', function(data) {
+            $.get('static/template/' + that.language + '/' + name + '.html', function(data) {
                 that.templates[name] = Mustache.compile(data);
                 index++;
                 if (index < names.length) {
@@ -56,6 +58,12 @@ MindTrips.templates = {
 MindTrips.BaseView = Backbone.View.extend({
 	templateName: "base",
 
+	model: {
+		toJSON: function(){
+			return "";
+		}
+	},
+
 	template: function(data){
 		var tpl = MindTrips.templates.get(this.templateName);
 		return tpl(data);
@@ -73,11 +81,27 @@ MindTrips.BaseView = Backbone.View.extend({
 // Main search view.
 MindTrips.SearchView = MindTrips.BaseView.extend({
 	templateName: "search",
+});
 
-	model: {
-		toJSON: function(){
-			return "";
-		}
+MindTrips.FlightListView = MindTrips.BaseView.extend({
+	templateName: "flightlist",
+});
+
+MindTrips.MapView = MindTrips.BaseView.extend({
+	templateName: "map",
+
+	initialize: function(selector){
+
+	},
+});
+
+MindTrips.BreadcrumView = MindTrips.BaseView.extend({
+	initialize: function(history){
+		this.history = history;
+	},
+
+	render: function(eventName){
+		//rendering of <a href="#history" class="breadcrum">history</a>
 	},
 });
 
@@ -138,7 +162,6 @@ function removeHiddenToReturn(){
 
 // On load:
 $(function(){
-
 	MindTrips.templates.loadTemplates(["search"], function(){
 		var router = new MindTrips.AppRouter();
     	var history = Backbone.history.start();
