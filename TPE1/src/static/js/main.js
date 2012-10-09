@@ -167,8 +167,9 @@ MindTrips.BreadcrumView = MindTrips.BaseView.extend({
 MindTrips.PaymentView = MindTrips.BaseView.extend({
     templateName: "payment",
 
-    initialize: function(payment){
+    initialize: function(payment, pax){
         this.flight = payment;
+        this.model = {pax:pax, toJSON: function(){return this;}};
     },
 
 });
@@ -227,7 +228,8 @@ MindTrips.AppRouter = Backbone.Router.extend({
     },
 
     payment: function(flight) {
-        this.showView("#main", new MindTrips.PaymentView(flight));
+        var pax = [{kind: "Adulto", class: "Primera"}, {kind: "Adulto", class: "Primera"}];
+        this.showView("#main", new MindTrips.PaymentView(flight, pax));
     },
  
 });
