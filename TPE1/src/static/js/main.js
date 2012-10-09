@@ -215,8 +215,10 @@ MindTrips.AppRouter = Backbone.Router.extend({
 
     flights: function(from, to){
         this.showView("#main", new MindTrips.FlightListView(from, to));
-    	$("[name='more1']").click(function(){showSelectDepartures(1)});
-    	$("[name='less1']").click(function(){showStaticDepartures(1)});
+    	for(int i=1; i<4;i++){
+            $("[name='more"+i+"']").click(function(){showSelectDepartures(i)});
+    	    $("[name='less"+i+"']").click(function(){showStaticDepartures(i)});
+        }
         var map = new MindTrips.MapView($("#map_canvas"), from, to);
 
     },
