@@ -125,6 +125,7 @@ h1, h2, h3 {
 
 #languages a {
 	font-weight: bold;
+	padding-right: 10px;
 }
 
 .breadcrum:before{
@@ -142,6 +143,16 @@ h1, h2, h3 {
 	border-radius: 15px;
 	padding: 10px;
 	margin: 0px;
+}
+
+
+.payment {
+	border-radius: 15px;
+	padding: 10px;
+	margin-top: 10px;
+	border: none;
+	box-shadow: 5px 8px 18px rgba(40, 40, 50, 0.3);
+
 }
 
 #search-flights{
@@ -218,7 +229,7 @@ input[type="text"]{
 }
 
 #map_overlay {
-	background-color: rgba(0, 0, 0, 0.7);
+	background-color: rgba(0, 0, 0, 0.6);
 	color: #fff;
 	font-size: 150%;
 	font-family: arial;
@@ -227,6 +238,7 @@ input[type="text"]{
 	display:inline-block;
 	position: absolute;
 	margin-top: -185px;
+	max-width: 950px;
 }
 
 .flight-data{
