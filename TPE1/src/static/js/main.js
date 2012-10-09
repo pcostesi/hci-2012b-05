@@ -220,6 +220,11 @@ MindTrips.AppRouter = Backbone.Router.extend({
     	    $("[name='less"+i+"']").click(function(){showStaticDepartures(i)});
         }
         var map = new MindTrips.MapView($("#map_canvas"), from, to);
+        $("[name='confirm']").each(function(){
+            $(this).click(function(){
+                MindTrips.router.navigate("flight/PanAm/pay", true);
+            });
+        });
 
     },
 
@@ -286,7 +291,7 @@ function showStaticDepartures(num){
 $(function(){
 	MindTrips.templates.loadTemplates(["search", "selector", "payment"], function(){
 		var router = new MindTrips.AppRouter();
-        window.router = router;
+        MindTrips.router = router;
 //        var history = Backbone.history.start({pushState: true});
         var history = Backbone.history.start();
         // set up the language links.
