@@ -215,10 +215,12 @@ MindTrips.AppRouter = Backbone.Router.extend({
 
     flights: function(from, to){
         this.showView("#main", new MindTrips.FlightListView(from, to));
-    	for(int i=1; i<4;i++){
-            $("[name='more"+i+"']").click(function(){showSelectDepartures(i)});
-    	    $("[name='less"+i+"']").click(function(){showStaticDepartures(i)});
-        }
+        $("#more1").click(function(){showSelectDepartures(1)});
+        $("#less1").click(function(){showStaticDepartures(1)});
+        $("#more2").click(function(){showSelectDepartures(2)});
+        $("#less2").click(function(){showStaticDepartures(2)});
+        $("#more3").click(function(){showSelectDepartures(3)});
+        $("#less3").click(function(){showStaticDepartures(3)});
         var map = new MindTrips.MapView($("#map_canvas"), from, to);
         $("[name='confirm']").each(function(){
             $(this).click(function(){
@@ -252,15 +254,12 @@ function checkDates(){
 function checkOrigin(){
 	destination = $("input[id='return-tags']").val();
 	origin = $("input[id='origin-tags']").val();
-	alert(origin);
-	alert(destination);
 	if(origin == destination){
 		alert("son iguales");
 	}
 }
 
 function addHiddenToReturn(){
-	alert("entros")
     $("#return-dates").addClass("hidden");
 }
 function removeHiddenToReturn(){
