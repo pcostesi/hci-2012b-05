@@ -143,18 +143,28 @@ MindTrips.AppRouter = Backbone.Router.extend({
     },
  
     search: function() {
+    	var airportNames = [];
     	this.showView("#main", new MindTrips.SearchView());
     	$("[data-date-picker]").each(function(){
 			$(this).datepicker();
 		});
-		$("[name='round-trip' value='round']").click(addHiddenToReturn);
-		$("[name='round-trip' value='one-way']").click(removeHiddenToReturn);
 		$("#go-dates").change(checkDates);
 		$("#return-tags").change(checkOrigin);
+		FlightsAPI.getAirports(function(data){parseAirports(data,airportNames)});
+		
     },
 
     flights: function(from, to){
         this.showView("#main", new MindTrips.FlightListView(from, to));
+        var mapOptions = {
+    		center: new google.maps.LatLng(-33, 151),
+        	zoom: 8,
+        	disableDefaultUI: true,
+        	mapTypeId: google.maps.MapTypeId.ROADMAP
+    	};
+    	var map = new google.maps.Map(document.getElementById("map_canvas"),mapOptions);
+    	$("[name='more1']").click(function(){showSelectDepartures(1)});
+    	$("[name='less1']").click(function(){showStaticDepartures(1)});
     },
 
     payment: function(flight) {
@@ -162,6 +172,15 @@ MindTrips.AppRouter = Backbone.Router.extend({
     },
  
 });
+
+function parseAirports(data,airportNames){
+	for(i=0;i<data.airports.length;i++){
+		airportNames[i]=data.airports[i].description;
+	}
+	$("[autocomplete-tags]").each(function(){
+			$(this).autocomplete( { source:airportNames});
+		});
+}
 
 
 // I don't know what to do with these.
@@ -179,21 +198,30 @@ function checkOrigin(){
 	}
 }
 
-function initialize() {
-	var mapOptions = {
-    	center: new google.maps.LatLng(-33, 151),
-        zoom: 8,
-        disableDefaultUI: true,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-    };
-    var map = new google.maps.Map(document.getElementById("map_canvas"),mapOptions);
-}
-
 function addHiddenToReturn(){
+	alert("entros")
     $("#return-dates").addClass("hidden");
 }
 function removeHiddenToReturn(){
     $("#return-dates").removeClass("hidden");
+}
+
+function showSelectDepartures(num){
+	$("#flight-time-dep-"+num).addClass("hidden");
+	$("#flight-time-selector-dep-"+num).removeClass("hidden");
+	$("#flight-time-ret-"+num).addClass("hidden");
+	$("#flight-time-selector-ret-"+num).removeClass("hidden");
+	$("#more"+num).addClass("hidden");
+	$("#less"+num).removeClass("hidden");
+}
+
+function showStaticDepartures(num){
+	$("#flight-time-dep-"+num).removeClass("hidden");
+	$("#flight-time-selector-dep-"+num).addClass("hidden");
+	$("#flight-time-ret-"+num).removeClass("hidden");
+	$("#flight-time-selector-ret-"+num).addClass("hidden");
+	$("#more"+num).removeClass("hidden");
+	$("#less"+num).addClass("hidden");
 }
 
 
