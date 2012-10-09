@@ -171,7 +171,6 @@ input[type="text"]{
 	width: 85%;
 
 }
-
 #checkbox{
 	padding:5px;
 }
@@ -196,7 +195,7 @@ input[type="text"]{
 	outline: none;
 	padding: 8px 10px 7px;
 	margin: 5px;
-	font-size: 10px
+	font-size: 12px
 }
 
 .hasDatepicker{
@@ -258,18 +257,6 @@ input[type="text"]{
 }
 
 .flight-time{
-	float:left;
-	font-size: 15px;
-	padding-top: 6px;
-	margin-left: 10px;
-}
-.flight-long{
-	float:left;
-	font-size: 15px;
-	padding-top: 6px;
-	margin-left: 10px;
-}
-.flight-scales{
 	float:left;
 	font-size: 15px;
 	padding-top: 6px;
