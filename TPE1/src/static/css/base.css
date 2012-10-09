@@ -152,8 +152,19 @@ h1, h2, h3 {
 	margin-top: 10px;
 	border: none;
 	box-shadow: 5px 8px 18px rgba(40, 40, 50, 0.3);
-
+	margin: 10px;
+	float: left;
+	width: 280px;
+	height: 100%;
 }
+.confirm input[type="button"]{
+	color: white;
+	border: none;
+	box-shadow: 3px 3px 8px rgba(100, 0, 0, 0.5);
+	background: rgba(100, 0, 0, 0.5);
+	font-size: 200%;
+}
+
 
 #search-flights{
 	border-color: #009BDB;

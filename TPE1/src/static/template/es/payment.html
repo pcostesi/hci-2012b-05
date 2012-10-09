@@ -1,21 +1,21 @@
-<div class="payment black">
-	<div class="pax">
+<div class="clearfix container">
+	<div class="payment black pax">
 		<ul id="pax">
 			{{#pax}}
 			<li> <div>
-				<span>{{kind}} en {{class}}</span> 
-				Nombre:
-				<input type="text"></input>
+				<span>{{kind}} en {{class}}</span><br> 
+				Nombre:<br>
+				<input type="text"></input><br>
 
-				Apellido:
-				<input type="text"></input>
+				Apellido:<br>
+				<input type="text"></input><br>
 
 			</div> </li>
 			{{/pax}}
 		</ul>
 
 	</div>
-	<div class="cards">
+	<div class="payment black cards">
 		<table>
 			<tr>
 				<td></td>
@@ -29,6 +29,28 @@
 				<td>Sin interés</td>
 				<td>Visa</td>
 			</tr>
+			<tr>
+				<td><input type="radio" name="wat"></input></td>
+				<td>Tres Pagos</td>
+				<td>Sin interés</td>
+				<td>Visa</td>
+			</tr>
+			<tr>
+				<td><input type="radio" name="wat"></input></td>
+				<td>Seis Pagos</td>
+				<td>Sin interés</td>
+				<td>Visa</td>
+			</tr>
 		</table>
 	</div>
+	<div class="black payment confirm">
+		<label>
+			He leído las condiciones de privacidad del sitio y las acepto
+			<input type="checkbox"></input>
+		</label>
+		<br>
+		<input type="button" value="Confirmar Pago"></input>
+		
+	</div>
+	<div class="clearfix"></div>
 </div>
