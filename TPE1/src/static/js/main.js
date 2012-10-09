@@ -23,14 +23,15 @@ MindTrips.templates = {
     // Recursively pre-load all the templates for the app.
     // This implementation should be changed in a production environment:
     // All the template files should be concatenated in a single file.
-    loadTemplates: function(names, callback) {
+    loadTemplates: function(names, callback, error) {
  
         var that = this;
  
         var loadTemplate = function(index) {
             var name = names[index];
             console.log('Loading template: ' + name);
-            $.get('static/template/' + that.language + '/' + name + '.html', function(data) {
+            var req = $.get('static/template/' + that.language + '/' + name + '.html', function(data) {
+                // Store the *compiled* version of the templates.
                 that.templates[name] = Mustache.compile(data);
                 index++;
                 if (index < names.length) {
@@ -39,9 +40,27 @@ MindTrips.templates = {
                     callback();
                 }
             });
+            req.fail(error || function(){console.log("ERR")});
         }
  
         loadTemplate(0);
+    },
+
+    setLanguage: function(lang, router){
+        var old = this.language;
+        this.language = lang;
+        var that = this;
+        var target = Backbone.history.fragment;
+        console.log("Navigating to loading screen");
+        router.navigate("loading", true);
+        this.loadTemplates(_.keys(this.templates), function(){
+            console.log("navigating to <" + target + ">");
+            router.navigate(target, true);
+        }, function(){
+            console.log("Falling back");
+            Backbone.history.fragment = target;
+            that.setLanguage(old, router); 
+        });
     },
  
     // Get template by name from hash of preloaded templates
@@ -149,7 +168,7 @@ MindTrips.PaymentView = MindTrips.BaseView.extend({
     templateName: "payment",
 
     initialize: function(payment){
-
+        this.flight = payment;
     },
 
 });
@@ -158,15 +177,12 @@ MindTrips.PaymentView = MindTrips.BaseView.extend({
 MindTrips.AppRouter = Backbone.Router.extend({
  
     routes: {
-        "test": "test",
+        "loading": "loading",
         "" : "search",
-        "flight/:flight/payment" : "payment",
+        "flight/:flight/pay" : "payment",
         "flights/:from/to/:to" : "flights",
+        "flights" : "flights",
 
-    },
-
-    test: function(){
-        $("#main").html("");
     },
 
     showView: function(selector, view) {
@@ -176,7 +192,15 @@ MindTrips.AppRouter = Backbone.Router.extend({
         this.currentView = view;
         return view;
     },
- 
+
+    loading: function(){
+        if (this.currentView)
+            this.currentView.close();
+        this.currentView = null;
+        console.log("Loading");
+        $("#main").html("Loading...");
+    },
+
     search: function() {
     	var airportNames = [];
     	this.showView("#main", new MindTrips.SearchView());
@@ -260,9 +284,17 @@ function showStaticDepartures(num){
 $(function(){
 	MindTrips.templates.loadTemplates(["search", "selector", "payment"], function(){
 		var router = new MindTrips.AppRouter();
+        window.router = router;
 //        var history = Backbone.history.start({pushState: true});
         var history = Backbone.history.start();
-        window.router = router;
+        // set up the language links.
+        $("[data-language]").each(function(){
+            var language = $(this).data("language");
+            $(this).click(function(){
+                MindTrips.templates.setLanguage(language, router);
+                return false;
+            });
+        });
 	});
 
 });

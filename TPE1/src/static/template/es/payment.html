@@ -1,5 +1,34 @@
-<ul id="pax">
-      {{#pax}}
-      <li> <img src="{{image}}" alt="airlane logo"> </li>
-      {{/pax}}
-</ul>
+<div class="payment black">
+	<div class="pax">
+		<ul id="pax">
+			{{#pax}}
+			<li> <div>
+				<span>{{kind}} en {{class}}</span> 
+				Nombre:
+				<input type="text"></input>
+
+				Apellido:
+				<input type="text"></input>
+
+			</div> </li>
+			{{/pax}}
+		</ul>
+
+	</div>
+	<div class="cards">
+		<table>
+			<tr>
+				<td></td>
+				<td>Pagos</td>
+				<td>Intereses</td>
+				<td>Tarjetas</td>
+			</tr>
+			<tr>
+				<td><input type="radio" name="wat"></input></td>
+				<td>Un Pago</td>
+				<td>Sin interés</td>
+				<td>Visa</td>
+			</tr>
+		</table>
+	</div>
+</div>
