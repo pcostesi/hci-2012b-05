@@ -101,17 +101,32 @@ h1, h2, h3 {
 	clear: both;
 }
 
-#breadcrum {
+#header span {
+	text-decoration: none;
 	position: absolute;
+	color: inherit;
+	font-weight: normal;
 	padding-top: 10px;
 }
 
 .breadcrum {
+	float: none;
+}
+
+#header a {
 	text-decoration: none;
 	color: inherit;
-	float: none;
 	font-weight: normal;
 }
+
+#languages {
+	right: 10px;
+}
+
+#languages a {
+	font-weight: bold;
+}
+
 .breadcrum:before{
 	content: " > ";
 	color: black;
@@ -195,13 +210,27 @@ input[type="text"]{
 	display:none;
 }
 
-#map_canvas { 
+#map_canvas #map_canvas_main { 
 	height:200px; 
-	width:98%;
+	/*width:98%;*/
+	width: 960px;
+	margin-top: 10px;
+}
+
+#map_overlay {
+	background-color: rgba(0, 0, 0, 0.7);
+	color: #fff;
+	font-size: 150%;
+	font-family: arial;
+	margin-top: 10px;
+	padding: 5px;
+	display:inline-block;
+	position: absolute;
+	margin-top: -185px;
 }
 
 .flight-data{
-	width: 96% !important;
+	width: 951px;
 	border-radius: 10px;
 	margin-top: 10px;
 	border-color: #009BDB;

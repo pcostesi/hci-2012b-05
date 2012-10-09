@@ -90,14 +90,49 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
         this.from = from;
         this.to = to;
     },
+
 });
 
 MindTrips.MapView = MindTrips.BaseView.extend({
-	templateName: "map",
 
-	initialize: function(selector){
+    template: Mustache.compile("<div id='map_canvas_main'></div><div id='map_overlay'></div>"),
+    message: Mustache.compile("{{from}} &#x2708; {{to}}"),
 
-	},
+	initialize: function(selector, from, to){
+        this.from = from;
+        this.to = to;
+        this.selector = selector;
+        selector.html(this.template());
+        var mapdiv = document.getElementById('map_canvas_main');
+        var mapOptions = {
+          center: new google.maps.LatLng(-31.23855, -53.54235),
+          zoom: 4,
+          mapTypeId: google.maps.MapTypeId.ROADMAP,
+          panControl: false,
+          zoomControl: false,
+          mapTypeControl: false,
+          scaleControl: true,
+          streetViewControl: false,
+          overviewMapControl: false,
+        };
+        var map = new google.maps.Map(mapdiv, mapOptions);
+        var marker = new google.maps.Marker({
+            map: map,
+            position: new google.maps.LatLng(-27.6645,-48.545)
+        });
+        var marker2 = new google.maps.Marker({
+            map: map,
+            position: new google.maps.LatLng(-34.8126,-58.5397)
+        });
+        this.render();
+        console.log("Map created");
+    },
+
+    render: function(eventName){
+        console.log("Rendering map");
+        $("#map_overlay").html(this.message(this));
+    }
+
 });
 
 MindTrips.BreadcrumView = MindTrips.BaseView.extend({
@@ -156,15 +191,10 @@ MindTrips.AppRouter = Backbone.Router.extend({
 
     flights: function(from, to){
         this.showView("#main", new MindTrips.FlightListView(from, to));
-        var mapOptions = {
-    		center: new google.maps.LatLng(-33, 151),
-        	zoom: 8,
-        	disableDefaultUI: true,
-        	mapTypeId: google.maps.MapTypeId.ROADMAP
-    	};
-    	var map = new google.maps.Map(document.getElementById("map_canvas"),mapOptions);
     	$("[name='more1']").click(function(){showSelectDepartures(1)});
     	$("[name='less1']").click(function(){showStaticDepartures(1)});
+        var map = new MindTrips.MapView($("#map_canvas"), from, to);
+
     },
 
     payment: function(flight) {
