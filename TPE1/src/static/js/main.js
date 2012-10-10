@@ -97,6 +97,15 @@ MindTrips.BaseView = Backbone.View.extend({
 
 });
 
+
+/*
+
+    EVERYTHING THAT FOLLOWS SHOULD BE REVIEWED
+
+
+*/
+
+
 // Main search view.
 MindTrips.SearchBoxView = MindTrips.BaseView.extend({
 	templateName: "search",
