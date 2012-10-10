@@ -98,7 +98,7 @@ MindTrips.BaseView = Backbone.View.extend({
 });
 
 // Main search view.
-MindTrips.SearchView = MindTrips.BaseView.extend({
+MindTrips.SearchBoxView = MindTrips.BaseView.extend({
 	templateName: "search",
 });
 
@@ -189,8 +189,13 @@ MindTrips.AppRouter = Backbone.Router.extend({
     showView: function(selector, view) {
         if (this.currentView)
             this.currentView.close();
-        $(selector).html(view.render().el);
+        this.render(selector, view);
         this.currentView = view;
+        return view;
+    },
+
+    render: function(selector, view){
+        $(selector).html(view.render().el);
         return view;
     },
 
@@ -198,32 +203,59 @@ MindTrips.AppRouter = Backbone.Router.extend({
         if (this.currentView)
             this.currentView.close();
         this.currentView = null;
-        console.log("Loading");
-        $("#main").html("Loading...");
+        var opts = {
+          lines: 13, // The number of lines to draw
+          length: 7, // The length of each line
+          width: 4, // The line thickness
+          radius: 10, // The radius of the inner circle
+          corners: 1, // Corner roundness (0..1)
+          rotate: 0, // The rotation offset
+          color: '#000', // #rgb or #rrggbb
+          speed: 1, // Rounds per second
+          trail: 60, // Afterglow percentage
+          shadow: false, // Whether to render a shadow
+          hwaccel: false, // Whether to use hardware acceleration
+          className: 'spinner', // The CSS class to assign to the spinner
+          zIndex: 2e9, // The z-index (defaults to 2000000000)
+          top: 'auto', // Top position relative to parent in px
+          left: 'auto' // Left position relative to parent in px
+        };
+        var target = document.getElementById('main');
+        var spinner = new Spinner(opts).spin(target);
     },
 
     search: function() {
     	var airportNames = [];
-    	this.showView("#main", new MindTrips.SearchView());
+
+        $("#main").html("<div id='main-box'></div><div id='main-results'></div>");
+
+    	this.render("#main-box", new MindTrips.SearchBoxView());
     	$("[data-date-picker]").each(function(){
 			$(this).datepicker();
 		});
 		$("#go-dates").change(checkDates);
 		$("#return-tags").change(checkOrigin);
 		FlightsAPI.getAirports(function(data){parseAirports(data,airportNames)});
-		
-    },
 
-    flights: function(from, to){
-        this.showView("#main", new MindTrips.FlightListView(from, to));
-    	$("[name='more1']").click(function(){showSelectDepartures(1)});
-    	$("[name='less1']").click(function(){showStaticDepartures(1)});
+        var from = "EZE";
+        var to = "BRA";
+        var results = new MindTrips.FlightListView(from, to);
+        console.log($("#main-results"));
+        this.render("#main-results", results);
+        $("[name='more1']").click(function(){showSelectDepartures(1)});
+        $("[name='less1']").click(function(){showStaticDepartures(1)});
         var map = new MindTrips.MapView($("#map_canvas"), from, to);
         $("[name='confirm']").each(function(){
             $(this).click(function(){
                 MindTrips.router.navigate("flight/PanAm/pay", true);
             });
         });
+
+		
+    },
+
+    flights: function(from, to){
+
 
     },
 

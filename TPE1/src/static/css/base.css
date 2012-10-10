@@ -7,6 +7,7 @@ html, body {
 	background:#F3F3F3 url(back.gif) repeat;
 	font-family: arial;
 	height:100%;
+	overflow-x: hidden;
 }
 
 h1, h2, h3 {
@@ -152,11 +153,16 @@ h1, h2, h3 {
 	margin-top: 10px;
 	border: none;
 	box-shadow: 5px 8px 18px rgba(40, 40, 50, 0.3);
+}
+
+.payment > div {
 	margin: 10px;
 	float: left;
 	width: 280px;
 	height: 100%;
 }
+
+
 .confirm input[type="button"]{
 	color: white;
 	border: none;
@@ -233,10 +239,10 @@ input[type="text"]{
 
 #map_canvas #map_canvas_main { 
 	height:200px; 
-	/*width:98%;*/
 	width: 960px;
 	margin-top: 10px;
 }
+
 
 #map_overlay {
 	background-color: rgba(0, 0, 0, 0.6);
