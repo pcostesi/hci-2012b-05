@@ -159,6 +159,11 @@ MindTrips.AppRouter = Backbone.Router.extend({
         });
         $(next).hide();
         $("#" + this.anchor).append(next);
+        _.each(arguments, function(view){
+            if (view.bind){
+                view.bind();
+            }
+        });
         $(next).fadeIn(1000);
         current.hide(700, function(){
             $(this).remove();
