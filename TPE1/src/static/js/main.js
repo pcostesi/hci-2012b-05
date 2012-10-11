@@ -105,7 +105,7 @@ MindTrips.BaseView = Backbone.View.extend({
     },
 
     renderData: function (eventName, data) {
-        console.log("Rendering: " + this.templateName + " for event " + eventName);
+        console.log("Rendering: <" + this.templateName + "> for event <" + eventName + ">");
         $(this.el).html(this.template(data));
         return this;
     },
@@ -147,29 +147,31 @@ MindTrips.AppRouter = Backbone.Router.extend({
         if (view.bind){
             view.bind();
         }
+        return view;
     },
 
-    fadeIn: function(view){
-        console.log("Fading in new view");
+    fadeIn: function(){
+        console.log("Fading in new view(s)");
         var current = $("#" + this.anchor + " > *");
-        var next = view.render().el;
+        var next = _.map(arguments, function(view){
+            var elem = view.render().el;
+            return elem;
+        });
         $(next).hide();
         $("#" + this.anchor).append(next);
         $(next).fadeIn(1000);
-        current.each(function(){
-            $(this).hide(700, function(){
-                $(this).remove();
-            });
+        current.hide(700, function(){
+            $(this).remove();
         });
+        return arguments;
     },
 
     main: function(){
-        //this.render(new MindTrips.LandingView());
         this.fadeIn(new MindTrips.LandingView());
     },
 
     search: function(){
-        this.fadeIn(new MindTrips.LandingView());
+        
     },
 
     payment: function(flightId){
