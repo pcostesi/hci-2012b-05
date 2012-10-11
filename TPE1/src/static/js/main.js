@@ -149,12 +149,27 @@ MindTrips.AppRouter = Backbone.Router.extend({
         }
     },
 
+    fadeIn: function(view){
+        console.log("Fading in new view");
+        var current = $("#" + this.anchor + " > *");
+        var next = view.render().el;
+        $(next).hide();
+        $("#" + this.anchor).append(next);
+        $(next).fadeIn(1000);
+        current.each(function(){
+            $(this).hide(700, function(){
+                $(this).remove();
+            });
+        });
+    },
+
     main: function(){
-        this.render(new MindTrips.LandingView());
+        //this.render(new MindTrips.LandingView());
+        this.fadeIn(new MindTrips.LandingView());
     },
 
     search: function(){
-
+        this.fadeIn(new MindTrips.LandingView());
     },
 
     payment: function(flightId){

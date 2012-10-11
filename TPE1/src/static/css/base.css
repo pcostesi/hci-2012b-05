@@ -159,10 +159,16 @@ h1, h2, h3 {
 	overflow-x: hidden;
 }
 
+#site-description {
+	background-image: url(/static/img/mountain.jpg);
+	color: white;
+}
+
 #site-description > p {
 	transition: opacity 0.3s ease-in-out 0s;
 	-moz-transition: opacity 0.3s ease-in-out 0s;
 	-webkit-transition: opacity 0.3s ease-in-out 0s;
+	font-size: 120%;
 }
 
 #site-description > img {
