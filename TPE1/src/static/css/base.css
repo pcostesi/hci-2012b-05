@@ -12,6 +12,8 @@ html, body {
 
 h1, h2, h3 {
 	color: #009BDB;
+	padding: 0;
+	margin: 0;
 }
 
 
@@ -85,10 +87,6 @@ h1, h2, h3 {
 	background-image: url(/static/img/logo2.png);
 }
 
-.template {
-	display:none;
-	overflow:hidden;
-}
 
 .copyright {
 	width: 100%;
@@ -135,17 +133,55 @@ h1, h2, h3 {
 	font-weight: normal;
 }
 
-.searchbox{
-	width: 100%;
-	padding-top:5px;
-}
-
-.searchbox div{
+.searchbox {
 	border-radius: 15px;
 	padding: 10px;
-	margin: 0px;
+	margin: 15px;
+	float: left;
+	margin-left: 0px;
+	margin-right: 0px;
+
+	height: 400px;
+
+	transition: width 0.3s ease-in-out 0s;
+	-moz-transition: width 0.3s ease-in-out 0s;
+	-webkit-transition: width 0.3s ease-in-out 0s;
+	width: 725px;
+
 }
 
+.searchbox > div{
+	margin: 5px;
+}
+
+#searchbox {
+	margin-right: 15px;
+	overflow-x: hidden;
+}
+
+#site-description > p {
+	transition: opacity 0.3s ease-in-out 0s;
+	-moz-transition: opacity 0.3s ease-in-out 0s;
+	-webkit-transition: opacity 0.3s ease-in-out 0s;
+}
+
+#site-description > img {
+	float: right;
+	margin-left: 10px;
+}
+
+#site-description.minimized > p {
+	float: right;
+	margin-left: 10px;
+	opacity: 0;
+	transition: opacity 0.3s ease-in-out 0s;
+	-moz-transition: opacity 0.3s ease-in-out 0s;
+	-webkit-transition: opacity 0.3s ease-in-out 0s;
+}
+
+.minimized {
+	width: 180px;
+}
 
 .payment {
 	border-radius: 15px;
@@ -172,9 +208,8 @@ h1, h2, h3 {
 }
 
 
-#search-flights{
+.shadow {
 	border-color: #009BDB;
-	height: auto;
 	border: none;
 	box-shadow: 5px 8px 18px rgba(40, 40, 50, 0.3);
 }
