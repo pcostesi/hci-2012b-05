@@ -106,9 +106,8 @@ MindTrips.BaseView = Backbone.View.extend({
 
     renderData: function (eventName, data) {
         console.log("Rendering: <" + this.templateName + "> for event <" + eventName + ">");
-        var el = $(this.el);
-        el.html(this.template(data));
-        this.bind(el);
+        this.$el.html(this.template(data));
+        this.bind();
         return this;
     },
 
@@ -118,9 +117,9 @@ MindTrips.BaseView = Backbone.View.extend({
 MindTrips.LandingView = MindTrips.BaseView.extend({
     templateName: "landing",
 
-    setupToggleMinimized: function(el){
-        var searchbox = el.find("#searchbox");
-        var about = el.find("#site-description");
+    setupToggleMinimized: function(){
+        var searchbox = this.$("#searchbox");
+        var about = this.$("#site-description");
 
         var handler = function(){
             if (!$(this).hasClass("minimized")) return;
@@ -134,21 +133,27 @@ MindTrips.LandingView = MindTrips.BaseView.extend({
         return this;
     },
 
-    bind: function(el){
+    bind: function(){
         console.log("calling bind on LandingView");
         
         // setup div / viewport change.
-        this.setupToggleMinimized(el);
+        this.setupToggleMinimized();
 
-        el.find("[data-date-picker]").datepicker();
+        this.$("[data-date-picker]").datepicker();
     },
 });
 
 MindTrips.MapView = MindTrips.BaseView.extend({
     templateName: "map",
 
+/*
+    // template inlining, because we can.
+    template: Mustache.compile('<div class="map-overlay"></div> \
+        <div id="map_canvas" class="map-canvas"></div>'),
+*/
+
     // The map will not be ready to use until it has been rendered.
-    initialize: function(lat, lng){
+    initialize: function(lat, lng, title){
         this.mapOptions = {
           center: new google.maps.LatLng(lat, lng),
           zoom: 8,
@@ -157,10 +162,11 @@ MindTrips.MapView = MindTrips.BaseView.extend({
         
     },
 
-    bind: function(el){
+    bind: function(){
         console.log("calling bind on map");
-        var canvas = el.find(".map-canvas").get(0);
+        var canvas = this.$(".map-canvas").get(0);
         this.map = new google.maps.Map(canvas, this.mapOptions);
+        this.$(".map-overlay").text(this.title);
         console.log("map successfully bound");
     },
 });
@@ -199,7 +205,8 @@ MindTrips.AppRouter = Backbone.Router.extend({
     },
 
     main: function(){
-        this.fadeIn(new MindTrips.LandingView());
+        var landingView = new MindTrips.LandingView();
+        this.fadeIn(landingView);
     },
 
     search: function(){
