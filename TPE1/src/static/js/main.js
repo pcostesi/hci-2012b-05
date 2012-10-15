@@ -22,19 +22,15 @@ MindTrips.templates = {
 
     engine: Mustache,
  
-    // Recursively pre-load all the templates for the app.
-    // This implementation should be changed in a production environment:
-    // All the template files should be concatenated in a single file.
     // This is done so we can skip validation errors.
-    load: function(names, callback, error) {
+    load: function(names) {
+        var deferred = $.Deferred();
         var that = this;
         var count = 0;
         var errorHandler = function(){
             console.log("Error loading templates.");
             that.templates = {};
-            if (error){
-                error();
-            }
+            deferred.reject();
         }
         _.each(names, function(name){
             console.log('Loading template: <' + name + ">");
@@ -44,11 +40,12 @@ MindTrips.templates = {
                 that.loadTemplate(name, data);
                 console.log('Template: <' + name + "> loaded.");
                 if (count == names.length){
-                    callback();
+                    deferred.resolve();
                 }
             });
             req.fail(errorHandler);
         });
+        return deferred;
     },
 
     loadTemplate: function(name, data) {
@@ -61,7 +58,7 @@ MindTrips.templates = {
     setLanguage: function(lang){
         var old = this.language;
         var router = MindTrips.router;
-        this.language = lang;
+        this.language = lang.toLowerCase();
         var that = this;
         var target = Backbone.history.fragment;
         console.log("Navigating to loading screen");
@@ -105,7 +102,9 @@ MindTrips.BaseView = Backbone.View.extend({
     },
 
     renderData: function (eventName, data) {
-        console.log("Rendering: <" + this.templateName + "> for event <" + eventName + ">");
+        console.log("Rendering: <" + this.templateName + 
+            "> for event <" + eventName + "> with data <" + 
+            data + ">");
         this.$el.html(this.template(data));
         this.bind();
         return this;
@@ -143,14 +142,43 @@ MindTrips.LandingView = MindTrips.BaseView.extend({
     },
 });
 
+MindTrips.LanguagesView = MindTrips.BaseView.extend({
+    templateName: "languages",
+
+    tagName: "ul",
+
+    initialize: function(){
+
+        var deferred = API.Misc.getLanguages();
+        deferred.done(function(data){
+            this.languages = data;
+        });
+        deferred.fail(function(){
+        this.languages = {
+        "languages": [
+                {"languageId": "EN", "name": "English"},
+                {"languageId": "ES", "name": "Spanish"}
+            ]
+        }
+
+        });
+    },
+
+    bind: function(){
+        this.$("[data-language]").click(function(){
+            var language = $(this).data("language");
+            MindTrips.templates.setLanguage(language);
+            return false;
+        });
+    },
+
+    render: function(eventName){
+        return this.renderData(eventName, this.languages);
+    }
+});
+
 MindTrips.MapView = MindTrips.BaseView.extend({
     templateName: "map",
-
-/*
-    // template inlining, because we can.
-    template: Mustache.compile('<div class="map-overlay"></div> \
-        <div id="map_canvas" class="map-canvas"></div>'),
-*/
 
     // The map will not be ready to use until it has been rendered.
     initialize: function(lat, lng, title){
@@ -171,6 +199,18 @@ MindTrips.MapView = MindTrips.BaseView.extend({
     },
 });
 
+MindTrips.FlightListView = MindTrips.BaseView.extend({
+    templateName: "flightlist",
+
+    render: function(eventName){
+        var flights = [
+            {name: "Avianca", currency: "U$S", price: 1000, adults: 5, children: 3},
+            {name: "lolAirlines", currency: "U$S", price: 100, adults: 3, children: 7},
+        ]; 
+        return this.renderData(eventName, {flights:flights});
+    }
+});
+
 
 MindTrips.AppRouter = Backbone.Router.extend({
     routes: {
@@ -181,6 +221,9 @@ MindTrips.AppRouter = Backbone.Router.extend({
     },
 
     anchor: 'main',
+
+    // this is too dirty...
+    searchFilters: {},
 
     render: function(view){
         console.log("Anchoring view to " + this.anchor);
@@ -197,8 +240,8 @@ MindTrips.AppRouter = Backbone.Router.extend({
         });
         $(next).hide();
         $("#" + this.anchor).append(next);
-        $(next).fadeIn(1000);
-        current.hide(700, function(){
+        $(next).fadeIn(500);
+        current.hide(300, function(){
             $(this).remove();
         });
         return arguments;
@@ -211,7 +254,8 @@ MindTrips.AppRouter = Backbone.Router.extend({
 
     search: function(){
         var mapView = new MindTrips.MapView(0, 0);
-        this.fadeIn(mapView);
+        var flightListView = new MindTrips.FlightListView();
+        this.fadeIn(mapView, flightListView);
     },
 
     payment: function(flightId){
@@ -226,19 +270,17 @@ MindTrips.AppRouter = Backbone.Router.extend({
 
 // On load:
 $(function(){
-	MindTrips.templates.load(["map", "landing"], function(){
+	var tpl = MindTrips.templates.load(["map", "landing", "languages", "flightlist"]);
+
+
+    tpl.done(function(){
         console.log("Loading init point");
         MindTrips.router = new MindTrips.AppRouter();
         Backbone.history.start();
 
-        // set up the language links.
-        $("[data-language]").each(function(){
-            var language = $(this).data("language");
-            $(this).click(function(){
-                MindTrips.templates.setLanguage(language);
-                return false;
-            });
-        });
-	});
+
+        var languagesView = new MindTrips.LanguagesView();
+        $("#languages").html(languagesView.render().el);
+    });
 
 });
