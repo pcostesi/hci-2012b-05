@@ -1,113 +1,189 @@
-var FlightsAPI = {
+(function($) {
 
-    BASE_URL: "http://eiffel.itba.edu.ar/hci/service2/",
+    var BASE_URL = "http://eiffel.itba.edu.ar/hci/service2/";
 
-    getLanguages: function(callback) {
-        this.call("Misc", { method: "GetLanguages" }, callback);
-    },
+    var isFunction = function(obj) {
+        return typeof(obj) === "function";
+    };
 
-    getCurrencies: function(callback, options) {
-        var data = options || {};
-        data.method = "GetCurrencies";
-        this.call("Misc", data, callback);
-    },
+    var call = function(service, data, options) {
+        var url = BASE_URL + service + ".groovy";
 
-    getCurrencyById: function(id, callback) {
-        this.call("Misc", { method: "GetCurrencyById", id: id }, callback);
-    },
+        if (isFunction(options)) {
+            var callback = options;
+            options = {};
+        } else {
+            options = options || {};
+        }
 
-    getCurrenciesRatio: function(id1, id2, callback) {
-        this.call("Misc", { method: "GetCurrenciesRatio", id1: id1, id2: id2 }, callback);
-    },
+        options.url      = url;
+        options.data     = data;
+        options.dataType = options.dataType || "jsonp";
+        options.success  = options.success || callback;
 
-    getAirlines: function(callback, options) {
-        var data = options || {};
-        data.method = "GetAirlines";
-        this.call("Misc", data, callback);
-    },
+        return $.ajax(options);
+    };
 
-    getAirlineById: function(id, callback) {
-        this.call("Misc", { method: "GetAirlineById", id: id }, callback);
-    },
+    var API = {};
 
-    getAirlinesByName: function(name, callback) {
-        this.call("Misc", { method: "GetAirlinesByName", name: name }, callback);
-    },
+    API.Misc = {
+        
+        getLanguages: function(data, options) {
+            data = data || {};
+            data.method = "GetLanguages";
+            return call("Misc", data, options);
+        },
 
-    getCountryById: function(id, callback) {
-        this.call("Geo", { method: "GetCountryById", id: id }, callback);
-    },
+        getCurrencies: function(data, options) {
+            data = data || {};
+            data.method = "GetCurrencies";
+            return call("Misc", data, options);
+        },
 
-    getCountries: function(callback, options) {
-        var data = options || {};
-        data.method = "GetCountries";
-        this.call("Geo", data, callback);
-    },
+        getCurrencyById: function(data, options) {
+            data = data || {};
+            data.method = "GetCurrencyById";
+            return call("Misc", data, options);
+        },
 
-    getCities: function(callback, options) {
-        var data = options || {};
-        data.method = "GetCities";
-        this.call("Geo", data, callback);
-    },
+        getCurrenciesRatio: function(data, options) {
+            data = data || {};
+            data.method = "GetCurrenciesRatio";
+            return call("Misc", data, options);
+        },
 
-    getCityById: function(id, callback) {
-        this.call("Geo", { method: "GetCityById", id: id }, callback);
-    },
+        getAirlines: function(data, options) {
+            data = data || {};
+            data.method = "GetAirlines";
+            return call("Misc", data, options);
+        },
 
-    getCitiesByName: function(name, callback) {
-        this.call("Geo", { method: "GetCitiesByName", name: name }, callback);
-    },
+        getAirlineById: function(data, options) {
+            data = data || {};
+            data.method = "GetAirlineById";
+            return call("Misc", id, options);
+        },
 
-    getCitiesByPosition: function(lat, lng, callback, options) {
-        var data = options || {};
-        data.method = "GetCitiesByPosition";
-        data.latitude = lat;
-        data.longitude = lng;
-        this.call("Geo", data, callback);
-    },
+        getAirlinesByName: function(data, options) {
+            data = data || {};
+            data.method = "GetAirlinesByName";
+            return call("Misc", data, options);
+        }
+    
+    };
 
-    getAirports: function(callback, options) {
-        var data = options || {};
-        data.method = "GetAirports";
-        this.call("Geo", data, callback);
-    },
+    API.Geo = {
 
-    getAirportById: function(id, callback) {
-        this.call("Geo", { method: "GetAirportById", id: id }, callback);
-    },
+        getCountryById: function(data, options) {
+            data = data || {};
+            data.method = "GetCountryById";
+            return call("Geo", data, options);
+        },
 
-    getAirportsByName: function(name, callback) {
-        this.call("Geo", { method: "GetAirportsByName", name: name }, callback);
-    },
+        getCountries: function(data, options) {
+            data = data || {};
+            data.method = "GetCountries";
+            return call("Geo", data, options);
+        },
 
-    getAirportsByPosition: function(lat, lng, callback, options) {
-        var data = options || {};
-        data.method = "GetAirportsByPosition";
-        data.latitude = lat;
-        data.longitude = lng;
-        this.call("Geo", data, callback);
-    },
+        getCities: function(data, options) {
+            data = data || {};
+            data.method = "GetCities";
+            return call("Geo", data, options);
+        },
 
-    validateCreditCard: function(number, exp_date, callback, options) {
-        var data = options || {};
-        data.method = "ValidateCreditCard";
-        data.number = number;
-        data.exp_date = exp_date;
-        this.call("Booking", data, callback);
-    },
+        getCityById: function(data, options) {
+            data = data || {};
+            data.method = "GetCityById";
+            return call("Geo", data, options);
+        },
 
-    call: function(service, data, callback) {
-        var url = this.BASE_URL + service + ".groovy";
-        $.ajax(url, {
-            data: data,
-            dataType: "jsonp",
-            success: function(result) {
-                console.log("Called method " + service + "." + data.method);
-                console.log(result.meta);
-                delete result.meta;
-                callback(result);
-            }
-        });
-    }
+        getCitiesByName: function(data, options) {
+            data = data || {};
+            data.method = "GetCitiesByName";
+            return call("Geo", data, options);
+        },
 
-};
+        getCitiesByPosition: function(data, options) {
+            data = data || {};
+            data.method = "GetCitiesByPosition";
+            return call("Geo", data, options);
+        },
+
+        getAirports: function(data, options) {
+            data = data || {};
+            data.method = "GetAirports";
+            return call("Geo", data, options);
+        },
+
+        getAirportById: function(data, options) {
+            data = data || {};
+            data.method = "GetAirportById";
+            return call("Geo", data, options);
+        },
+
+        getAirportsByName: function(data, options) {
+            data = data || {};
+            data.method = "GetAirportsByName";
+            return call("Geo", data, options);
+        },
+
+        getAirportsByPosition: function(data, options) {
+            data = data || {};
+            data.method = "GetAirportsByPosition";
+            return call("Geo", data, options);
+        },
+
+        getCitiesAndAirportsByName: function(data, options) {
+            data = data || {};
+            data.method = "GetCitiesAndAirportsByName";
+            return call("Geo", data, options);
+        }
+
+    };
+
+    API.Booking = {
+
+        validateCreditCard: function(data, options) {
+            data = data || {};
+            data.method = "ValidateCreditCard";
+            return call("Booking", data, options);
+        },
+
+        getOneWayFlights: function(data, options) {
+            data = data || {};
+            data.method = "GetOneWayFlights";
+            return call("Booking", data, options);
+        },
+
+        bookFlight: function(data, options) {
+            data = data || {};
+            data.method = "BookFlight";
+            options = options || {};
+            options.type = "POST";
+            return call("Booking", data, options);
+        }
+
+    };
+
+    API.Review = {
+
+        getAirlineReviews: function(data, options) {
+            data = data || {};
+            data.method = "GetAirlineReviews";
+            return call("Review", data, options);
+        },
+
+        reviewAirline: function(data, options) {
+            data = data || {};
+            data.method = "ReviewAirline";
+            options = options || {};
+            options.type = "POST";
+            return call("Review", data, options);
+        }
+
+    };
+
+    window.API = API;
+
+})(jQuery);

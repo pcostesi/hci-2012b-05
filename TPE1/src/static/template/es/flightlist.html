@@ -1,0 +1,56 @@
+
+<div class="black shadow flight-block">
+    {{#flights}}
+    <div class="flight-data">
+        <div class="airline-logo">
+            <img src="{{logo}}" width="30" height="30" alt="{{countryId}}">
+        </div>
+        <div class="airline-name">
+            <span> {{name}} </span>
+        </div>
+        <div class="flight-price">
+            <span>Precio final: </span><span>{{currency}}: {{price}}</span>
+        </div>
+        <div class="flight-tickets">
+            <span>{{adults}} Adulto(s) </span>
+            <span>{{children}} Menor(es) </span>
+            <span>|</span>
+        </div>
+        <div class="flight-info">
+            <div class="flight-outbound">
+                <span>Ida:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </div>
+        </div>
+        <div class="flight-info">
+            <div class="flight-outbound">
+                <span>Vuelta:</span> 
+            </div>
+            <div class="flight-time" id="flight-time-ret-1">
+                <span class="flight-text">Sale: 7:10 </span>
+                <span class="flight-text">Llega: 20:40</span>
+                <span class="flight-text">13h 30m</span>
+                <span class="flight-text">Sin Escalas</span>
+            </div>
+            <div class="flight-time-selector hidden" id="flight-time-selector-ret-1">
+                <br><br>
+                <input type="radio" name="time-selector-2" value="round" id="round-check" checked=" checked">
+                <span>Sale 7:10 </span><span>Llega 20:40</span><br><br>
+                <input type="radio" name="time-selector-2" value="round" id="round-check">
+                <span>Sale 8:10 </span><span>Llega 21:40</span>
+            </div>
+        </div>
+        <div class="flight-buttons">
+            <div class="flight-confirm">
+                <button type="button" name="confirm">Confirmar</button>
+            </div>
+            <div class="flight-more" id="more1">
+                <button type="button" name="more1">Mas opciones</button>
+            </div>
+            <div class="flight-more hidden" id="less1">
+                <button type="button" name="less1">Menos opciones</button>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    {{/flights}}
+</div>
