@@ -38,7 +38,7 @@ MindTrips.templates = {
         }
         _.each(names, function(name){
             console.log('Loading template: <' + name + ">");
-            var route = '/static/template/' + that.language + '/' + name + '.html';
+            var route = 'static/template/' + that.language + '/' + name + '.html';
             var req = $.get(route, function(data){    
                 count++;
                 that.loadTemplate(name, data);
@@ -95,7 +95,7 @@ MindTrips.BaseView = Backbone.View.extend({
 		return tpl(data);
 	},
 
-    bind: function(eventName){},
+    bind: function(el){},
 
     render: function (eventName) {
         if (this.model != undefined){
@@ -106,7 +106,9 @@ MindTrips.BaseView = Backbone.View.extend({
 
     renderData: function (eventName, data) {
         console.log("Rendering: <" + this.templateName + "> for event <" + eventName + ">");
-        $(this.el).html(this.template(data));
+        var el = $(this.el);
+        el.html(this.template(data));
+        this.bind(el);
         return this;
     },
 
@@ -116,10 +118,9 @@ MindTrips.BaseView = Backbone.View.extend({
 MindTrips.LandingView = MindTrips.BaseView.extend({
     templateName: "landing",
 
-    bind: function(eventName){
-        console.log("calling bind");
-        var searchbox = $("#searchbox");
-        var about = $("#site-description");
+    setupToggleMinimized: function(el){
+        var searchbox = el.find("#searchbox");
+        var about = el.find("#site-description");
 
         var handler = function(){
             if (!$(this).hasClass("minimized")) return;
@@ -129,14 +130,48 @@ MindTrips.LandingView = MindTrips.BaseView.extend({
         }
         searchbox.click(handler);
         about.click(handler);
+        console.log("'.minimized' handlers successfully bound.")
+        return this;
+    },
+
+    bind: function(el){
+        console.log("calling bind on LandingView");
+        
+        // setup div / viewport change.
+        this.setupToggleMinimized(el);
+
+        el.find("[data-date-picker]").datepicker();
     },
 });
+
+MindTrips.MapView = MindTrips.BaseView.extend({
+    templateName: "map",
+
+    // The map will not be ready to use until it has been rendered.
+    initialize: function(lat, lng){
+        this.mapOptions = {
+          center: new google.maps.LatLng(lat, lng),
+          zoom: 8,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        
+    },
+
+    bind: function(el){
+        console.log("calling bind on map");
+        var canvas = el.find(".map-canvas").get(0);
+        this.map = new google.maps.Map(canvas, this.mapOptions);
+        console.log("map successfully bound");
+    },
+});
+
 
 MindTrips.AppRouter = Backbone.Router.extend({
     routes: {
         ""                  : "main",
         "search"            : "search",
         "flight/:id/pay"    : "payment",
+        "airline/:id"       : "airline",
     },
 
     anchor: 'main',
@@ -144,9 +179,6 @@ MindTrips.AppRouter = Backbone.Router.extend({
     render: function(view){
         console.log("Anchoring view to " + this.anchor);
         $('#' + this.anchor).html(view.render().el);
-        if (view.bind){
-            view.bind();
-        }
         return view;
     },
 
@@ -159,11 +191,6 @@ MindTrips.AppRouter = Backbone.Router.extend({
         });
         $(next).hide();
         $("#" + this.anchor).append(next);
-        _.each(arguments, function(view){
-            if (view.bind){
-                view.bind();
-            }
-        });
         $(next).fadeIn(1000);
         current.hide(700, function(){
             $(this).remove();
@@ -176,10 +203,15 @@ MindTrips.AppRouter = Backbone.Router.extend({
     },
 
     search: function(){
-        
+        var mapView = new MindTrips.MapView(0, 0);
+        this.fadeIn(mapView);
     },
 
     payment: function(flightId){
+
+    },
+
+    airline: function(airlineId){
 
     },
 
