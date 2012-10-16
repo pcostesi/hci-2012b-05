@@ -20,9 +20,9 @@
         </div>
         <div class="flight-time-selector hidden" id="flight-time-selector-dep-1">
             <br><br>
-            <input type="radio" name="time-selector" value="round" id="round-check" checked="checked">
+            <input type="radio" name="time-selector-1-g" value="round" id="round-check" checked="checked">
             <span>Sale 7:10 </span><span>Llega 20:40</span><br><br>
-            <input type="radio" name="time-selector" value="round" id="round-check">
+            <input type="radio" name="time-selector-1-g" value="round" id="round-check">
             <span>Sale 8:10 </span><span>Llega 21:40</span>
         </div>
         <div class="flight-time" id="flight-time-dep-1">
@@ -44,9 +44,9 @@
         </div>
         <div class="flight-time-selector hidden" id="flight-time-selector-ret-1">
             <br><br>
-            <input type="radio" name="time-selector-2" value="round" id="round-check" checked=" checked">
+            <input type="radio" name="time-selector-1-o" value="round" id="round-check" checked=" checked">
             <span>Sale 7:10 </span><span>Llega 20:40</span><br><br>
-            <input type="radio" name="time-selector-2" value="round" id="round-check">
+            <input type="radio" name="time-selector-1-o" value="round" id="round-check">
             <span>Sale 8:10 </span><span>Llega 21:40</span>
         </div>
     </div>
@@ -81,14 +81,14 @@
         <div class="flight-outbound">
             <span>Ida:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         </div>
-        <div class="flight-time-selector hidden" id="flight-time-selector-1">
+        <div class="flight-time-selector hidden" id="flight-time-selector-dep-2">
             <br><br>
-            <input type="radio" name="time-selector" value="round" id="round-check" checked="checked">
+            <input type="radio" name="time-selector-2-g" value="round" id="round-check" checked="checked">
             <span>Sale 7:10 </span><span>Llega 20:40</span><br><br>
-            <input type="radio" name="time-selector" value="round" id="round-check">
+            <input type="radio" name="time-selector-2-g" value="round" id="round-check">
             <span>Sale 8:10 </span><span>Llega 21:40</span>
         </div>
-        <div class="flight-time" id="flight-time-1">
+        <div class="flight-time" id="flight-time-dep-2">
             <span class="flight-text">Sale: 7:10 </span>
             <span class="flight-text">Llega: 20:40</span>
             <span class="flight-text">13h 30m</span>
@@ -99,26 +99,29 @@
         <div class="flight-outbound">
             <span>Vuelta:</span> 
         </div>
-        <div class="flight-time">
+        <div class="flight-time" id="flight-time-ret-2">
             <span class="flight-text">Sale: 7:10 </span>
             <span class="flight-text">Llega: 20:40</span>
             <span class="flight-text">13h 30m</span>
             <span class="flight-text">Sin Escalas</span>
         </div>
-        <div class="flight-time-selector hidden" id="flight-time-selector-2">
+        <div class="flight-time-selector hidden" id="flight-time-selector-ret-2">
             <br><br>
-            <input type="radio" name="time-selector-2" value="round" id="round-check" checked=" checked">
+            <input type="radio" name="time-selector-2-o" value="round" id="round-check" checked=" checked">
             <span>Sale 7:10 </span><span>Llega 20:40</span><br><br>
-            <input type="radio" name="time-selector-2" value="round" id="round-check">
+            <input type="radio" name="time-selector-2-o" value="round" id="round-check">
             <span>Sale 8:10 </span><span>Llega 21:40</span>
         </div>
     </div>
     <div class="flight-buttons">
         <div class="flight-confirm">
-            <button type="button" name="more">Confirmar</button>
+            <button type="button" name="confirm">Confirmar</button>
         </div>
-        <div class="flight-more">
-            <button type="button" name="more">Mas opciones</button>
+        <div class="flight-more" id="more2">
+            <button type="button" name="more1">Mas opciones</button>
+        </div>
+        <div class="flight-more hidden" id="less2">
+            <button type="button" name="less1">Menos opciones</button>
         </div>
     </div>
 </div>
@@ -141,14 +144,14 @@
         <div class="flight-outbound">
             <span>Ida:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         </div>
-        <div class="flight-time-selector hidden" id="flight-time-selector-1">
+        <div class="flight-time-selector hidden" id="flight-time-selector-dep-3">
             <br><br>
-            <input type="radio" name="time-selector" value="round" id="round-check" checked="checked">
+            <input type="radio" name="time-selector-3-g" value="round" id="round-check" checked="checked">
             <span>Sale 7:10 </span><span>Llega 20:40</span><br><br>
-            <input type="radio" name="time-selector" value="round" id="round-check">
+            <input type="radio" name="time-selector-3-g" value="round" id="round-check">
             <span>Sale 8:10 </span><span>Llega 21:40</span>
         </div>
-        <div class="flight-time" id="flight-time-1">
+        <div class="flight-time" id="flight-time-dep-3">
             <span class="flight-text">Sale: 7:10 </span>
             <span class="flight-text">Llega: 20:40</span>
             <span class="flight-text">13h 30m</span>
@@ -159,17 +162,17 @@
         <div class="flight-outbound">
             <span>Vuelta:</span> 
         </div>
-        <div class="flight-time">
+        <div class="flight-time" id="flight-time-ret-3">
             <span class="flight-text">Sale: 7:10 </span>
             <span class="flight-text">Llega: 20:40</span>
             <span class="flight-text">13h 30m</span>
             <span class="flight-text">Sin Escalas</span>
         </div>
-        <div class="flight-time-selector hidden" id="flight-time-selector-2">
+        <div class="flight-time-selector hidden" id="flight-time-selector-ret-3">
             <br><br>
-            <input type="radio" name="time-selector-2" value="round" id="round-check" checked=" checked">
+            <input type="radio" name="time-selector-3-o" value="round" id="round-check" checked=" checked">
             <span>Sale 7:10 </span><span>Llega 20:40</span><br><br>
-            <input type="radio" name="time-selector-2" value="round" id="round-check">
+            <input type="radio" name="time-selector-3-o" value="round" id="round-check">
             <span>Sale 8:10 </span><span>Llega 21:40</span>
         </div>
     </div>
@@ -177,8 +180,11 @@
         <div class="flight-confirm">
             <button type="button" name="more">Confirmar</button>
         </div>
-        <div class="flight-more">
-            <button type="button" name="more">Mas opciones</button>
+        <div class="flight-more" id="more3">
+            <button type="button" name="more1">Mas opciones</button>
+        </div>
+        <div class="flight-more hidden" id="less3">
+            <button type="button" name="less1">Menos opciones</button>
         </div>
     </div>
 </div>
