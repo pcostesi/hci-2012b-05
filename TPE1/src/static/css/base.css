@@ -1,7 +1,7 @@
 
 html, body {
-	margin: 0;
-	padding: 0;
+	margin: 0px;
+	padding: 0px;
 	border: 0px;
 	background:#F3F3F3 url(back.gif) repeat;
 	font-family: arial;
@@ -28,7 +28,7 @@ h1, h2, h3 {
 	width: 100%;
 	border-bottom: 1px solid;
 	border-color: #009BDB;
-	overflow: hidden;
+	//overflow: hidden;
 	z-index: 9999999;
 	color: #009BDB;
 	box-shadow: 0px 5px 5px rgba(0, 155, 219, 0.1);
@@ -97,12 +97,14 @@ h1, h2, h3 {
 	clear: both;
 }
 
-#header span {
-	text-decoration: none;
-	color: inherit;
+#omnisearch {
+	border: none;
 	font-weight: normal;
-	padding-top: 10px;
+	width: 300px;
+	position: fixed;
+	margin-top: 3px;	
 }
+
 
 #header a {
 	text-decoration: none;
@@ -112,6 +114,7 @@ h1, h2, h3 {
 
 #languages {
 	right: 10px;
+	float: right;
 }
 
 #languages li {

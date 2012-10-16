@@ -148,20 +148,16 @@ MindTrips.LanguagesView = MindTrips.BaseView.extend({
     tagName: "ul",
 
     initialize: function(){
-
+        var that = this;
         var deferred = API.Misc.getLanguages();
         deferred.done(function(data){
-            this.languages = data;
+            that.languages = data;
+            that.trigger("languages:set");
         });
-        deferred.fail(function(){
-        this.languages = {
-        "languages": [
-                {"languageId": "EN", "name": "English"},
-                {"languageId": "ES", "name": "Spanish"}
-            ]
-        }
+    },
 
-        });
+    ready: function(callback){
+        this.on('languages:set', callback);
     },
 
     bind: function(){
@@ -211,19 +207,20 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
     }
 });
 
+MindTrips.AirlineView = MindTrips.BaseView.extend({
+});
+
 
 MindTrips.AppRouter = Backbone.Router.extend({
     routes: {
         ""                  : "main",
-        "search"            : "search",
-        "flight/:id/pay"    : "payment",
-        "airline/:id"       : "airline",
+        "/search"            : "search",
+        "/search/*data"      : "search",
+        "/flight/:id/pay"    : "payment",
+        "/airline/:id"       : "airline",
     },
 
     anchor: 'main',
-
-    // this is too dirty...
-    searchFilters: {},
 
     render: function(view){
         console.log("Anchoring view to " + this.anchor);
@@ -252,8 +249,9 @@ MindTrips.AppRouter = Backbone.Router.extend({
         this.fadeIn(landingView);
     },
 
-    search: function(){
-        var mapView = new MindTrips.MapView(0, 0);
+    search: function(data){
+        // if data -> decode data and inflate models
+        var mapView = new MindTrips.MapView(-34.615853, -58.433298);
         var flightListView = new MindTrips.FlightListView();
         this.fadeIn(mapView, flightListView);
     },
@@ -266,11 +264,55 @@ MindTrips.AppRouter = Backbone.Router.extend({
 
     },
 
+
 });
+
+
+/* OmniSearch is a router-trigger. It does HEAVY use of API.Misc and such,
+ * and it's also quite coupled in with MindTrips.AppRouter. Avoid touching it.
+ */
+MindTrips.OmniSearch = function(jqSelector){
+
+    var airlineTpl = Mustache.compile('<div><img src="{{logo}}" alt="{{name}}"></img>{{name}}</div>');
+    var source = function(request, response){
+        var airlineToListItem = function(elem){
+            var label = airlineTpl(elem);
+            var choice = {route: "/airline/" + elem['airlineId']};
+            var value = elem['name'];
+            return {label: label, choice: choice, value: value};
+        };
+
+        var airlines = API.Misc.getAirlinesByName({name: request.term});
+        
+        airlines.done(function(data){
+            var result = _.map(data['cities'], airlineToListItem);
+            response(result);
+        });
+    };
+
+    var select = function(event, ui){
+        if ("route" in ui.item.choice){
+            MindTrips.router.navigate(ui.item.choice.route, true);
+        }
+        return false;
+    };
+
+    jqSelector.autocomplete({
+        source: source,
+        select: select,
+        delay: 300,
+        appendTo: $("#header"),
+    }).data( "autocomplete" )._renderItem = function( ul, item ){
+        return $("<li>").
+            data( "item.autocomplete", item ).
+            append($("<a>").html(item.label)).
+            appendTo(ul);
+    };
+};
 
 // On load:
 $(function(){
-	var tpl = MindTrips.templates.load(["map", "landing", "languages", "flightlist"]);
+	var tpl = MindTrips.templates.load(["map", "landing", "languages", "flightlist", "airline"]);
 
 
     tpl.done(function(){
@@ -280,7 +322,11 @@ $(function(){
 
 
         var languagesView = new MindTrips.LanguagesView();
-        $("#languages").html(languagesView.render().el);
+        languagesView.ready(function(){
+            $("#languages").html(languagesView.render().el);
+        });
+
+        var omnisearch = new MindTrips.OmniSearch($("#omnisearch"));
     });
 
 });
