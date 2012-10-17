@@ -32,7 +32,7 @@
         });
 
         xhr.error(function(){deferred.reject(url)});
-        return deferred;
+        return deferred.promise();
     };
 
     Gootils.expand = function(url, callback, full){
@@ -53,7 +53,7 @@
         var xhr = $.get(endpoint, handler);
 
         xhr.error(function(){deferred.reject(url)});
-        return deferred;    
+        return deferred.promise();    
     }
 
     Gootils.qr = function(url, options){

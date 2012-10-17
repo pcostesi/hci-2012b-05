@@ -24,27 +24,24 @@ MindTrips.templates = {
  
     // This is done so we can skip validation errors.
     load: function(names) {
-        var deferred = $.Deferred();
         var that = this;
         var count = 0;
         var errorHandler = function(){
             console.log("Error loading templates.");
             that.templates = {};
-            deferred.reject();
         }
-        _.each(names, function(name){
+        var deferreds = _.map(names, function(name){
             console.log('Loading template: <' + name + ">");
             var route = 'static/template/' + that.language + '/' + name + '.html';
-            var req = $.get(route, function(data){    
+            return $.get(route).pipe(function(data){    
                 count++;
                 that.loadTemplate(name, data);
                 console.log('Template: <' + name + "> loaded.");
-                if (count == names.length){
-                    deferred.resolve();
-                }
+                return that.get(name);
             });
-            req.fail(errorHandler);
         });
+        var deferred = $.when(deferreds);
+        deferred.fail(errorHandler);
         return deferred;
     },
 
@@ -63,14 +60,15 @@ MindTrips.templates = {
         var target = Backbone.history.fragment;
         console.log("Navigating to loading screen");
         router.navigate("loading", true);
-        this.loadTemplates(_.keys(this.templates), function(){
-            console.log("navigating to <" + target + ">");
-            router.navigate(target, true);
-        }, function(){
-            console.log("Falling back");
-            Backbone.history.fragment = target;
-            that.setLanguage(old, router); 
-        });
+        this.load(_.keys(this.templates))
+            .done(function(){
+                console.log("navigating to <" + target + ">");
+                router.navigate(target, true);
+            }).fail(function(){
+                console.log("Falling back");
+                router.navigate(target);
+                that.setLanguage(old); 
+            });
     },
  
     // Get template by name from hash of preloaded templates

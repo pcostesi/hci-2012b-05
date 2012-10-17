@@ -54,7 +54,8 @@ MindTrips.LandingView = MindTrips.BaseView.extend({
     setupAutocomplete: function(){
     	this.$("[data-mapcomplete]").mapcomplete({
     		source: function(request, response){
-    			var airportsByName = API.Geo.getAirportsByName({
+    			// Airports: 
+                var airportsByName = API.Geo.getAirportsByName({
     				name: request.term,
     			}).done(function(data){
     				console.log(data);
