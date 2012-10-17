@@ -25,24 +25,20 @@ MindTrips.templates = {
     // This is done so we can skip validation errors.
     load: function(names) {
         var that = this;
-        var count = 0;
         var errorHandler = function(){
             console.log("Error loading templates.");
-            that.templates = {};
         }
         var deferreds = _.map(names, function(name){
             console.log('Loading template: <' + name + ">");
             var route = 'static/template/' + that.language + '/' + name + '.html';
-            return $.get(route).pipe(function(data){    
-                count++;
+            return $.get(route).done(function(data){    
                 that.loadTemplate(name, data);
                 console.log('Template: <' + name + "> loaded.");
-                return that.get(name);
             });
         });
-        var deferred = $.when(deferreds);
+        var deferred = $.when.apply($, deferreds);
         deferred.fail(errorHandler);
-        return deferred;
+        return deferred.promise();
     },
 
     loadTemplate: function(name, data) {
