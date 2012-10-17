@@ -4,7 +4,6 @@ MindTrips = window.MindTrips || {}
 
 // Base view with some boilerplate methods.
 MindTrips.BaseView = Backbone.View.extend({
-	templateName: "base",
 
 	template: function(data){
 		var tpl = MindTrips.templates.get(this.templateName);
@@ -96,15 +95,11 @@ MindTrips.LanguagesView = MindTrips.BaseView.extend({
 
     initialize: function(){
         var that = this;
-        var deferred = API.Misc.getLanguages();
-        deferred.done(function(data){
+        API.Misc.getLanguages().done(function(data){
             that.languages = data;
+            that.render();
             that.trigger("set");
         });
-    },
-
-    ready: function(callback){
-        this.on('set', callback);
     },
 
     bind: function(){
@@ -146,13 +141,19 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
     templateName: "flightlist",
 
     render: function(eventName){
-        var flights = [
-            {name: "Avianca", currency: "U$S", price: 1000, adults: 5, children: 3},
-            {name: "lolAirlines", currency: "U$S", price: 100, adults: 3, children: 7},
-        ]; 
+        var flights = this.collection || [];
         return this.renderData(eventName, {flights:flights});
     }
 });
 
 MindTrips.AirlineView = MindTrips.BaseView.extend({
+    templateName: "airline",
+
+    initialize: function(airlineId){
+        var that = this;
+        API.Misc.getAirlineById({id:airlineId}).done(function(data){
+            that.model = new MindTrips.Airline(data['airline']);
+            that.render();
+        });
+    },
 });

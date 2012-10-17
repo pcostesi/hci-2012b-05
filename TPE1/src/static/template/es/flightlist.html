@@ -12,8 +12,8 @@
             <span>Precio final: </span><span>{{currency}}: {{price}}</span>
         </div>
         <div class="flight-tickets">
-            <span>{{adults}} Adulto(s) </span>
-            <span>{{children}} Menor(es) </span>
+            {{#adults}}<span>{{adults}} Adulto(s) </span>{{/adults}}
+            {{#children}}<span>{{children}} Menor(es) </span>{{/children}}
             <span>|</span>
         </div>
         <div class="flight-info">
@@ -51,6 +51,13 @@
             </div>
         </div>
         <div class="clearfix"></div>
+    </div>
+    {{/flights}}
+    {{^flights}}
+
+    <div class="flight-data">
+        <p class="copyright">No hay vuelos</p>
+
     </div>
     {{/flights}}
 </div>

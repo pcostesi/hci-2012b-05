@@ -114,9 +114,13 @@ MindTrips.AppRouter = Backbone.Router.extend({
     main: function(){
         var landingView = new MindTrips.LandingView();
         this.fadeIn(landingView);
+        MindTrips.filters = {};
     },
 
     search: function(params){
+        if (params){
+            console.log(params);
+        }
         // if data -> decode data and inflate models
         var mapView = new MindTrips.MapView(-34.615853, -58.433298);
         var flightListView = new MindTrips.FlightListView();
@@ -128,7 +132,7 @@ MindTrips.AppRouter = Backbone.Router.extend({
     },
 
     airline: function(airlineId){
-
+        this.fadeIn(new MindTrips.AirlineView(airlineId));
     },
 
 
@@ -146,9 +150,9 @@ $(function(){
 
 
         var languagesView = new MindTrips.LanguagesView();
-        languagesView.ready(function(){
-            $("#languages").html(languagesView.render().el);
-        });
+    
+        $("#languages").html(languagesView.el);
+        
 
         var omnisearch = new MindTrips.OmniSearch($("#omnisearch"));
     });

@@ -428,3 +428,8 @@ input[type="text"]{
     border-bottom: 1px solid #555;
     padding-bottom: 5px;
 }
+
+.airline {
+    margin-top: 10px;
+    padding: 10px;
+}

@@ -61,7 +61,7 @@
         getAirlineById: function(data, options) {
             data = data || {};
             data.method = "GetAirlineById";
-            return call("Misc", id, options);
+            return call("Misc", data, options);
         },
 
         getAirlinesByName: function(data, options) {

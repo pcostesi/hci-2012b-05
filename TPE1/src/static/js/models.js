@@ -10,8 +10,4 @@ MindTrips.BaseModel = Backbone.Model.extend({});
 MindTrips.BaseCollection = Backbone.Collection.extend({});
 
 
-MindTrips.Airline = MindTrips.BaseModel.extend({
-    defaults: {
-
-    },
-});
+MindTrips.Airline = MindTrips.BaseModel.extend({});
