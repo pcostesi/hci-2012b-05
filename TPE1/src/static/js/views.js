@@ -51,11 +51,13 @@ MindTrips.LandingView = MindTrips.BaseView.extend({
     },
 
     setupDatepickers: function(){
+        var today = new Date();
+        today.setDate(today.getDate() + 2);
         this.$("[data-date-picker]").datepicker();
         var departureDate = this.$("[data-date-picker='departure']");
         var returnDate = this.$("[data-date-picker='return']");
         departureDate.datepicker("option", {
-            minDate: new Date(),
+            minDate: today,
             onSelect: function(dateText, inst){
                 console.log("setting min date to " + dateText);
                 returnDate.datepicker("option", {
@@ -64,7 +66,7 @@ MindTrips.LandingView = MindTrips.BaseView.extend({
             },
         });
         returnDate.datepicker("option", {
-            minDate: new Date(),
+            minDate: today,
         });
     },
 
@@ -83,7 +85,8 @@ MindTrips.LandingView = MindTrips.BaseView.extend({
     },
 
     setupAutocomplete: function(){
-    	this.$("[data-mapcomplete]").mapcomplete({
+    	var map = this.$("[data-mapcomplete]");
+        map.mapcomplete({
             delay: 300,
             source: function(request, response){
                 // Airports: 
@@ -98,6 +101,7 @@ MindTrips.LandingView = MindTrips.BaseView.extend({
                                 lat: elem['latitude'],
                                 lng: elem['longitude'],
                                 data: elem,
+                                id: elem['airportId'],
                             },
                             value: label,
                         };
@@ -105,6 +109,21 @@ MindTrips.LandingView = MindTrips.BaseView.extend({
                     response(result);
                 });
     		},
+            select: function(elem, ui){
+                $(this).data("map-option", ui.item.choice);
+            }
+        });
+    },
+
+    setupSubmitButton: function(){
+        var that = this;
+        var dpDeparture = this.$('[data-date-picker="departure"]');
+        var dpReturn = this.$('[data-date-picker="return"]');
+        this.$(".search-button").click(function(){
+            var departureDate = dpDeparture.datepicker("getDate");
+            var returnDate = dpReturn.datepicker("getDate");
+            var from = that.$('[data-mapcomplete="from"]').val();
+            MindTrips.router.navigate("search", true);
         });
     },
 
@@ -114,6 +133,7 @@ MindTrips.LandingView = MindTrips.BaseView.extend({
         this.setupAutocomplete();
         this.setupDatepickers();
         this.setupOneWayFlight();
+        this.setupSubmitButton();
     },
 });
 
@@ -154,20 +174,48 @@ MindTrips.MapView = MindTrips.BaseView.extend({
           zoom: 8,
           mapTypeId: google.maps.MapTypeId.ROADMAP
         };
+        this.title = this.title || "SFO \u2708 MIA";
         
+    },
+
+    drawMarkers: function(){
+        // XXX: WE REALLY NEED THIS.
+        // noop now. WE NEED TO CODE THIS ASAP.
     },
 
     bind: function(){
         console.log("calling bind on map");
         var canvas = this.$(".map-canvas").get(0);
-        this.map = new google.maps.Map(canvas, this.mapOptions);
+        if (this.map === undefined){
+            this.map = new google.maps.Map(canvas, this.mapOptions);
+            console.log("map successfully bound");
+        }
+        this.drawMarkers();
         this.$(".map-overlay").text(this.title);
-        console.log("map successfully bound");
     },
 });
 
 MindTrips.FlightListView = MindTrips.BaseView.extend({
     templateName: "flightlist",
+
+    initialize: function(){
+        // HARDCODED
+        var that = this;
+
+        var dep = Date.today().add(2).days();
+        API.Booking.getOneWayFlights({
+            from: "BUE",
+            to: "MIA",
+            dep_date: dep.toString("yyyy-MM-dd"),
+            adults: 1,
+            children: 0,
+            infants: 0,
+        }).done(function(data){
+            that.collection = data['flights'];
+            console.log(data);
+            that.render();
+        });
+    },
 
     render: function(eventName){
         var flights = this.collection || [];
@@ -187,7 +235,7 @@ MindTrips.CityView = MindTrips.BaseView.extend({
                 lat: city['latitude'],
                 lng: city['longitude'],
                 width: 640,
-                height: 200,
+                height: 480,
                 zoom: 9,
             });
             that.model = new MindTrips.City(city);
@@ -222,9 +270,5 @@ MindTrips.CommentsView = MindTrips.BaseView.extend({
     },
 
     bind: function(){
-        var that = this;
-        this.$("[data-publish-button]").click(function(){
-
-        });
     },
 });

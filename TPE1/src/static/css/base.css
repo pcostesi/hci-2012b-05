@@ -151,7 +151,7 @@ h1, h2, h3 {
 .col {
     float: left;
     margin: 5px;
-    width: 312px;
+    width: 412px;
     margin-bottom: 20px !important;
 }
 
@@ -178,16 +178,15 @@ h1, h2, h3 {
 }
 
 
-.minimized > .search-button{
-    margin-top: 20px;
-}
 
 .search-button{
+    margin-top: 20px;
     color: white;
     border: none;
     box-shadow: 1px 2px 5px rgba(100, 0, 0, 0.5);
     background: rgba(100, 0, 0, 0.5);
     font-size: 200%;
+    float: right;
 }
 
 .searchbox > div{
@@ -265,15 +264,14 @@ input {
     border: 1px solid #009BDB;
     border-radius: 3px;
     outline: none;
-    margin-left: 10px;
     font-size: 10px;
     margin-top: 10px;
 }
 
 input[type="text"]{
     padding: 8px 10px 7px;
-    margin: 0px 10px 0px 10px;
     width: 85%;
+    border: 1px solid #009BDB;
 
 }
 #checkbox{
@@ -299,7 +297,6 @@ input[type="text"]{
     font-size: 0.95em;
     outline: none;
     padding: 8px 10px 7px;
-    margin: 5px;
     font-size: 12px
 }
 
@@ -308,6 +305,7 @@ input[type="text"]{
     width: 100%;
     overflow: hidden;
     font-size: small;
+    position: relative;
 }
 
 .hasDatepicker > div {
@@ -431,6 +429,10 @@ input[type="text"]{
     padding-bottom: 5px;
 }
 
+.omnisearch {
+    margin-left: 10px;
+}
+
 .airline {
     margin-top: 10px;
     padding: 10px;
@@ -451,4 +453,10 @@ input[type="text"]{
 .city-img {
     margin: 10px auto;
     width: 640px;
+}
+
+.city {
+    border-radius: 5px;
+    padding: 10px;
+    margin: 15px;
 }

@@ -12,9 +12,12 @@ var MindTrips = MindTrips;
                 append($("<a>").html(item.label)).
                 appendTo(ul);
         },
+        select: function(event, ui){
+            $(this).data("-option", ui.item.choice);
+        }
     });
 
-    $.widget("ui.mapcomplete", $.ui.autocomplete, {
+    $.widget("ui.mapcomplete", $.ui.divcomplete, {
 		_renderItem: function( ul, item ){
 			var url = Gootils.map({
 				lat: item.choice.lat,
@@ -84,6 +87,7 @@ MindTrips.OmniSearch = function(jqSelector){
     };
 
     var select = function(event, ui){
+        jqSelector.data("-option", ui.item.choice);
         if ("route" in ui.item.choice){
             MindTrips.router.navigate(ui.item.choice.route, true);
         }
@@ -94,6 +98,7 @@ MindTrips.OmniSearch = function(jqSelector){
         source: source,
         select: select,
         delay: 300,
+        autoFocus: true,
         appendTo: $("#header"),
     });
 };

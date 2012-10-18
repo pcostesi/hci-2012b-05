@@ -1,28 +1,29 @@
 <div id="searchbox" class="searchbox black shadow minimized">
 	
+	<input type="button" value="Buscar" class="search-button">
 	<div class="col departure">
 		<h2>Origen</h2>
-		<input type="text" autocomplete-tags="true" placeholder="Ingrese una ciudad de origen" name="origin-flight" data-mapcomplete="all">
+		<input type="text" autocomplete-tags="true" placeholder="Ingrese una ciudad de origen" name="origin-flight" data-mapcomplete="from">
             <br>
 	        <div class="hide-on-minimized">
 	            <label><input type="checkbox" name="tripType" checked="checked" value="close-airport-origin" id="checkbox">Aeropuertos Cercanos</label>
-	            <div id="go-dates" data-date-picker="departure"></div>
+	            <input type="text" id="go-dates" data-date-picker="departure"></input>
 	        </div>
 	</div>
 	
 
 	<div class="col return">
 		<h2>Destino</h2>
-		<input type="text" autocomplete-tags="true" placeholder="Ingrese una ciudad de destino" name="return-flight" data-mapcomplete="all"><br>
+		<input type="text" autocomplete-tags="true" placeholder="Ingrese una ciudad de destino" name="return-flight" data-mapcomplete="to"><br>
         <div class="hide-on-minimized">
         	<label>
             <input type="checkbox" name="tripType" checked="checked" value="close-airport-origin" id="checkbox">
 	            Aeropuertos Cercanos
 	        </label>
-	        <div id="return-dates" data-date-picker="return"></div>
+	        <input type="text" id="return-dates" data-date-picker="return"></input>
 	    </div>
 	</div>
-	
+	<div class="clearfix"></div>
 
 	<div class="col hide-on-minimized" id="pax">
 		<h2>Pasajes</h2>
@@ -69,7 +70,6 @@
         </div>
         
 	</div>
-	<input type="button" value="Buscar" class="search-button">
 </div>
 <div id="site-description" class="black searchbox shadow">
 	<p>MindTrips es el sitio líder de búsqueda y reserva de vuelos On Line en todo el mundo.</p>
