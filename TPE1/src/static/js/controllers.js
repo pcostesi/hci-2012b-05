@@ -85,6 +85,7 @@ MindTrips.AppRouter = Backbone.Router.extend({
         "search/*params"    : "search",
         "flight/:id/pay"    : "payment",
         "airline/:id"       : "airline",
+        "city/:id"          : "city",
     },
 
     anchor: 'main',
@@ -132,7 +133,13 @@ MindTrips.AppRouter = Backbone.Router.extend({
     },
 
     airline: function(airlineId){
-        this.fadeIn(new MindTrips.AirlineView(airlineId));
+        var airline = new MindTrips.AirlineView(airlineId);
+        var comments = new MindTrips.CommentsView(airlineId);
+        this.fadeIn(airline, comments);
+    },
+    
+    city: function(cityId){
+        this.fadeIn(new MindTrips.CityView(cityId));
     },
 
 
@@ -140,7 +147,7 @@ MindTrips.AppRouter = Backbone.Router.extend({
 
 // On load:
 $(function(){
-	var tpl = MindTrips.templates.load(["map", "landing", "languages", "flightlist", "airline"]);
+	var tpl = MindTrips.templates.load(["city", "review", "map", "landing", "languages", "flightlist", "airline"]);
 
 
     tpl.done(function(){
@@ -148,12 +155,9 @@ $(function(){
         MindTrips.router = new MindTrips.AppRouter();
         Backbone.history.start();
 
-
         var languagesView = new MindTrips.LanguagesView();
-    
         $("#languages").html(languagesView.el);
         
-
         var omnisearch = new MindTrips.OmniSearch($("#omnisearch"));
     });
 

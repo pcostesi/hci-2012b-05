@@ -1,17 +1,17 @@
 <div id="searchbox" class="searchbox black shadow minimized">
 	
-	<div class="col" id="departure">
+	<div class="col departure">
 		<h2>Origen</h2>
 		<input type="text" autocomplete-tags="true" placeholder="Ingrese una ciudad de origen" name="origin-flight" data-mapcomplete="all">
             <br>
 	        <div class="hide-on-minimized">
 	            <label><input type="checkbox" name="tripType" checked="checked" value="close-airport-origin" id="checkbox">Aeropuertos Cercanos</label>
-	            <div id="go-dates" data-date-picker="true"><input type="text"></div>
+	            <div id="go-dates" data-date-picker="departure"></div>
 	        </div>
 	</div>
 	
 
-	<div class="col" id="arrival">
+	<div class="col return">
 		<h2>Destino</h2>
 		<input type="text" autocomplete-tags="true" placeholder="Ingrese una ciudad de destino" name="return-flight" data-mapcomplete="all"><br>
         <div class="hide-on-minimized">
@@ -19,7 +19,7 @@
             <input type="checkbox" name="tripType" checked="checked" value="close-airport-origin" id="checkbox">
 	            Aeropuertos Cercanos
 	        </label>
-	        <div id="return-dates" data-date-picker="true"><input type="text"></div>
+	        <div id="return-dates" data-date-picker="return"></div>
 	    </div>
 	</div>
 	
@@ -58,7 +58,7 @@
 	<div class="col hide-on-minimized" id="search-extras">
 		<h2>Extras</h2>
 		<div id="round-container">
-			<label><input type="radio" name="round-trip" value="round" id="round-check" checked="checked">Ida y Vuelta</label>
+			<label><input type="radio" name="round-trip" value="round-trip" id="round-check" checked="checked">Ida y Vuelta</label>
             <label><input type="radio" name="round-trip" value="one-way" id="round-check">Solo Ida</label>
 	        <div id="round-container">
 	        	<label>

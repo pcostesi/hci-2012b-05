@@ -185,7 +185,7 @@ h1, h2, h3 {
 .search-button{
     color: white;
     border: none;
-    box-shadow: 3px 3px 8px rgba(100, 0, 0, 0.5);
+    box-shadow: 1px 2px 5px rgba(100, 0, 0, 0.5);
     background: rgba(100, 0, 0, 0.5);
     font-size: 200%;
 }
@@ -242,7 +242,7 @@ h1, h2, h3 {
 .confirm input[type="button"]{
     color: white;
     border: none;
-    box-shadow: 3px 3px 8px rgba(100, 0, 0, 0.5);
+    box-shadow: 1px 2px 5px rgba(100, 0, 0, 0.5);
     background: rgba(100, 0, 0, 0.5);
     font-size: 200%;
 }
@@ -417,8 +417,6 @@ input[type="text"]{
 
 .mapcomplete img  {
     float: left;
-    width: 100px;
-    height: 100px;
 }
 
 .mapcomplete {
@@ -428,8 +426,29 @@ input[type="text"]{
     border-bottom: 1px solid #555;
     padding-bottom: 5px;
 }
+.omnisearch li{
+    border-bottom: 1px solid #555;
+    padding-bottom: 5px;
+}
 
 .airline {
     margin-top: 10px;
     padding: 10px;
+}
+
+.disabled {
+    opacity: 0.8;
+}
+
+.post-comment > input[type="button"]{
+    color: white;
+    border: none;
+    box-shadow: 1px 2px 5px rgba(100, 0, 0, 0.5);
+    background: rgba(100, 0, 0, 0.5);
+    font-size: 100%;
+}
+
+.city-img {
+    margin: 10px auto;
+    width: 640px;
 }

@@ -41,19 +41,44 @@ var MindTrips = MindTrips;
  */
 MindTrips.OmniSearch = function(jqSelector){
 
-    var airlineTpl = Mustache.compile('<div><img src="{{logo}}" alt="{{name}}"></img>{{name}}</div>');
-    var source = function(request, response){
-        var airlineToListItem = function(elem){
-            var label = airlineTpl(elem);
-            var choice = {route: "/airline/" + elem['airlineId']};
-            var value = elem['name'];
-            return {label: label, choice: choice, value: value};
-        };
+    jqSelector.addClass("omnisearch");
+    var airlineTpl = Mustache.compile('<div><img src="{{&logo}}" alt="{{name}}"></img>{{name}}</div>');
+    var cityTpl = Mustache.compile('<div class="mapcomplete"><img src="{{&url}}" alt="{{name}} - ({{cityId}})"></img><div class="mapcomplete-content">{{name}}</div></div>');
+    
+    var airlineToListItem = function(elem){
+        var label = airlineTpl(elem);
+        var choice = {route: "/airline/" + elem['airlineId']};
+        var value = elem['name'];
+        return {label: label, choice: choice, value: value};
+    };
+    var cityToListItem = function(elem){
+        var label = cityTpl({
+            url: Gootils.map({
+                size: 64,
+                lat: elem['latitude'],
+                lng: elem['longitude'],
+                zoom: 9,
+            }),
+            name: elem['name'],
+            cityId: elem['cityId'],
+        });
+        var choice = {route: "/city/" + elem['cityId']};
+        var value = elem['name'];
+        return {label: label, choice: choice, value: value};
+    };
 
-        var airlines = API.Misc.getAirlinesByName({name: request.term});
-        
-        airlines.done(function(data){
-            var result = _.map(data['cities'], airlineToListItem);
+    var source = function(request, response){
+        var airlines = API.Misc.getAirlinesByName({name: request.term});;
+        var cities = API.Geo.getCitiesByName({name: request.term});
+        var cities = cities.pipe(function(data){
+            return _.map(data['cities'], cityToListItem);
+        });
+        var airlines = airlines.pipe(function(data){
+            return _.map(data['airlines'], airlineToListItem);
+        });
+
+        $.when(airlines, cities).done(function(airlines, cities){
+            var result = [].concat(airlines, cities)
             response(result);
         });
     };

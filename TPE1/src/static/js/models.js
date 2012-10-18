@@ -11,3 +11,4 @@ MindTrips.BaseCollection = Backbone.Collection.extend({});
 
 
 MindTrips.Airline = MindTrips.BaseModel.extend({});
+MindTrips.City = MindTrips.BaseModel.extend({});

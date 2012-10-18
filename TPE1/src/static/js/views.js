@@ -50,41 +50,70 @@ MindTrips.LandingView = MindTrips.BaseView.extend({
         return this;
     },
 
+    setupDatepickers: function(){
+        this.$("[data-date-picker]").datepicker();
+        var departureDate = this.$("[data-date-picker='departure']");
+        var returnDate = this.$("[data-date-picker='return']");
+        departureDate.datepicker("option", {
+            minDate: new Date(),
+            onSelect: function(dateText, inst){
+                console.log("setting min date to " + dateText);
+                returnDate.datepicker("option", {
+                    minDate: dateText,
+                });
+            },
+        });
+        returnDate.datepicker("option", {
+            minDate: new Date(),
+        });
+    },
+
+    setupOneWayFlight: function(){
+        var that = this;
+        this.$("input[name='round-trip']").change(function(){
+            if (that.$(this).val() == "one-way"){
+                that.$("[data-date-picker='return']").datepicker("disable");
+                that.$(".return input").attr("disabled", true);    
+            } else {
+                that.$("[data-date-picker='return']").datepicker("enable");
+                that.$(".return input").attr("disabled", false);
+            }  
+            that.$(".return").toggleClass("disabled");
+        });
+    },
+
     setupAutocomplete: function(){
     	this.$("[data-mapcomplete]").mapcomplete({
-    		source: function(request, response){
-    			// Airports: 
+            delay: 300,
+            source: function(request, response){
+                // Airports: 
                 var airportsByName = API.Geo.getAirportsByName({
-    				name: request.term,
-    			}).done(function(data){
-    				console.log(data);
-    				var result = _.map(data['airports'], function(elem){
-    					var label = elem['description'] + " (" + elem['airportId'] +")";
-    					return {
-    						label: label,
-    						choice: {
-    							lat: elem['latitude'],
-    							lng: elem['longitude'],
-    							data: elem,
-    						},
-    						value: label,
-    					};
-    				});
-            		response(result);
-    			});
+                    name: request.term,
+                }).done(function(data){
+                    var result = _.map(data['airports'], function(elem){
+                        var label = elem['description'] + " (" + elem['airportId'] +")";
+                        return {
+                            label: label,
+                            choice: {
+                                lat: elem['latitude'],
+                                lng: elem['longitude'],
+                                data: elem,
+                            },
+                            value: label,
+                        };
+                    });
+                    response(result);
+                });
     		},
-        	delay: 300,
-    	});
+        });
     },
 
     bind: function(){
         console.log("calling bind on LandingView");
-        
-        // setup div / viewport change.
         this.setupToggleMinimized();
         this.setupAutocomplete();
-
-        this.$("[data-date-picker]").datepicker();
+        this.setupDatepickers();
+        this.setupOneWayFlight();
     },
 });
 
@@ -146,14 +175,56 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
     }
 });
 
+MindTrips.CityView = MindTrips.BaseView.extend({
+    templateName: "city",
+
+    initialize: function(cityId){
+        var that = this;
+        var city = API.Geo.getCityById({id:cityId});
+        city.done(function(data){
+            var city = data['city'];
+            city['url'] = Gootils.map({
+                lat: city['latitude'],
+                lng: city['longitude'],
+                width: 640,
+                height: 200,
+                zoom: 9,
+            });
+            that.model = new MindTrips.City(city);
+            that.render();
+        });
+    },
+
+});
+
 MindTrips.AirlineView = MindTrips.BaseView.extend({
     templateName: "airline",
 
     initialize: function(airlineId){
         var that = this;
-        API.Misc.getAirlineById({id:airlineId}).done(function(data){
+        var airline = API.Misc.getAirlineById({id:airlineId});
+        airline.done(function(data){
             that.model = new MindTrips.Airline(data['airline']);
             that.render();
+        });
+    },
+});
+
+MindTrips.CommentsView = MindTrips.BaseView.extend({
+    templateName: "review",
+    initialize: function(airlineId){
+        var that = this;
+        var reviews = API.Review.getAirlineReviews({airline_id:airlineId})
+        reviews.done(function(rev){
+            console.log(rev['reviews']);
+            that.render();
+        });
+    },
+
+    bind: function(){
+        var that = this;
+        this.$("[data-publish-button]").click(function(){
+
         });
     },
 });
