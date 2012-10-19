@@ -227,16 +227,18 @@ h1, h2, h3 {
     padding: 10px;
     margin-top: 10px;
     border: none;
-    box-shadow: 2px 4px 8px rgba(40, 40, 50, 0.3);
 }
 
 .payment > div {
     margin: 10px;
-    float: left;
-    width: 280px;
     height: 100%;
 }
 
+.payment input[type="text"]{
+    padding: 8px 10px 7px;
+    margin: 0px 0px 0px 0px;
+    width: 30%;
+}
 
 .confirm input[type="button"]{
     color: white;
@@ -459,4 +461,25 @@ input[type="text"]{
     border-radius: 5px;
     padding: 10px;
     margin: 15px;
+}
+
+.flight-review {
+    width: auto;
+    margin: 10px auto;
+    border-radius: 5px;
+    padding: 0px 10px;
+}
+
+.pax {
+    width: auto;
+    margin: 10px auto;
+    border-radius: 5px;
+    padding: 0px 10px;
+}
+
+.cardinfo {
+    width: auto;
+    margin: 10px auto;
+    border-radius: 5px;
+    padding: 0px 10px;
 }

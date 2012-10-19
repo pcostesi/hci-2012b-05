@@ -5,10 +5,10 @@ MindTrips = window.MindTrips || {}
 // Base view with some boilerplate methods.
 MindTrips.BaseView = Backbone.View.extend({
 
-	template: function(data){
-		var tpl = MindTrips.templates.get(this.templateName);
-		return tpl(data);
-	},
+    template: function(data){
+        var tpl = MindTrips.templates.get(this.templateName);
+        return tpl(data);
+    },
 
     bind: function(el){},
 
@@ -85,34 +85,34 @@ MindTrips.LandingView = MindTrips.BaseView.extend({
     },
 
     setupAutocomplete: function(){
-    	var map = this.$("[data-mapcomplete]");
+        var map = this.$("[data-mapcomplete]");
         map.mapcomplete({
             delay: 300,
             source: function(request, response){
-                // Airports: 
-                var airportsByName = API.Geo.getAirportsByName({
-                    name: request.term,
-                }).done(function(data){
-                    var result = _.map(data['airports'], function(elem){
-                        var label = elem['description'] + " (" + elem['airportId'] +")";
-                        return {
-                            label: label,
-                            choice: {
-                                lat: elem['latitude'],
-                                lng: elem['longitude'],
-                                data: elem,
-                                id: elem['airportId'],
-                            },
-                            value: label,
-                        };
-                    });
-                    response(result);
-                });
-    		},
-            select: function(elem, ui){
-                $(this).data("map-option", ui.item.choice);
-            }
-        });
+// Airports: 
+var airportsByName = API.Geo.getAirportsByName({
+    name: request.term,
+}).done(function(data){
+    var result = _.map(data['airports'], function(elem){
+        var label = elem['description'] + " (" + elem['airportId'] +")";
+        return {
+            label: label,
+            choice: {
+                lat: elem['latitude'],
+                lng: elem['longitude'],
+                data: elem,
+                id: elem['airportId'],
+            },
+            value: label,
+        };
+    });
+    response(result);
+});
+},
+select: function(elem, ui){
+    $(this).data("map-option", ui.item.choice);
+}
+});
     },
 
     setupSubmitButton: function(){
@@ -167,60 +167,60 @@ MindTrips.LanguagesView = MindTrips.BaseView.extend({
 MindTrips.MapView = MindTrips.BaseView.extend({
     templateName: "map",
 
-    // The map will not be ready to use until it has been rendered.
-    initialize: function(lat, lng, title){
-        this.mapOptions = {
-          center: new google.maps.LatLng(lat, lng),
-          zoom: 8,
-          mapTypeId: google.maps.MapTypeId.ROADMAP
-        };
-        this.title = this.title || "SFO \u2708 MIA";
-        
-    },
+// The map will not be ready to use until it has been rendered.
+initialize: function(lat, lng, title){
+    this.mapOptions = {
+        center: new google.maps.LatLng(lat, lng),
+        zoom: 8,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    this.title = this.title || "SFO \u2708 MIA";
 
-    drawMarkers: function(){
-        // XXX: WE REALLY NEED THIS.
-        // noop now. WE NEED TO CODE THIS ASAP.
-    },
+},
 
-    bind: function(){
-        console.log("calling bind on map");
-        var canvas = this.$(".map-canvas").get(0);
-        if (this.map === undefined){
-            this.map = new google.maps.Map(canvas, this.mapOptions);
-            console.log("map successfully bound");
-        }
-        this.drawMarkers();
-        this.$(".map-overlay").text(this.title);
-    },
+drawMarkers: function(){
+// XXX: WE REALLY NEED THIS.
+// noop now. WE NEED TO CODE THIS ASAP.
+},
+
+bind: function(){
+    console.log("calling bind on map");
+    var canvas = this.$(".map-canvas").get(0);
+    if (this.map === undefined){
+        this.map = new google.maps.Map(canvas, this.mapOptions);
+        console.log("map successfully bound");
+    }
+    this.drawMarkers();
+    this.$(".map-overlay").text(this.title);
+},
 });
 
 MindTrips.FlightListView = MindTrips.BaseView.extend({
     templateName: "flightlist",
 
     initialize: function(){
-        // HARDCODED
-        var that = this;
+// HARDCODED
+var that = this;
 
-        var dep = Date.today().add(2).days();
-        API.Booking.getOneWayFlights({
-            from: "BUE",
-            to: "MIA",
-            dep_date: dep.toString("yyyy-MM-dd"),
-            adults: 1,
-            children: 0,
-            infants: 0,
-        }).done(function(data){
-            that.collection = data['flights'];
-            console.log(data);
-            that.render();
-        });
-    },
+var dep = Date.today().add(2).days();
+API.Booking.getOneWayFlights({
+    from: "BUE",
+    to: "MIA",
+    dep_date: dep.toString("yyyy-MM-dd"),
+    adults: 1,
+    children: 0,
+    infants: 0,
+}).done(function(data){
+    that.collection = data['flights'];
+    console.log(data);
+    that.render();
+});
+},
 
-    render: function(eventName){
-        var flights = this.collection || [];
-        return this.renderData(eventName, {flights:flights});
-    }
+render: function(eventName){
+    var flights = this.collection || [];
+    return this.renderData(eventName, {flights:flights});
+}
 });
 
 MindTrips.CityView = MindTrips.BaseView.extend({
@@ -262,7 +262,7 @@ MindTrips.CommentsView = MindTrips.BaseView.extend({
     templateName: "review",
     initialize: function(airlineId){
         var that = this;
-        var reviews = API.Review.getAirlineReviews({airline_id:airlineId})
+        var reviews = API.Review.getAirlineReviews({airline_id:airlineId});
         reviews.done(function(rev){
             console.log(rev['reviews']);
             that.render();
@@ -271,4 +271,66 @@ MindTrips.CommentsView = MindTrips.BaseView.extend({
 
     bind: function(){
     },
+});
+
+MindTrips.PaymentView = MindTrips.BaseView.extend({
+    templateName: "payment",
+    initialize: function(flightId){
+        var that = this;
+        that.render();
+    },
+
+    bind: function(){
+        var that = this;
+        this.$(".confirm-button").click(function(){
+            var card_type = that.$("select#card_type").val();
+            var card_number = that.$("#card_number").val();
+            if (that.isValidCreditCard(card_type, card_number)) {
+                var card_exp_date = that.$("#card_exp_month").val() + that.$("#card_exp_year").val();
+                var card_scode = that.$("#card_scode").val();
+                API.Booking.validateCreditCard({
+                    number: card_number,
+                    exp_date: card_exp_date,
+                    sec_code: card_scode,
+                }).done(function(data){
+                    if (data['valid']){
+                        alert("Su vuelo ha sido confirmado");
+                   } else {
+                    alert("La informacion de la tarjeta no es correcta");
+                };
+            });
+            } else{
+                alert("La informacion de la tarjeta no es correcta");
+            };
+        });
+}, 
+isValidCreditCard: function(card_type, card_number) {
+    if (card_type == "Visa") {
+        var re = /^4\d{15}$/;
+    } else if (card_type == "MC") {
+
+        var re = /^5[1-5]\d{14}$/;
+    } else if (card_type == "AmEx") {
+
+        var re = /^3[4,7]\d{13}$/;
+    } else if (card_type == "Diners") {
+
+        var re = /^3[0,6,8]\d{14}$/;
+    }
+    if (re == null || !re.test(card_number)) return false;
+
+    card_number = card_number.split("-").join("");
+
+    var checksum = 0;
+    for (var i=(2-(card_number.length % 2)); i<=card_number.length; i+=2) {
+        checksum += parseInt(card_number.charAt(i-1));
+    }
+
+    for (var i=(card_number.length % 2) + 1; i<card_number.length; i+=2) {
+        var digit = parseInt(card_number.charAt(i-1)) * 2;
+        if (digit < 10) { checksum += digit; } else { checksum += (digit-9); }
+    }
+    if ((checksum % 10) == 0) return true; else return false;
+},
+
 });

@@ -129,7 +129,8 @@ MindTrips.AppRouter = Backbone.Router.extend({
     },
 
     payment: function(flightId){
-
+        var payment = new MindTrips.PaymentView(flightId);
+        this.fadeIn(payment);
     },
 
     airline: function(airlineId){
@@ -147,7 +148,7 @@ MindTrips.AppRouter = Backbone.Router.extend({
 
 // On load:
 $(function(){
-	var tpl = MindTrips.templates.load(["city", "review", "map", "landing", "languages", "flightlist", "airline"]);
+	var tpl = MindTrips.templates.load(["city", "review", "map", "landing", "languages", "flightlist", "airline", "payment"]);
 
 
     tpl.done(function(){
