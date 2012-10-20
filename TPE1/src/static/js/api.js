@@ -156,6 +156,12 @@
             return call("Booking", data, options);
         },
 
+        getRoundTripFlights: function(data,options) {
+            data = data || {};
+            data.method = "GetRoundTripFlights";
+            return call("Booking", data, options)
+        },
+
         bookFlight: function(data, options) {
             data = data || {};
             data.method = "BookFlight";
