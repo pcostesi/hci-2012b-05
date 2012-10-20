@@ -452,6 +452,9 @@ input[type="text"]{
     font-size: 100%;
 }
 
+.flight-selected {
+    background-color: rgba(51, 0, 255, 0.09);
+}
 .city-img {
     margin: 10px auto;
     width: 640px;

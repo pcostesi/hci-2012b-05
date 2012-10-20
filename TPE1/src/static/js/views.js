@@ -218,6 +218,20 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
             that.render();
         });
     },
+
+    bind: function(){
+        this.setUpSelectButton();
+    },
+
+    setUpSelectButton: function(){
+        var that = this;
+        this.$(".confirm-button").click(function(){
+            var id = $(this).attr("data-flight-no");
+            that.$("#"+id).toggleClass("flight-selected");
+            
+        });
+    },
+
     makeReadableFlightData: function(data){
         var flights = new Array();
         var currency = data['currencyId'];
@@ -253,6 +267,7 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
         if(actualflight[route][0]['segments']['length'] == 1){
                     var actualscale = actualflight[route][0]['segments'][0];
                     var airId = this.getAirlineLogo(actualscale['airlineId'],data);
+                    flight = flight + '"code" :' + actualscale['flightId'] + ',';
                     flight = flight + '"companies": [{';
                         flight = flight + '"logo" :"' + airId +'",';
                         flight = flight + '"name" :"' + actualscale['airlineName'] + '"';

@@ -1,7 +1,7 @@
 
 <div class="black shadow flight-block">
     {{#flights}}
-    <div class="flight-data">
+    <div class="flight-data" id={{code}}>
         <div class="airline-logo">
             {{#companies}}
             <img src="{{logo}}" width="30" height="30" alt="{{countryId}}">
@@ -16,6 +16,7 @@
         <div class="flight-tickets">
             {{#adult}}<span>{{adult}} Adulto(s) </span>{{/adult}}
             {{#children}}<span>{{children}} Menor(es) </span>{{/children}}
+            {{#infant}}<span>{{infant}} Infante(es)</span>{{/infant}}
             <span>|</span>
         </div>
         {{#outbound}}
@@ -40,7 +41,7 @@
         {{/inbound}}
         <div class="flight-buttons">
             <div class="flight-confirm">
-                <button type="button" name="confirm">Confirmar</button>
+                <button type="button" name="confirm" data-flight-no={{code}} class="confirm-button">Seleccionar</button>
             </div>
         </div>
         <div class="clearfix"></div>
