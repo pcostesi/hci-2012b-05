@@ -204,11 +204,11 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
 
         var dep = Date.today().add(2).days();
         API.Booking.getOneWayFlights({
-            from: "BUE",
-            to: "MIA",
+            from: "GIG",
+            to: "JUJ",
             dep_date: dep.toString("yyyy-MM-dd"),
-            adults: 1,
-            children: 0,
+            adults: 2,
+            children: 1,
             infants: 0,
         }).done(function(data){
             //that.collection = data['flights'];
@@ -228,26 +228,49 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
                 flight = flight + '"adult" : '+data['flights'][i]['price']['adults']['quantity'] + ",";
             }
             if(actualflight['price']['children'] != null){
-                flight = flight = '"children" :'+ data['flights'][i]['price']['children']['quantity'] +",";
+                flight = flight + '"children" :'+ data['flights'][i]['price']['children']['quantity'] +",";
             }
             if(actualflight['price']['infants'] != null){
                 flight = flight + '"infants" :'+ data['flights'][i]['price']['infants']['quantity']+",";
             }
             flight = flight + '"price" :"'+ currency +' '+ actualflight['price']['total']['total'] +'",';
-            if(actualflight['outboundRoutes']['length'] == 1){
+            if(actualflight['outboundRoutes'][0]['segments']['length'] == 1){
                 var actualscale = actualflight['outboundRoutes'][0]['segments'][0];
                 var airId = this.getAirlineLogo(actualscale['airlineId'],data);
-                flight = flight + '"logo" :"' + airId +'",';
-                flight = flight + '"name" :"' + actualscale['airlineName'] + '",';
-                //flight = flight + '"outbound" :[';
-                    var out = new Array();
+                flight = flight + '"companies": [{';
+                    flight = flight + '"logo" :"' + airId +'",';
+                    flight = flight + '"name" :"' + actualscale['airlineName'] + '"';
+                    flight = flight + '}],';
+                flight = flight + '"outbound" :';
                     var outbound = "{";
-                    outbound = outbound + '"toff": '+ actualscale['departure']['date'] + '",';
-                    outbound = outbound + '"toff": '+ actualscale['departure']['date'] + '",';
-                    outbound = outbound + '"arr": ' + actualscale['arrival']['date'] + '",';
+                    outbound = outbound + '"dep": "'+ actualscale['departure']['date']+ " (" + actualscale['departure']['timezone'] +')",';
+                    outbound = outbound + '"arr": "'+ actualscale['arrival']['date']+ " (" + actualscale['arrival']['timezone']+ ')",';
+                    outbound = outbound + '"duration" : "' + actualscale['duration'] + '",';
+                    outbound = outbound + '"scale" : '+ 0 +'}';
+                flight = flight + outbound;
             }
-
-             
+            if(actualflight['outboundRoutes'][0]['segments']['length'] >1) { 
+                flight = flight + '"companies": [';
+                var companies = new Array();
+                for(z=0; z<actualflight['outboundRoutes']['length']; z++){
+                    var actualscale = actualflight['outboundRoutes'][0]['segments'][i];
+                    var airId = this.getAirlineLogo(actualscale['airlineId'],data);
+                    var outlogo = "{";
+                        outlogo = outlogo + '"logo" :"' + airId +'",';
+                        outlogo = outlogo + '"name" :"' + actualscale['airlineName'] + '"';
+                        outlogo = outlogo + '}';
+                        companies.push(outlogo);
+                }
+                flight = flight + companies + '],';
+                flight = flight + '"outbound" :';
+                    var outbound = "{";
+                    var segments = actualflight['outboundRoutes'][0]['segments'];
+                    outbound = outbound + '"dep": "'+ segments[0]['departure']['date']+ " (" + segments[0]['departure']['timezone'] +')",';
+                    outbound = outbound + '"arr": "'+ segments[segments['length']-1]['arrival']['date']+ " (" + segments[segments['length']-1]['arrival']['timezone']+ ')",';
+                    outbound = outbound + '"duration" : "' + actualflight['outboundRoutes'][0]['duration'] + '",';
+                    outbound = outbound + '"scale" :'+ z +'}';
+                    flight = flight + outbound;
+            }
 
             flight = flight + "}";
             flights.push(flight);
@@ -256,7 +279,6 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
         return eval('('+ '{"flights" :['+ flights + "]})");
 
     },
-
     getAirlineLogo: function(airlineId,data){
         //Podria hacer una estructura copada pero no van a ser tantos vuelos
         for(w = 0; w< data['filters'][0]['values']['length']; w++){

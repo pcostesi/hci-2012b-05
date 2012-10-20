@@ -3,11 +3,13 @@
     {{#flights}}
     <div class="flight-data">
         <div class="airline-logo">
+            {{#companies}}
             <img src="{{logo}}" width="30" height="30" alt="{{countryId}}">
         </div>
         <div class="airline-name">
             <span> {{name}} </span>
         </div>
+        {{/companies}}
         <div class="flight-price">
             <span>Precio final: </span><span>{{currency}}: {{price}}</span>
         </div>
@@ -16,27 +18,26 @@
             {{#children}}<span>{{children}} Menor(es) </span>{{/children}}
             <span>|</span>
         </div>
+        {{#outbound}}
         <div class="flight-info">
             <div class="flight-outbound">
-                {{#outbound}}
                 <span>Ida:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    
-
-
-                {{/outbound}}
+                <span class="flight-text">Sale: <b>{{dep}}</b> 
+                </span> <span class="flight-text">Llega: <b>{{arr}}</b> </span> <span class="flight-text">{{duration}} </span>
+                <span class="flight-text">{{scale}} Escala(s)</span>
             </div>
         </div>
+        {{/outbound}}
+        {{#inbound}}
         <div class="flight-info">
             <div class="flight-outbound">
                 <span>Vuelta:</span> 
-            </div>
-            <div class="flight-time" id="flight-time-ret-1">
-                <span class="flight-text">Sale: {{}} </span>
-                <span class="flight-text">Llega: 20:40</span>
-                <span class="flight-text">13h 30m</span>
-                <span class="flight-text">Sin Escalas</span>
+                <span class="flight-text">Sale: <b>{{dep}}</b> 
+                </span> <span class="flight-text">Llega: <b>{{arr}}</b> </span> <span class="flight-text">{{duration}} </span>
+                <span class="flight-text">{{scale}} Escala(s)</span>
             </div>
         </div>
+        {{/inbound}}
         <div class="flight-buttons">
             <div class="flight-confirm">
                 <button type="button" name="confirm">Confirmar</button>
