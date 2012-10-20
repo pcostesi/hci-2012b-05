@@ -199,7 +199,6 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
     templateName: "flightlist",
 
     initialize: function(){
-<<<<<<< HEAD
         // HARDCODED
         var that = this;
 
@@ -272,30 +271,6 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
         var flights = this.collection || [];
         return this.renderData(eventName, {flights:flights});
     },
-=======
-// HARDCODED
-var that = this;
-
-var dep = Date.today().add(2).days();
-API.Booking.getOneWayFlights({
-    from: "BUE",
-    to: "MIA",
-    dep_date: dep.toString("yyyy-MM-dd"),
-    adults: 1,
-    children: 0,
-    infants: 0,
-}).done(function(data){
-    that.collection = data['flights'];
-    console.log(data);
-    that.render();
-});
-},
-
-render: function(eventName){
-    var flights = this.collection || [];
-    return this.renderData(eventName, {flights:flights});
-}
->>>>>>> 22cad1811a4c3c1bd4736caf97c908b19dcfe654
 });
 
 MindTrips.CityView = MindTrips.BaseView.extend({
