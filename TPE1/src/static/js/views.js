@@ -123,7 +123,7 @@ MindTrips.LandingView = MindTrips.BaseView.extend({
             var departureDate = dpDeparture.datepicker("getDate");
             var returnDate = dpReturn.datepicker("getDate");
             var from = that.$('[data-mapcomplete="from"]').val();
-            MindTrips.router.navigate("search", true);
+            MindTrips.router.navigate("search/"+departureDate+"/"+returnDate+"/"+from+"/", true);
         });
     },
 
@@ -211,16 +211,66 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
             children: 0,
             infants: 0,
         }).done(function(data){
-            that.collection = data['flights'];
+            //that.collection = data['flights'];
+            that.collection = that.makeReadableFlightData(data)['flights'];
             console.log(data);
+            console.log(that.collection);
             that.render();
         });
+    },
+    makeReadableFlightData: function(data){
+        var flights = new Array();
+        var currency = data['currencyId'];
+        for(i=0; i<data['flights']['length']; i++){
+            var flight = "{";         
+            var actualflight = data['flights'][i];
+            if(actualflight['price']['adults'] != null){
+                flight = flight + '"adult" : '+data['flights'][i]['price']['adults']['quantity'] + ",";
+            }
+            if(actualflight['price']['children'] != null){
+                flight = flight = '"children" :'+ data['flights'][i]['price']['children']['quantity'] +",";
+            }
+            if(actualflight['price']['infants'] != null){
+                flight = flight + '"infants" :'+ data['flights'][i]['price']['infants']['quantity']+",";
+            }
+            flight = flight + '"price" :"'+ currency +' '+ actualflight['price']['total']['total'] +'",';
+            if(actualflight['outboundRoutes']['length'] == 1){
+                var actualscale = actualflight['outboundRoutes'][0]['segments'][0];
+                var airId = this.getAirlineLogo(actualscale['airlineId'],data);
+                flight = flight + '"logo" :"' + airId +'",';
+                flight = flight + '"name" :"' + actualscale['airlineName'] + '",';
+                //flight = flight + '"outbound" :[';
+                    var out = new Array();
+                    var outbound = "{";
+                    outbound = outbound + '"toff": '+ actualscale['departure']['date'] + '",';
+                    outbound = outbound + '"toff": '+ actualscale['departure']['date'] + '",';
+                    outbound = outbound + '"arr": ' + actualscale['arrival']['date'] + '",';
+            }
+
+             
+
+            flight = flight + "}";
+            flights.push(flight);
+        }
+        console.log('{"flights" :['+ flights + "]}")
+        return eval('('+ '{"flights" :['+ flights + "]})");
+
+    },
+
+    getAirlineLogo: function(airlineId,data){
+        //Podria hacer una estructura copada pero no van a ser tantos vuelos
+        for(w = 0; w< data['filters'][0]['values']['length']; w++){
+            if(data['filters'][0]['values'][w]['id'] == airlineId){
+                return data['filters'][0]['values'][w]['logo'];
+            }
+        }
+        
     },
 
     render: function(eventName){
         var flights = this.collection || [];
         return this.renderData(eventName, {flights:flights});
-    }
+    },
 });
 
 MindTrips.CityView = MindTrips.BaseView.extend({

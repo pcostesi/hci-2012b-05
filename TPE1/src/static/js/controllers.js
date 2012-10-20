@@ -129,7 +129,6 @@ MindTrips.AppRouter = Backbone.Router.extend({
     },
 
     payment: function(flightId){
-
     },
 
     airline: function(airlineId){

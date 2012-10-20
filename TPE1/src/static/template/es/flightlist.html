@@ -12,13 +12,18 @@
             <span>Precio final: </span><span>{{currency}}: {{price}}</span>
         </div>
         <div class="flight-tickets">
-            {{#adults}}<span>{{adults}} Adulto(s) </span>{{/adults}}
+            {{#adult}}<span>{{adult}} Adulto(s) </span>{{/adult}}
             {{#children}}<span>{{children}} Menor(es) </span>{{/children}}
             <span>|</span>
         </div>
         <div class="flight-info">
             <div class="flight-outbound">
+                {{#outbound}}
                 <span>Ida:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    
+
+
+                {{/outbound}}
             </div>
         </div>
         <div class="flight-info">
