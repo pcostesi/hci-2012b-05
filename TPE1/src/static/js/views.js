@@ -227,9 +227,44 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
         var that = this;
         this.$(".confirm-button").click(function(){
             var id = $(this).attr("data-flight-no");
+            var elem = that.$("#"+id);
+            if(!elem.hasClass("flight-selected")){
+                console.log(that.collection);
+                if(elem.attr("status") == "inbound" && that.collection.inbound != null) return;
+                if(elem.attr("status") == "outbound" && that.collection.outbound != null) return;
+                that.modifyFinalFare(id, elem.attr("status"));
+            }else{
+                if(elem.attr("status") == "inbound"){
+                    delete that.collection.inbound;
+                }else{
+                    delete that.collection.outbound;
+                }
+            }
             that.$("#"+id).toggleClass("flight-selected");
-            
         });
+    },
+
+    modifyFinalFare: function(id, status){
+        var flight = this.getFlightById(id);
+        if(status == "inbound"){
+            var inbound = {}
+            inbound.price = flight.price;
+            this.collection.inbound = inbound;;
+
+        }else{
+            var outbound = {}
+            outbound.price = flight.price;
+            this.collection.outbound = outbound;
+        }
+    },
+
+    getFlightById: function(id){
+        var array = this.collection;
+        for(i=0; i<array.length; i++){
+            if(array[i]['code'] == id){
+                return array[i];
+            }
+        }
     },
 
     makeReadableFlightData: function(data){
@@ -283,8 +318,7 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
                         outbound = outbound + '"duration" : "' + actualscale['duration'] + '",';
                         outbound = outbound + '"scale" : '+ 0 +'}';
                     flight = flight + outbound;
-                }
-                if(actualflight[route][0]['segments']['length'] >1) { 
+        } else if(actualflight[route][0]['segments']['length'] >1) { 
                     flight = flight + '"companies": [';
                     var companies = new Array();
                     for(z=0; z<actualflight[route]['length']; z++){

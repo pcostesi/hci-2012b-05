@@ -345,6 +345,14 @@ input[type="text"]{
     padding-top: 7px;
     padding-bottom: 10px;
 }
+.flight-data-info{
+
+    width: 940px;
+    margin-top: 10px;
+    padding-top: 7px;
+    padding-bottom: 10px;
+
+}
 
 .airline-logo{
     float:left;
