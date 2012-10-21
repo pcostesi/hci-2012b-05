@@ -213,7 +213,8 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
             infants: 0,
         }).done(function(data){
             console.log(data);
-            that.collection = that.makeReadableFlightData(data)['flights'];
+            var flights = that.makeReadableFlightData(data);
+            that.collection = JSON.parse(JSON.stringify(flights));
             console.log(that.collection);
             that.render();
         });
@@ -301,42 +302,40 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
     },
 
     makeReadableFlightData: function(data){
-        var finalflight = {};
-        var flights = new Array();
+        var flights = new Flights();
         for(i=0; i<data.flights.length; i++){
-            var flight = {};         
+            var flight = new Flight();         
             var actualflight = data.flights[i];
             if(actualflight.price.adults != null){
-                flight.adult = this.makeReadablePersonInfo(data.flights[i].price.adults);
+                flight.set("adult", this.makeReadablePersonInfo(data.flights[i].price.adults));
             }
             if(actualflight.price.children != null){
-                flight.children = this.makeReadablePersonInfo(data.flights[i].price.children);
+                flight.set("children", this.makeReadablePersonInfo(data.flights[i].price.children));
             }
             if(actualflight.price.infants != null){
-                flight.infants = this.makeReadablePersonInfo(data.flights[i].price.infants);
+                flight.set("infants", this.makeReadablePersonInfo(data.flights[i].price.infants));
             }
-            flight.currency = data.currencyId;
-            flight.total = actualflight.price.total.total;
-            flight.taxes = actualflight.price.total.taxes;
-            flight.charges = actualflight.price.total.charges;
-            flight.fare = actualflight.price.total.fare;
+            flight.set("currency", data.currencyId);
+            flight.set("total", actualflight.price.total.total);
+            flight.set("taxes", actualflight.price.total.taxes);
+            flight.set("charges", actualflight.price.total.charges);
+            flight.set("fare", actualflight.price.total.fare);
             if(actualflight.outboundRoutes != null){
                 this.makeReadableFlightInfo("outboundRoutes", actualflight, data, flight);
             }
             if(actualflight.inboundRoutes != null){
                 this.makeReadableFlightInfo("inboundRoutes", actualflight, data, flight);
             }
-            flights.push(flight);
+            flights.add(flight);
         }
-        finalflight.flights = flights;
-        return finalflight;
+        return flights;
 
     },
 
     makeReadablePersonInfo: function(route){
-        var person = {};
-        person.quantity = route.quantity;
-        person.price = route.baseFare;
+        var person = new FlightPerson();
+        person.set("quantity" , route.quantity);
+        person.set("price", route.baseFare);
         return person;
     },
 
@@ -344,27 +343,24 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
         if(actualflight[route][0].segments.length == 1){
             var actualscale = actualflight[route][0].segments[0];
             var airId = this.getAirlineLogo(actualscale.airlineId,data);
-            flight.code = actualscale.flightId;
-            var companies = new Array();
-            var companiesdata = {};
-                companiesdata.logo = airId ;
-                companiesdata.name = actualscale.airlineName;
-            companies.push(companiesdata);
-            flight.companies = companies;
-            var flightdata = {};
-                flightdata.deptime = actualscale.departure.date;
-                flightdata.deptimezone = actualscale.departure.timezone;
-                flightdata.arrtime = actualscale.arrival.date;
-                flightdata.arrtimezone = actualscale.arrival.timezone;
-                flightdata.duration = actualscale.duration;
-                flightdata.scale = 0;
+            flight.set("code", actualscale.flightId);
+            var companiesdata = new FlightCompanie();
+                companiesdata.set("logo", airId);
+                companiesdata.set("name", actualscale.airlineName);
+            flight.set("companies", companiesdata);
+            var flightdata = new FlightInfo();
+                flightdata.set("deptime", actualscale.departure.date);
+                flightdata.set("deptimezone", actualscale.departure.timezone);
+                flightdata.set("arrtime", actualscale.arrival.date);
+                flightdata.set("arrtimezone", actualscale.arrival.timezone);
+                flightdata.set("duration", actualscale.duration);
+                flightdata.set("scale", 0);
             if(route == "outboundRoutes"){
-                flight.outbound = flightdata;
+                flight.set("outbound", flightdata);
             }else{
-                flight.inbound = flightdata;
+                flight.set("inbound", flightdata);
             }
         }
-        return flight;
     },
 
     getAirlineLogo: function(airlineId,data){
@@ -376,6 +372,51 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
         }
         
     },
+
+    orderByPrice: function(flights){
+        flights.comparator = function(elem){
+            return elem.get("total");
+        }
+        flights.sort();
+        this.collection = JSON.parse(JSON.stringify(flights));
+        this.render();
+    },
+
+    orderByScale: function(flights){
+            flights.comparator = function(elem){
+                if(elem.get("outbound")!= null){
+                    return elem.get("outbound").get("scale");
+                }else{
+                    return elem.get("inbound").get("scale");
+                }
+            }
+            flight.sort();
+            this.collection = JSON.parse(JSON.stringify(flights));
+            this.render();
+    },
+
+    orderByDuration: function(flights){
+        flights.comparator = function(elem){
+                if(elem.get("outbound")!= null){
+                    return elem.get("outbound").get("duration");
+                }else{
+                    return elem.get("inbound").get("duration");
+                }
+            }
+            flight.sort();
+            this.collection = JSON.parse(JSON.stringify(flights));
+            this.render();
+    }
+
+    orderByName: function(flights){
+        flights.comparator = function(elem){
+            return elem.get("companies").get("name");
+        }
+        flight.sort();
+        this.collection = JSON.parse(JSON.stringify(flights));
+        this.render();
+    }
+
 
     render: function(eventName){
         var flights = this.collection || [];
@@ -498,7 +539,14 @@ isValidCreditCard: function(card_type, card_number) {
 MindTrips.PriceView = MindTrips.BaseView.extend({
     templateName: "price",
     initialize: function(){
-        this.render();
+        var object = {};
+        _.extend(object, Backbone.Events);
+        object.on("inboudChange", this.setAddInbound());
+
+    },
+
+    setAddInbound: function(){
+        alert("anda");
     },
 
     bind: function(){
