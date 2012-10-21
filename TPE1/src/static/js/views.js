@@ -198,7 +198,6 @@ bind: function(){
 MindTrips.LandingMapView = MindTrips.BaseView.extend({
     templateName: "landingmap",
 
-// The map will not be ready to use until it has been rendered.
 initialize: function(lat, lng){
     this.mapOptions = {
         center: new google.maps.LatLng(lat, lng),
@@ -206,7 +205,9 @@ initialize: function(lat, lng){
         mapTypeId: google.maps.MapTypeId.ROADMAP
     };
     var that = this;
-    API.Geo.getCities().done(function(data){
+    API.Geo.getCities({
+        page_size: 120,
+    }).done(function(data){
         that.getDealsFromCity(data);
     });
 
@@ -224,18 +225,35 @@ getDealsFromCity: function(data){
     }).done(function(deals){
         console.log(deals);
         that.drawMarkers(deals);
+        var loc = new google.maps.LatLng(currentcity.latitude,currentcity.longitude);
+        new google.maps.Marker({
+                position: loc,
+                map: that.map,
+        });
     });
 
 },
 drawMarkers: function(deals){
     deals = deals.deals;
+    var yellow = '/static/img/yellow-dot.png';
+    var green = '/static/img/green-dot.png';
+    var blue = '/static/img/blue-dot.png';
     var that = this;
     for(i=0; i< deals.length; i++){
         var pos = new google.maps.LatLng(deals[i].cityLatitude,deals[i].cityLongitude);
+        var color = "";
+        if(deals[i].price < 1000){
+            color = green;
+        }else if (deals[i].price < 1500){
+            color = blue;
+        }else{
+            color = yellow
+        }
         new google.maps.Marker({
                 position: pos,
                 map: that.map,
                 title: deals[i].cityName,
+                icon: color,
         });
     }
 },

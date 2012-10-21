@@ -326,7 +326,7 @@ input[type="text"]{
 }
 
 .landing-map-canvas { 
-    height:400px; 
+    height:500px; 
     width: 960px;
     margin-top: 10px;
 }
