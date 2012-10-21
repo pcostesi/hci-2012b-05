@@ -289,8 +289,8 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
             infants: 0,
         }).done(function(data){
             that.flights = that.makeReadableFlightData(data);
-            //console.log(that.flights);
             that.setCollections();
+            that.$("*[buttonorder]").removeClass("hidden");
         });
     },
 
@@ -299,8 +299,6 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
         if(this.flightstatus != null){
             this.collection.flightstatus = this.flightstatus;
         }
-        console.log(this.collection.flights);
-        console.log(this.collection.flightstatus);
         this.render();
         this.reviewHighlited();
     },
