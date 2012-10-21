@@ -249,7 +249,8 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
                 }else{
                     delete that.collection.outbound;
                 }
-                that.redToFinalFare(id);            }
+                that.redToFinalFare(id);            
+            }
             that.$("#"+id).toggleClass("flight-selected");
         });
     },
@@ -261,15 +262,33 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
     addToFinalFare: function(id, status){
         var flight = this.getFlightById(id);
         if(status == "inbound"){
-            var inbound = {}
-            inbound.price = flight.price;
-            this.collection.inbound = inbound;;
-
+            this.collection.inbound = flight;;
         }else{
-            var outbound = {}
-            outbound.price = flight.price;
-            this.collection.outbound = outbound;
+            this.collection.outbound = flight;
         }
+        this.setFinalFare(flight);
+    },
+
+    setFinalFare: function(flight){
+        var data = this.collection;
+        this.$("#tickets").text("Adulto(s): " + data[0].adult.quantity +" Menor(es): " 
+            + data[0].children.quantity);
+
+        this.$(".currency").text(flight.currency + " ");
+        var total = this.$("#total"); 
+        var peradult = this.$("#per-adult");
+        var perchildren = this.$("#per-children");
+        var taxes = this.$("#taxes");
+        var charges = this.$("#charges");
+        if(flight.adult != null){
+            peradult.text(parseFloat(flight.adult.price) + parseFloat(peradult.html()));
+        }
+        if(flight.children != null){
+            perchildren.text(parseFloat(flight.children.price) + parseFloat(perchildren.html()));
+        }
+        taxes.text(parseFloat(flight.taxes) + parseFloat(taxes.html()));
+        charges.text(parseFloat(flight.charges) + parseFloat(charges.html()));
+        total.text(parseFloat(flight.total) + parseFloat(total.html()));
     },
 
     getFlightById: function(id){
@@ -288,13 +307,13 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
             var flight = {};         
             var actualflight = data.flights[i];
             if(actualflight.price.adults != null){
-                flight.adult = data.flights[i].price.adults.quantity;
+                flight.adult = this.makeReadablePersonInfo(data.flights[i].price.adults);
             }
             if(actualflight.price.children != null){
-                flight.children = data.flights[i].price.children.quantity;
+                flight.children = this.makeReadablePersonInfo(data.flights[i].price.children);
             }
             if(actualflight.price.infants != null){
-                flight.infants = data.flights[i].price.infants.quantity;
+                flight.infants = this.makeReadablePersonInfo(data.flights[i].price.infants);
             }
             flight.currency = data.currencyId;
             flight.total = actualflight.price.total.total;
@@ -302,10 +321,10 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
             flight.charges = actualflight.price.total.charges;
             flight.fare = actualflight.price.total.fare;
             if(actualflight.outboundRoutes != null){
-                this.getReadableFlightData("outboundRoutes", actualflight, data, flight);
+                this.makeReadableFlightInfo("outboundRoutes", actualflight, data, flight);
             }
             if(actualflight.inboundRoutes != null){
-                this.getReadableFlightData("inboundRoutes", actualflight, data, flight);
+                this.makeReadableFlightInfo("inboundRoutes", actualflight, data, flight);
             }
             flights.push(flight);
         }
@@ -314,7 +333,14 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
 
     },
 
-    getReadableFlightData: function(route, actualflight, data, flight){
+    makeReadablePersonInfo: function(route){
+        var person = {};
+        person.quantity = route.quantity;
+        person.price = route.baseFare;
+        return person;
+    },
+
+    makeReadableFlightInfo: function(route, actualflight, data, flight){
         if(actualflight[route][0].segments.length == 1){
             var actualscale = actualflight[route][0].segments[0];
             var airId = this.getAirlineLogo(actualscale.airlineId,data);

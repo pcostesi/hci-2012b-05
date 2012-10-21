@@ -1,13 +1,16 @@
 <div class="black shadow flight-block">
     <div class="flight-data-info">
-        <span>Final</span><br>
+        <span>Precio Final</span><br>
         <div class = "airline-name">
-            <span id="tickets"></span><span id="basic-fare"></span><br>
-            <span>Impuestos: </span><span id="taxes"></span><br>
-            <span>Cargos: </span><span id="charges"></span>
+            <span id="tickets"></span><br>
+            <span>Precio por adulto: </span><span id="per-adult">0</span><br>
+            <span>Precio por niño: </span><span id="per-children">0</span><br>
+            <span>Precio por infante: </span><span id="per-infant">0</span><br>
+            <span>Impuestos: </span><span id="taxes">0</span><br>
+            <span>Cargos: </span><span id="charges">0</span>
         </div>
         <div class = "flight-price">
-            <span>Total: </span><span id="total"></span>
+            <span>Total: </span><span class="currency"></span><span id="total">0</span>
         </div>
         <br><br>
         <div class="flight-buttons">
@@ -34,9 +37,9 @@
             <span>Precio sector: </span><span>{{currency}}: {{total}}</span>
         </div>
         <div class="flight-tickets">
-            {{#adult}}<span>{{adult}} Adulto(s) </span>{{/adult}}
-            {{#children}}<span>{{children}} Menor(es) </span>{{/children}}
-            {{#infant}}<span>{{infant}} Infante(es)</span>{{/infant}}
+            {{#adult}}<span>{{quantity}} Adulto(s) </span>{{/adult}}
+            {{#children}}<span>{{quantity}} Menor(es) </span>{{/children}}
+            {{#infant}}<span>{{quantity}} Infante(es)</span>{{/infant}}
             <span>|</span>
         </div>
         {{#outbound}}
