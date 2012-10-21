@@ -143,12 +143,15 @@ MindTrips.AppRouter = Backbone.Router.extend({
         this.fadeIn(new MindTrips.CityView(cityId));
     },
 
+    price: function(){
+        this.fadeIn(new MindTrips.PriceView());
+    },
 
 });
 
 // On load:
 $(function(){
-	var tpl = MindTrips.templates.load(["city", "review", "map", "landing", "languages", "flightlist", "airline", "payment"]);
+	var tpl = MindTrips.templates.load(["city", "review", "map", "landing", "languages", "flightlist", "airline", "payment", "price"]);
 
 
     tpl.done(function(){

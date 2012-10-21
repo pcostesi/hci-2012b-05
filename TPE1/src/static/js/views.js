@@ -266,7 +266,7 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
         }else{
             this.collection.outbound = flight;
         }
-        this.setFinalFare(flight);
+        //this.setFinalFare(flight);
     },
 
     setFinalFare: function(flight){
@@ -493,4 +493,19 @@ isValidCreditCard: function(card_type, card_number) {
     if ((checksum % 10) == 0) return true; else return false;
 },
 
+});
+
+MindTrips.PriceView = MindTrips.BaseView.extend({
+    templateName: "price",
+    initialize: function(){
+        this.render();
+    },
+
+    bind: function(){
+    },
+
+    render: function(eventName){
+        var flights = this.collection || [];
+        return this.renderData(eventName, {flights:flights});
+    },
 });
