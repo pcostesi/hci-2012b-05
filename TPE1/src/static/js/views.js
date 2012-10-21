@@ -284,25 +284,28 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
     makeReadableFlightData: function(data){
         var finalflight = {};
         var flights = new Array();
-        for(i=0; i<data['flights']['length']; i++){
+        for(i=0; i<data.flights.length; i++){
             var flight = {};         
-            var actualflight = data['flights'][i];
-            if(actualflight['price']['adults'] != null){
-                flight.adult = data['flights'][i]['price']['adults']['quantity'];
+            var actualflight = data.flights[i];
+            if(actualflight.price.adults != null){
+                flight.adult = data.flights[i].price.adults.quantity;
             }
-            if(actualflight['price']['children'] != null){
-                flight.children = data['flights'][i]['price']['children']['quantity'];
+            if(actualflight.price.children != null){
+                flight.children = data.flights[i].price.children.quantity;
             }
-            if(actualflight['price']['infants'] != null){
-                flight.infants = data['flights'][i]['price']['infants']['quantity'];
+            if(actualflight.price.infants != null){
+                flight.infants = data.flights[i].price.infants.quantity;
             }
-            flight.currency = data['currencyId'];
-            flight.total = actualflight['price']['total']['total'];
-            if(actualflight['outboundRoutes'] != null){
-                flight = this.getReadableFlightData("outboundRoutes", actualflight, data, flight);
+            flight.currency = data.currencyId;
+            flight.total = actualflight.price.total.total;
+            flight.taxes = actualflight.price.total.taxes;
+            flight.charges = actualflight.price.total.charges;
+            flight.fare = actualflight.price.total.fare;
+            if(actualflight.outboundRoutes != null){
+                this.getReadableFlightData("outboundRoutes", actualflight, data, flight);
             }
-            if(actualflight['inboundRoutes'] != null){
-                flight = this.getReadableFlightData("inboundRoutes", actualflight, data, flight);
+            if(actualflight.inboundRoutes != null){
+                this.getReadableFlightData("inboundRoutes", actualflight, data, flight);
             }
             flights.push(flight);
         }
@@ -312,22 +315,22 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
     },
 
     getReadableFlightData: function(route, actualflight, data, flight){
-        if(actualflight[route][0]['segments']['length'] == 1){
-            var actualscale = actualflight[route][0]['segments'][0];
-            var airId = this.getAirlineLogo(actualscale['airlineId'],data);
-            flight.code = actualscale['flightId'];
+        if(actualflight[route][0].segments.length == 1){
+            var actualscale = actualflight[route][0].segments[0];
+            var airId = this.getAirlineLogo(actualscale.airlineId,data);
+            flight.code = actualscale.flightId;
             var companies = new Array();
             var companiesdata = {};
                 companiesdata.logo = airId ;
-                companiesdata.name = actualscale['airlineName'];
+                companiesdata.name = actualscale.airlineName;
             companies.push(companiesdata);
             flight.companies = companies;
             var flightdata = {};
-                flightdata.deptime = actualscale['departure']['date'];
-                flightdata.deptimezone = actualscale['departure']['timezone'];
-                flightdata.arrtime = actualscale['arrival']['date']
-                flightdata.arrtimezone = actualscale['arrival']['timezone'];
-                flightdata.duration = actualscale['duration'];
+                flightdata.deptime = actualscale.departure.date;
+                flightdata.deptimezone = actualscale.departure.timezone;
+                flightdata.arrtime = actualscale.arrival.date;
+                flightdata.arrtimezone = actualscale.arrival.timezone;
+                flightdata.duration = actualscale.duration;
                 flightdata.scale = 0;
             if(route == "outboundRoutes"){
                 flight.outbound = flightdata;
@@ -340,9 +343,9 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
 
     getAirlineLogo: function(airlineId,data){
         //Podria hacer una estructura copada pero no van a ser tantos vuelos
-        for(w = 0; w< data['filters'][0]['values']['length']; w++){
-            if(data['filters'][0]['values'][w]['id'] == airlineId){
-                return data['filters'][0]['values'][w]['logo'];
+        for(w = 0; w< data.filters[0].values.length; w++){
+            if(data.filters[0].values[w].id == airlineId){
+                return data.filters[0].values[w].logo;
             }
         }
         
