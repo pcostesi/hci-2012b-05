@@ -171,7 +171,7 @@ MindTrips.MapView = MindTrips.BaseView.extend({
 initialize: function(lat, lng, title){
     this.mapOptions = {
         center: new google.maps.LatLng(lat, lng),
-        zoom: 8,
+        zoom: 3,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     };
     this.title = this.title || "SFO \u2708 MIA";
@@ -194,6 +194,63 @@ bind: function(){
     this.$(".map-overlay").text(this.title);
 },
 });
+
+MindTrips.LandingMapView = MindTrips.BaseView.extend({
+    templateName: "landingmap",
+
+// The map will not be ready to use until it has been rendered.
+initialize: function(lat, lng){
+    this.mapOptions = {
+        center: new google.maps.LatLng(lat, lng),
+        zoom: 2,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    var that = this;
+    API.Geo.getCities().done(function(data){
+        that.getDealsFromCity(data);
+    });
+
+},
+
+getDealsFromCity: function(data){
+    var num = parseInt(Math.random()*data.cities.length);
+    console.log(data);
+    currentcity = data.cities[num];
+    tittle = currentcity.name;
+    this.$(".map-overlay").text(this.$(".map-overlay").html() + " " +tittle );
+    var that = this;
+    API.Booking.getFlightDeals({
+        from: currentcity.cityId,
+    }).done(function(deals){
+        console.log(deals);
+        that.drawMarkers(deals);
+    });
+
+},
+drawMarkers: function(deals){
+    deals = deals.deals;
+    var that = this;
+    for(i=0; i< deals.length; i++){
+        var pos = new google.maps.LatLng(deals[i].cityLatitude,deals[i].cityLongitude);
+        new google.maps.Marker({
+                position: pos,
+                map: that.map,
+                title: deals[i].cityName,
+        });
+    }
+},
+
+bind: function(){
+    console.log("calling bind on map");
+    var canvas = this.$(".landing-map-canvas").get(0);
+    if (this.map === undefined){
+        this.map = new google.maps.Map(canvas, this.mapOptions);
+        console.log("map successfully bound");
+    }
+},
+});
+
+
 
 MindTrips.FlightListView = MindTrips.BaseView.extend({
     templateName: "flightlist",
@@ -406,7 +463,7 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
             flight.sort();
             this.collection = JSON.parse(JSON.stringify(flights));
             this.render();
-    }
+    },
 
     orderByName: function(flights){
         flights.comparator = function(elem){
@@ -415,7 +472,7 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
         flight.sort();
         this.collection = JSON.parse(JSON.stringify(flights));
         this.render();
-    }
+    },
 
 
     render: function(eventName){
@@ -463,6 +520,7 @@ MindTrips.CommentsView = MindTrips.BaseView.extend({
     templateName: "review",
     initialize: function(airlineId){
         var that = this;
+        this.airlineId = airlineId;
         var reviews = API.Review.getAirlineReviews({airline_id:airlineId});
         reviews.done(function(rev){
             console.log(rev['reviews']);
@@ -470,8 +528,6 @@ MindTrips.CommentsView = MindTrips.BaseView.extend({
         });
     },
 
-    bind: function(){
-    },
 });
 
 MindTrips.PaymentView = MindTrips.BaseView.extend({

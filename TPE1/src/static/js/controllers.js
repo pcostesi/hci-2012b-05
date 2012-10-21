@@ -114,7 +114,8 @@ MindTrips.AppRouter = Backbone.Router.extend({
 
     main: function(){
         var landingView = new MindTrips.LandingView();
-        this.fadeIn(landingView);
+        var mapView = new MindTrips.LandingMapView(13.6216,17.9087);
+        this.fadeIn(landingView, mapView);
         MindTrips.filters = {};
     },
 
@@ -147,7 +148,7 @@ MindTrips.AppRouter = Backbone.Router.extend({
 
 // On load:
 $(function(){
-	var tpl = MindTrips.templates.load(["city", "review", "map", "landing", "languages", "flightlist", "airline", "payment", "price"]);
+	var tpl = MindTrips.templates.load(["city", "review", "map", "landing", "languages", "flightlist", "airline", "payment", "price","landingmap"]);
 
 
     tpl.done(function(){

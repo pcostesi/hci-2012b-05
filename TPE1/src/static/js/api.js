@@ -140,6 +140,7 @@
             return call("Geo", data, options);
         }
 
+
     };
 
     API.Booking = {
@@ -167,6 +168,11 @@
             data.method = "BookFlight";
             options = options || {};
             options.type = "POST";
+            return call("Booking", data, options);
+        },
+        getFlightDeals: function(data,options) {
+            data = data || {};
+            data.method = "GetFlightDeals";
             return call("Booking", data, options);
         }
 

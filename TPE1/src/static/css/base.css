@@ -325,6 +325,11 @@ input[type="text"]{
     margin-top: 10px;
 }
 
+.landing-map-canvas { 
+    height:400px; 
+    width: 960px;
+    margin-top: 10px;
+}
 
 .map-overlay {
     background-color: rgba(0, 0, 0, 0.6);
@@ -359,6 +364,12 @@ input[type="text"]{
 }
 
 .airline-name{
+    float:left;
+    font-size: 15px;
+    padding-top: 6px;
+    margin-left: 10px;
+}
+.final-price{
     float:left;
     font-size: 15px;
     padding-top: 6px;
