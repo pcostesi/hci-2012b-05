@@ -290,7 +290,6 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
         }).done(function(data){
             that.flights = that.makeReadableFlightData(data);
             that.setCollections();
-            that.$("*[buttonorder]").removeClass("hidden");
         });
     },
 
@@ -550,6 +549,7 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
 
     reviewHighlited: function(){
         var data = this.flightstatus;
+        this.$("*[buttonorder]").removeClass("hidden");
         if(data == null) return;
         var id = {};
         if(data.inbound != null){

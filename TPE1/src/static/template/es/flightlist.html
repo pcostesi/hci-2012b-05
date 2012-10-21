@@ -2,8 +2,7 @@
 <div class="black shadow flight-block">
     <div class="flight-data-info">
         <span>Precio Final</span><br>
-        <div class = "airline-name">
-            <span id="tickets"></span><br>
+        <div class = "flight-data-text">
             {{#adult}}<span>Adulto(s): </span><span>{{quantity}}</span>
             <span> - Precio por adulto: </span><span>{{currency}} </span><span>{{price}}</span><br>{{/adult}}
             {{#children}}<span>Niño(s): </span><span>{{quantity}}</span>
@@ -19,7 +18,7 @@
         <br><br>
         <div class="flight-buttons">
             <div class="flight-confirm">
-                <button type="button" name="confirm" data-flight-no={{code}} class="finish-button">Seleccionar</button>
+                <button type="button" name="confirm" data-flight-no={{code}} class="finish-button">Comprar</button>
             </div>
         </div>
     </div>
