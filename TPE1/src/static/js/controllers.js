@@ -126,8 +126,7 @@ MindTrips.AppRouter = Backbone.Router.extend({
         // if data -> decode data and inflate models
         var mapView = new MindTrips.MapView(-34.615853, -58.433298);
         var flightListView = new MindTrips.FlightListView();
-        var priceListView = new MindTrips.PriceView();
-        this.fadeIn(mapView, priceListView, flightListView);
+        this.fadeIn(mapView, flightListView);
     },
 
     payment: function(flightId){
@@ -148,7 +147,7 @@ MindTrips.AppRouter = Backbone.Router.extend({
 
 // On load:
 $(function(){
-	var tpl = MindTrips.templates.load(["city", "review", "map", "landing", "languages", "flightlist", "airline", "payment", "price","landingmap"]);
+	var tpl = MindTrips.templates.load(["city", "review", "map", "landing", "languages", "flightlist", "airline", "payment","landingmap"]);
 
 
     tpl.done(function(){

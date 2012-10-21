@@ -276,7 +276,8 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
     initialize: function(){
         // HARDCODED
         var that = this;
-
+        this.collection = {};
+        this.flightstatus = null;
         var dep = Date.today().add(2).days();
         API.Booking.getRoundTripFlights({
             from: "LGW",
@@ -287,12 +288,21 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
             children: 1,
             infants: 0,
         }).done(function(data){
-            console.log(data);
             that.flights = that.makeReadableFlightData(data);
-            that.collection = JSON.parse(JSON.stringify(that.flights));
-            console.log(that.collection);
-            that.render();
+            //console.log(that.flights);
+            that.setCollections();
         });
+    },
+
+    setCollections: function(){
+        this.collection.flights = JSON.parse(JSON.stringify(this.flights));
+        if(this.flightstatus != null){
+            this.collection.flightstatus = this.flightstatus;
+        }
+        console.log(this.collection.flights);
+        console.log(this.collection.flightstatus);
+        this.render();
+        this.reviewHighlited();
     },
 
     bind: function(){
@@ -304,16 +314,16 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
     setUpOrderButtons: function(){
         var that = this;
         this.$("*[price]").click(function(){
-            that.orderByPrice(that.flights);
+            that.orderByPrice();
         });
         this.$("*[scale]").click(function(){
-            that.orderByScale(that.flights);
+            that.orderByScale();
         });
         this.$("*[airline]").click(function(){
-            that.orderByName(that.flights);
+            that.orderByName();
         });
         this.$("*[duration]").click(function(){
-            that.orderByDuration(that.flights);
+            that.orderByDuration();
         });
 
     },
@@ -321,7 +331,7 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
     setUpFinishButton: function(){
         var that = this;
         this.$("finish-button").click(function(){
-            if(that.collection.inbound == null || that.collection.outbound == null){
+            if(that.flightstatus.inbound == null || that.flightstatus.outbound == null){
                 alert("Select one flight");
             }
         });
@@ -332,61 +342,100 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
         this.$(".confirm-button").click(function(){
             var id = $(this).attr("data-flight-no");
             var elem = that.$("#"+id);
+            if(that.flightstatus == null){
+                that.flightstatus = {};
+            }
+            data = that.flightstatus;
             if(!elem.hasClass("flight-selected")){
-                console.log(that.collection);
-                if(elem.attr("status") == "inbound" && that.collection.inbound != null) return;
-                if(elem.attr("status") == "outbound" && that.collection.outbound != null) return;
+                console.log(data);
+                if(elem.attr("status") == "inbound" && data.inbound != null) return;
+                if(elem.attr("status") == "outbound" && data.outbound != null) return;
                 that.addToFinalFare(id, elem.attr("status"));
             }else{
+                var deleted = {};
                 if(elem.attr("status") == "inbound"){
-                    delete that.collection.inbound;
+                    deleted = data.inbound;
+                    delete data.inbound;
                 }else{
-                    delete that.collection.outbound;
+                    deleted = data.outbound;
+                    delete data.outbound;
                 }
-                that.redToFinalFare(id);            
+                that.decFinalFare(deleted);
+                elem.removeClass("highlited");         
             }
-            that.$("#"+id).toggleClass("flight-selected");
         });
     },
-
-    redToFinalFare: function(id){
-        var flight = this.getFlightById(id);
-    },
-
     addToFinalFare: function(id, status){
         var flight = this.getFlightById(id);
         if(status == "inbound"){
-            this.collection.inbound = flight;;
+            this.flightstatus.inbound = flight;
         }else{
-            this.collection.outbound = flight;
+            this.flightstatus.outbound = flight;
         }
-        //this.setFinalFare(flight);
+        this.setFinalFare(flight);
+    },
+
+    decFinalFare: function(flight){
+        if(flight.adult != null){
+            data.adult.price =  data.adult.price - flight.adult.price;
+        }
+        if(flight.children != null){
+            data.children.price = data.children.price - flight.children.price;
+        }
+        if(flight.infant != null){
+            data.infant.price = data.infant.price - flight.infant.price;
+        }
+        data.taxes = (parseFloat(data.taxes) - parseFloat(flight.taxes)).toFixed(2);
+        data.charges = (parseFloat(data.charges) - parseFloat(flight.charges)).toFixed(2);
+        data.total = (parseFloat(data.total) - parseFloat(flight.total)).toFixed(2);
+        this.setCollections();
     },
 
     setFinalFare: function(flight){
-        var data = this.collection;
-        this.$("#tickets").text("Adulto(s): " + data[0].adult.quantity +" Menor(es): " 
-            + data[0].children.quantity);
-
-        this.$(".currency").text(flight.currency + " ");
-        var total = this.$("#total"); 
-        var peradult = this.$("#per-adult");
-        var perchildren = this.$("#per-children");
-        var taxes = this.$("#taxes");
-        var charges = this.$("#charges");
+        var data = this.flightstatus;
+        if(data.currency == null){
+            this.initFinalPrice(flight);
+        }
         if(flight.adult != null){
-            peradult.text(parseFloat(flight.adult.price) + parseFloat(peradult.html()));
+            data.adult.price =  data.adult.price + flight.adult.price;
         }
         if(flight.children != null){
-            perchildren.text(parseFloat(flight.children.price) + parseFloat(perchildren.html()));
+            data.children.price = data.children.price + flight.children.price;
         }
-        taxes.text(parseFloat(flight.taxes) + parseFloat(taxes.html()));
-        charges.text(parseFloat(flight.charges) + parseFloat(charges.html()));
-        total.text(parseFloat(flight.total) + parseFloat(total.html()));
+        if(flight.infant != null){
+            data.infant.price = data.infant.price + flight.infant.price;
+        }
+        data.taxes = (parseFloat(data.taxes) + parseFloat(flight.taxes)).toFixed(2);
+        data.charges = (parseFloat(data.charges) + parseFloat(flight.charges)).toFixed(2);
+        data.total = (parseFloat(data.total) + parseFloat(flight.total)).toFixed(2);
+        this.setCollections();
+    },
+
+    initFinalPrice: function(flight){
+        var data = this.flightstatus;
+        if(flight.adult != null){
+            data.adult = {};
+            data.adult.quantity = flight.adult.quantity;
+            data.adult.price = 0;
+        }
+        if(flight.children != null){
+            data.children = {};
+            data.children.quantity = flight.children.quantity;
+            data.children.price = 0;
+        }
+        if(flight.infant != null){
+            data.infant = {};
+            data.infant.quantity= flight.infant.quantity;
+            data.infant.price= 0;
+        }
+        data.currency = flight.currency;
+        data.total =0;
+        data.charges =0;
+        data.taxes =0;
     },
 
     getFlightById: function(id){
-        var array = this.collection;
+        var array = this.collection.flights;
         for(i=0; i<array.length; i++){
             if(array[i]['code'] == id){
                 return array[i];
@@ -406,7 +455,7 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
                 flight.set("children", this.makeReadablePersonInfo(data.flights[i].price.children));
             }
             if(actualflight.price.infants != null){
-                flight.set("infants", this.makeReadablePersonInfo(data.flights[i].price.infants));
+                flight.set("infant", this.makeReadablePersonInfo(data.flights[i].price.infants));
             }
             flight.set("currency", data.currencyId);
             flight.set("total", actualflight.price.total.total);
@@ -466,16 +515,17 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
         
     },
 
-    orderByPrice: function(flights){
+    orderByPrice: function(){
+        var flights = this.flights;
         flights.comparator = function(elem){
             return elem.get("total");
         }
         flights.sort();
-        this.collection = JSON.parse(JSON.stringify(flights));
-        this.render();
+        this.setCollections();
     },
 
-    orderByScale: function(flights){
+    orderByScale: function(){
+        var flights = this.flights;
             flights.comparator = function(elem){
                 if(elem.get("outbound")!= null){
                     return elem.get("outbound").get("scale");
@@ -484,11 +534,11 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
                 }
             }
             flights.sort();
-            this.collection = JSON.parse(JSON.stringify(flights));
-            this.render();
+            this.setCollections();
     },
 
-    orderByDuration: function(flights){
+    orderByDuration: function(){
+        var flights = this.flights;
         flights.comparator = function(elem){
                 if(elem.get("outbound")!= null){
                     return elem.get("outbound").get("duration");
@@ -497,23 +547,38 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
                 }
             }
             flights.sort();
-            this.collection = JSON.parse(JSON.stringify(flights));
-            this.render();
+            this.setCollections();
     },
 
-    orderByName: function(flights){
+    reviewHighlited: function(){
+        var data = this.flightstatus;
+        if(data == null) return;
+        var id = {};
+        if(data.inbound != null){
+            id = data.inbound.code;
+            this.$("#"+id).toggleClass("flight-selected");
+        }
+        if(data.outbound != null){
+            id=data.outbound.code;
+            this.$("#"+id).toggleClass("flight-selected");
+        }
+    },
+
+    orderByName: function(){
+        var flights = this.flights;
         flights.comparator = function(elem){
             return elem.get("companies").get("name");
         }
         flights.sort();
-        this.collection = JSON.parse(JSON.stringify(flights));
-        this.render();
+        this.setCollections();
     },
 
 
     render: function(eventName){
-        var flights = this.collection || [];
-        return this.renderData(eventName, {flights:flights});
+        var data = this.collection.flightstatus || [];
+
+        var flights = this.collection.flights || [];
+        return this.renderData(eventName, {flights:flights, flightstatus:data});
     },
 });
 
@@ -626,26 +691,4 @@ isValidCreditCard: function(card_type, card_number) {
     if ((checksum % 10) == 0) return true; else return false;
 },
 
-});
-
-MindTrips.PriceView = MindTrips.BaseView.extend({
-    templateName: "price",
-    initialize: function(){
-        var object = {};
-        _.extend(object, Backbone.Events);
-        object.on("inboudChange", this.setAddInbound());
-
-    },
-
-    setAddInbound: function(){
-        alert("anda");
-    },
-
-    bind: function(){
-    },
-
-    render: function(eventName){
-        var flights = this.collection || [];
-        return this.renderData(eventName, {flights:flights});
-    },
 });
