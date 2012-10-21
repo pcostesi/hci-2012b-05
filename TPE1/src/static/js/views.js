@@ -221,6 +221,16 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
 
     bind: function(){
         this.setUpSelectButton();
+        this.setUpFinishButton();
+    },
+
+    setUpFinishButton: function(){
+        var that = this;
+        this.$("finish-button").click(function(){
+            if(that.collection.inbound == null || that.collection.outbound == null){
+                alert("Select one flight");
+            }
+        });
     },
 
     setUpSelectButton: function(){
@@ -232,19 +242,23 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
                 console.log(that.collection);
                 if(elem.attr("status") == "inbound" && that.collection.inbound != null) return;
                 if(elem.attr("status") == "outbound" && that.collection.outbound != null) return;
-                that.modifyFinalFare(id, elem.attr("status"));
+                that.addToFinalFare(id, elem.attr("status"));
             }else{
                 if(elem.attr("status") == "inbound"){
                     delete that.collection.inbound;
                 }else{
                     delete that.collection.outbound;
                 }
-            }
+                that.redToFinalFare(id);            }
             that.$("#"+id).toggleClass("flight-selected");
         });
     },
 
-    modifyFinalFare: function(id, status){
+    redToFinalFare: function(id){
+        var flight = this.getFlightById(id);
+    },
+
+    addToFinalFare: function(id, status){
         var flight = this.getFlightById(id);
         if(status == "inbound"){
             var inbound = {}
@@ -268,83 +282,60 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
     },
 
     makeReadableFlightData: function(data){
+        var finalflight = {};
         var flights = new Array();
-        var currency = data['currencyId'];
         for(i=0; i<data['flights']['length']; i++){
-            var flight = "{";         
+            var flight = {};         
             var actualflight = data['flights'][i];
             if(actualflight['price']['adults'] != null){
-                flight = flight + '"adult" : '+data['flights'][i]['price']['adults']['quantity'] + ",";
+                flight.adult = data['flights'][i]['price']['adults']['quantity'];
             }
             if(actualflight['price']['children'] != null){
-                flight = flight + '"children" :'+ data['flights'][i]['price']['children']['quantity'] +",";
+                flight.children = data['flights'][i]['price']['children']['quantity'];
             }
             if(actualflight['price']['infants'] != null){
-                flight = flight + '"infants" :'+ data['flights'][i]['price']['infants']['quantity']+",";
+                flight.infants = data['flights'][i]['price']['infants']['quantity'];
             }
-            flight = flight + '"price" :"'+ currency +' '+ actualflight['price']['total']['total'] +'",';
+            flight.currency = data['currencyId'];
+            flight.total = actualflight['price']['total']['total'];
             if(actualflight['outboundRoutes'] != null){
-                flight = flight + this.getReadableFlightData("outboundRoutes", actualflight, data);
+                flight = this.getReadableFlightData("outboundRoutes", actualflight, data, flight);
             }
             if(actualflight['inboundRoutes'] != null){
-                flight = flight + this.getReadableFlightData("inboundRoutes", actualflight, data);
+                flight = this.getReadableFlightData("inboundRoutes", actualflight, data, flight);
             }
-            flight = flight + "}";
             flights.push(flight);
         }
-        console.log('{"flights" :['+ flights + "]}")
-        return eval('('+ '{"flights" :['+ flights + "]})");
+        finalflight.flights = flights;
+        return finalflight;
 
     },
 
-    getReadableFlightData: function(route, actualflight, data){
-        var flight = "";
+    getReadableFlightData: function(route, actualflight, data, flight){
         if(actualflight[route][0]['segments']['length'] == 1){
-                    var actualscale = actualflight[route][0]['segments'][0];
-                    var airId = this.getAirlineLogo(actualscale['airlineId'],data);
-                    flight = flight + '"code" :' + actualscale['flightId'] + ',';
-                    flight = flight + '"companies": [{';
-                        flight = flight + '"logo" :"' + airId +'",';
-                        flight = flight + '"name" :"' + actualscale['airlineName'] + '"';
-                        flight = flight + '}],';
-                    if(route == "outboundRoutes"){
-                        flight = flight + '"outbound" :';
-                    }else{
-                        flight = flight + '"inbound" :';
-                    }
-                        var outbound = "{";
-                        outbound = outbound + '"dep": "'+ actualscale['departure']['date']+ " (" + actualscale['departure']['timezone'] +')",';
-                        outbound = outbound + '"arr": "'+ actualscale['arrival']['date']+ " (" + actualscale['arrival']['timezone']+ ')",';
-                        outbound = outbound + '"duration" : "' + actualscale['duration'] + '",';
-                        outbound = outbound + '"scale" : '+ 0 +'}';
-                    flight = flight + outbound;
-        } else if(actualflight[route][0]['segments']['length'] >1) { 
-                    flight = flight + '"companies": [';
-                    var companies = new Array();
-                    for(z=0; z<actualflight[route]['length']; z++){
-                        var actualscale = actualflight[route][0]['segments'][i];
-                        var airId = this.getAirlineLogo(actualscale['airlineId'],data);
-                        var outlogo = "{";
-                            outlogo = outlogo + '"logo" :"' + airId +'",';
-                            outlogo = outlogo + '"name" :"' + actualscale['airlineName'] + '"';
-                            outlogo = outlogo + '}';
-                            companies.push(outlogo);
-                    }
-                    flight = flight + companies + '],';
-                    if(route == "outboundRoutes"){
-                        flight = flight + '"outbound" :';
-                    }else{
-                        flight = flight + '"inbound" :';
-                    }
-                        var outbound = "{";
-                        var segments = actualflight[route][0]['segments'];
-                        outbound = outbound + '"dep": "'+ segments[0]['departure']['date']+ " (" + segments[0]['departure']['timezone'] +')",';
-                        outbound = outbound + '"arr": "'+ segments[segments['length']-1]['arrival']['date']+ " (" + segments[segments['length']-1]['arrival']['timezone']+ ')",';
-                        outbound = outbound + '"duration" : "' + actualflight[route][0]['duration'] + '",';
-                        outbound = outbound + '"scale" :'+ z +'},';
-                        flight = flight + outbound;
-                }
-                return flight;
+            var actualscale = actualflight[route][0]['segments'][0];
+            var airId = this.getAirlineLogo(actualscale['airlineId'],data);
+            flight.code = actualscale['flightId'];
+            var companies = new Array();
+            var companiesdata = {};
+                companiesdata.logo = airId ;
+                companiesdata.name = actualscale['airlineName'];
+            companies.push(companiesdata);
+            flight.companies = companies;
+            var flightdata = {};
+                flightdata.deptime = actualscale['departure']['date'];
+                flightdata.deptimezone = actualscale['departure']['timezone'];
+                flightdata.arrtime = actualscale['arrival']['date']
+                flightdata.arrtimezone = actualscale['arrival']['timezone'];
+                flightdata.duration = actualscale['duration'];
+                flightdata.scale = 0;
+            if(route == "outboundRoutes"){
+                flight.outbound = flightdata;
+            }else{
+                flight.inbound = flightdata;
+            }
+        }
+        return flight;
     },
 
     getAirlineLogo: function(airlineId,data){

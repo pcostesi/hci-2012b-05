@@ -31,7 +31,7 @@
         </div>
         {{/companies}}
         <div class="flight-price">
-            <span>Precio sector: </span><span>{{currency}}: {{price}}</span>
+            <span>Precio sector: </span><span>{{currency}}: {{total}}</span>
         </div>
         <div class="flight-tickets">
             {{#adult}}<span>{{adult}} Adulto(s) </span>{{/adult}}
@@ -42,9 +42,9 @@
         {{#outbound}}
         <div class="flight-info">
             <div class="flight-outbound">
-                <span>Ida:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <span class="flight-text">Sale: <b>{{dep}}</b> 
-                </span> <span class="flight-text">Llega: <b>{{arr}}</b> </span> <span class="flight-text">{{duration}} </span>
+                <span>Ida:</span>
+                <span class="flight-text">Sale: <b>{{deptime}} ({{deptimezone}})</b> 
+                </span> <span class="flight-text">Llega: <b>{{arrtime}} ({{arrtimezone}})</b> </span> <span class="flight-text">{{duration}} </span>
                 <span class="flight-text">{{scale}} Escala(s)</span>
             </div>
         </div>
@@ -53,8 +53,8 @@
         <div class="flight-info">
             <div class="flight-outbound">
                 <span>Vuelta:</span> 
-                <span class="flight-text">Sale: <b>{{dep}}</b> 
-                </span> <span class="flight-text">Llega: <b>{{arr}}</b> </span> <span class="flight-text">{{duration}} </span>
+                <span class="flight-text">Sale: <b>{{deptime}} ({{deptimezone}})</b> 
+                </span> <span class="flight-text">Llega: <b>{{arrtime}} ({{arrtimezone}})</b> </span> <span class="flight-text">{{duration}} </span>
                 <span class="flight-text">{{scale}} Escala(s)</span>
             </div>
         </div>
