@@ -1,4 +1,12 @@
 <div class="black shadow flight-block">
+    <span> Ordenar por: </span>
+        <button type="button" price>Precio</button>
+        <button type="button" scale>Escalas</button>
+        <button type="button" airline>Aerolinea</button>
+        <button type="button" duration>Duracion</button>
+ </div>
+
+<div class="black shadow flight-block">
     {{#flights}}
     {{#inbound}}<div class="flight-data" status="inbound" id={{code}}> {{/inbound}}
     {{#outbound}}<div class="flight-data" status="outbound" id={{code}}> {{/outbound}}

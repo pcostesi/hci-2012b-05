@@ -288,8 +288,8 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
             infants: 0,
         }).done(function(data){
             console.log(data);
-            var flights = that.makeReadableFlightData(data);
-            that.collection = JSON.parse(JSON.stringify(flights));
+            that.flights = that.makeReadableFlightData(data);
+            that.collection = JSON.parse(JSON.stringify(that.flights));
             console.log(that.collection);
             that.render();
         });
@@ -298,6 +298,24 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
     bind: function(){
         this.setUpSelectButton();
         this.setUpFinishButton();
+        this.setUpOrderButtons();
+    },
+
+    setUpOrderButtons: function(){
+        var that = this;
+        this.$("*[price]").click(function(){
+            that.orderByPrice(that.flights);
+        });
+        this.$("*[scale]").click(function(){
+            that.orderByScale(that.flights);
+        });
+        this.$("*[airline]").click(function(){
+            that.orderByName(that.flights);
+        });
+        this.$("*[duration]").click(function(){
+            that.orderByDuration(that.flights);
+        });
+
     },
 
     setUpFinishButton: function(){
@@ -465,7 +483,7 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
                     return elem.get("inbound").get("scale");
                 }
             }
-            flight.sort();
+            flights.sort();
             this.collection = JSON.parse(JSON.stringify(flights));
             this.render();
     },
@@ -478,7 +496,7 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
                     return elem.get("inbound").get("duration");
                 }
             }
-            flight.sort();
+            flights.sort();
             this.collection = JSON.parse(JSON.stringify(flights));
             this.render();
     },
@@ -487,7 +505,7 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
         flights.comparator = function(elem){
             return elem.get("companies").get("name");
         }
-        flight.sort();
+        flights.sort();
         this.collection = JSON.parse(JSON.stringify(flights));
         this.render();
     },
