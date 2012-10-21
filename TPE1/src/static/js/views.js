@@ -280,11 +280,11 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
         this.flightstatus = null;
         var dep = Date.today().add(2).days();
         API.Booking.getRoundTripFlights({
-            from: "LGW",
-            to: "IGR",
+            from: "TUC",
+            to: "COR",
             dep_date: dep.toString("yyyy-MM-dd"),
             ret_date: dep.toString("yyyy-MM-dd"),
-            adults: 2,
+            adults: 1,
             children: 1,
             infants: 0,
         }).done(function(data){
@@ -299,7 +299,9 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
             this.collection.flightstatus = this.flightstatus;
         }
         this.render();
-        this.reviewHighlited();
+        if(this.flights.models.length >0){
+            this.reviewHighlited();
+        }
     },
 
     bind: function(){
@@ -327,9 +329,11 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
 
     setUpFinishButton: function(){
         var that = this;
-        this.$("finish-button").click(function(){
-            if(that.flightstatus.inbound == null || that.flightstatus.outbound == null){
-                alert("Select one flight");
+        this.$(".finish-button").click(function(){
+            if(that.flightstatus.inbound != null && that.flightstatus.outbound != null){
+                MindTrips.flightInfo = that.flightstatus;
+                console.log(MindTrips.flightInfo);
+                MindTrips.router.navigate("flight/:id/pay", true);
             }
         });
     },
@@ -344,7 +348,6 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
             }
             data = that.flightstatus;
             if(!elem.hasClass("flight-selected")){
-                console.log(data);
                 if(elem.attr("status") == "inbound" && data.inbound != null) return;
                 if(elem.attr("status") == "outbound" && data.outbound != null) return;
                 that.addToFinalFare(id, elem.attr("status"));
@@ -414,16 +417,37 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
             data.adult = {};
             data.adult.quantity = flight.adult.quantity;
             data.adult.price = 0;
+            var information = new Array();
+            for(k=0; k<data.adult.quantity; k++){
+                var info = {};
+                info.type = "adult"+k;
+                information.push(info);
+            }
+            data.adult.array = information;
         }
         if(flight.children != null){
             data.children = {};
             data.children.quantity = flight.children.quantity;
+            var information = new Array();
+            for(k=0; k<data.children.quantity; k++){
+                var info = {};
+                info.type = "children"+k;
+                information.push(info);
+            }
+            data.children.array = information;
             data.children.price = 0;
         }
         if(flight.infant != null){
             data.infant = {};
             data.infant.quantity= flight.infant.quantity;
             data.infant.price= 0;
+            var information = new Array();
+            for(k=0; k<data.infant.quantity; k++){
+                var info = {};
+                info.type = "infant"+k;
+                information.push(info);
+            }
+            data.infant.array = information;
         }
         data.currency = flight.currency;
         data.total =0;
@@ -633,6 +657,8 @@ MindTrips.PaymentView = MindTrips.BaseView.extend({
     templateName: "payment",
     initialize: function(flightId){
         var that = this;
+        console.log(MindTrips.flightInfo);
+        this.collection = MindTrips.flightInfo;
         that.render();
     },
 
@@ -688,5 +714,10 @@ isValidCreditCard: function(card_type, card_number) {
     }
     if ((checksum % 10) == 0) return true; else return false;
 },
+    render: function(eventName){
+        var info = this.collection || [];
+        console.log(info);
+        return this.renderData(eventName, {payment:info});
+    },
 
 });

@@ -11,7 +11,7 @@ Backbone.View.prototype.close = function () {
 // Create the namespace
 MindTrips = window.MindTrips || {}
 var MindTrips = MindTrips;
-
+MindTrips.flightInfo = {};
 // Templates and template loader. Works only when you're not using file://
 MindTrips.templates = {
  
@@ -21,7 +21,6 @@ MindTrips.templates = {
     language: "es",
 
     engine: Mustache,
- 
     // This is done so we can skip validation errors.
     load: function(names) {
         var that = this;
