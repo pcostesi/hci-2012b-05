@@ -665,6 +665,15 @@ MindTrips.PaymentView = MindTrips.BaseView.extend({
 
     bind: function(){
         var that = this;
+        API.Geo.getCities({
+            page_size: 120,
+        }).done(function(data){
+            var cities = new Array();
+            for(i=0;i<data.cities.length;i++){
+                cities[i]=data.cities[i].name;
+            }
+            that.$("#city").autocomplete({source:cities})
+        })
         this.$(".confirm-button").click(function(){
             var card_type = that.$("select#card_type").val();
             var card_number = that.$("#card_number").val();
@@ -690,15 +699,81 @@ MindTrips.PaymentView = MindTrips.BaseView.extend({
 }, 
 
     grabAllData: function(){
+        this.completed = false;
+        this.completed2 = false;
         var data = this.collection;
-        if(data.adult != null){
-            for(i=0;i< data.adult.array.length; i++)
-                var actual = data.adult.array[i].type;
+        var tosend = {};
+        tosend.flightId = data.outbound.code;
+        var passengers = new Array();
+        this.grabPersonData(data.adult,passengers,tosend);
+        this.grabPersonData(data.children,passengers,tosend);
+        this.grabPersonData(data.infant,passengers,tosend);
+        this.grabPaymentDetails(data,tosend);
+        console.log(tosend);
+        this.completed2 = true;
+
+    },
+
+    grabPaymentDetails: function(data,tosend){
+        var creditCard = {};
+        var that = this;
+        creditCard.number =  this.$("#card_number").val();
+        creditCard.expiration = that.$("#card_exp_month").val() + that.$("#card_exp_year").val();
+        creditCard.securityCode = that.$("#card_scode").val();
+        creditCard.firstName = that.$("#card_owner_name").val();
+        creditCard.lastName = that.$("#card_owner_surname").val();
+        tosend.creditCard = creditCard;
+        var billingAddress = {};
+        billingAddress.street = that.$("#contact_street").val();
+        billingAddress.floor = that.$("#floor").val();
+        billingAddress.apartment = that.$("#apartment").val();
+        billingAddress.postalCode = that.$("#postal_code").val();
+        tosend.billingAddress = billingAddress;
+        API.Geo.getCitiesByName({
+            name: that.$("#city").val(),
+        }).done(function(data){
+            that.completed = true;
+            var city = data.cities[0];
+            tosend.billingAddress.country = city.countryId;
+            tosend.billingAddress.City = city.cityId;
+            tosend.billingAddress.state = city.name;
+            console.log(tosend);
+        });
+
+        var contact = {};
+        contact.email = that.$("#contact_email").val();
+        var tel = new Array();
+        tel.push(that.$("#contact_tel").val());
+        contact.phones = tel;
+        tosend.contact = contact;
+    },
+
+    sendRequest: function(data,tosend){
+
+    },
+    grabPersonData: function(data, passengers, tosend){
+        if(data != null){
+            for(i=0;i< data.array.length; i++){
+                var person = {};
+                var actual = data.array[i].type;
                 this.$('*['+actual+']').each(function(data){
-                    console.log($(this).attr("name"));
+                    var name = $(this).attr("name");
+                    if( name == 'firstName'){
+                        person.firstName = $(this).val();
+                    }else if(name == 'lastName'){
+                        person.lastName = $(this).val();
+                    }else if(name == 'idNumber'){
+                        person.idNumber = $(this).val();
+                    }
                 });
-
-
+                var day = this.$('*['+actual+'dateday]').val();
+                var year = this.$('*['+actual+'dateyear]').val();
+                var month = this.$('*['+actual+'datemonth]').val();
+                person.birthdate = year+'-'+month+'-'+day;
+                person.idType = 1;
+                passengers.push(person);
+            }
+            tosend.passengers = passengers;
         }
     },
 isValidCreditCard: function(card_type, card_number) {

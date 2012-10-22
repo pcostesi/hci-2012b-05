@@ -64,17 +64,17 @@
                         <input required name="lastName" type="text" {{type}} placeholder="Como aparece en el documento"><br><br>
 
                         Fecha de Nacimiento:<br>
-                        <select required name="day" {{type}}date>
+                        <select required name="day" {{type}}dateday>
                             <option value=""> - Día - </option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="9">9</option>
+                            <option value="01">1</option>
+                            <option value="02">2</option>
+                            <option value="03">3</option>
+                            <option value="04">4</option>
+                            <option value="05">5</option>
+                            <option value="06">6</option>
+                            <option value="07">7</option>
+                            <option value="08">8</option>
+                            <option value="09">9</option>
                             <option value="10">10</option>
                             <option value="11">11</option>
                             <option value="12">12</option>
@@ -99,7 +99,7 @@
                             <option value="31">31</option>
                         </select>
 
-                        <select required name="month" {{type}}date>
+                        <select required name="month" {{type}}datemonth>
                             <option value=""> - Mes - </option>
                             <option value="01">01</option>
                             <option value="02">02</option>
@@ -115,7 +115,7 @@
                             <option value="12">12</option>
                         </select>
 
-                        <select required name="year" {{type}}date>
+                        <select required name="year" {{type}}dateyear>
                             <option value=""> - Año - </option>
                             <option value="2012">2012</option>
                             <option value="2011">2011</option>
@@ -690,16 +690,22 @@
             <input required id="card_owner_name" type="text"><br><br>
 
             Apellido titular de la tarjeta:<br>
-            <input required id="card_owner_name" type="text"><br><br>
+            <input required id="card_owner_surname" type="text"><br><br>
+
+            Ciudad:<br>
+            <input id="city" type="text"><br><br>
 
             Direccion de compra:<br>
-            <input required id="contact_email" type="text"><br><br>  
+            <input required id="contact_street" type="text"><br><br>  
 
             Piso:<br>
             <input required id="floor" type="text"><br><br>
 
             Departamento:<br><br>
              <input required id="apartment" type="text"><br><br>
+
+            Codigo Postal:<br><br>
+            <input required id="postal_code" type="text"><br><br>
 
             E-mail de contacto:<br>
             <input required id="contact_email" type="text"><br><br>
