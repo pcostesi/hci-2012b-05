@@ -190,7 +190,7 @@ initialize: function(lat, lng, title){
         zoom: 3,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     };
-    this.title = this.title || "SFO \u2708 MIA";
+    this.title =  MindTrips.Traveller.from + "\u2708"+ MindTrips.Traveller.to;
 
 },
 
@@ -226,7 +226,15 @@ drawMarkers: function(){
             });
             bounds.extend(locs[i]);
         }
+        //new google.maps.Polyline({
+        //    path: bounds,
+        //    strokeColor: "#FF0000",
+        //    strokeOpacity: 1.0,
+        //    strokeWeight: 2
+        //});
+        new google.maps.event.trigger(this.map,'resize');
         this.map.fitBounds(bounds);
+        //this.map.setZoom( map.getZoom() );
     },
 
 bind: function(){
@@ -284,6 +292,8 @@ drawMarkers: function(deals){
     var green = '/static/img/green-dot.png';
     var blue = '/static/img/blue-dot.png';
     var that = this;
+    var center = new Array();
+    var bounds = new google.maps.LatLngBounds();
     for(i=0; i< deals.length; i++){
         var pos = new google.maps.LatLng(deals[i].cityLatitude,deals[i].cityLongitude);
         var color = "";
@@ -300,7 +310,11 @@ drawMarkers: function(deals){
                 title: deals[i].cityName,
                 icon: color,
         });
+        bounds.extend(pos);
+
     }
+    new google.maps.event.trigger(this.map,'resize');
+    this.map.fitBounds(bounds);
 },
 
 bind: function(){
@@ -330,9 +344,10 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
                 dep_date: Date.parse(fromlanding.departureDate).toString("yyyy-MM-dd"),
                 adults: fromlanding.adults,
                 children: fromlanding.children,
-                infants: 0,
+                infants: fromlanding.infants,
                 cabin_type: fromlanding.cabin_type,
             }).done(function(data){
+                console.log(data);
                 if(data.error == null){
                     that.flights = that.makeReadableFlightData(data);
                     that.setCollections();
@@ -344,11 +359,12 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
                 to: fromlanding.to,
                 dep_date: Date.parse(fromlanding.departureDate).toString("yyyy-MM-dd"),
                 ret_date: Date.parse(fromlanding.returnDate).toString("yyyy-MM-dd"),
-                adults: 0,
+                adults: fromlanding.adults,
                 children: fromlanding.children,
-                infants: 0,
+                infants: fromlanding.infants,
                 cabin_type: fromlanding.cabin_type,
             }).done(function(data){
+                console.log(data);
                 if(data.error == null){
                     that.flights = that.makeReadableFlightData(data);
                     that.setCollections();
