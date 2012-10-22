@@ -753,8 +753,8 @@ MindTrips.PaymentView = MindTrips.BaseView.extend({
             API.Booking.bookFlight(tosend).done(function(data){
                 console.log(data);
             });
-            if(data.outbound != null){
-                tosend.flightId = data.outbound.code;
+            if(data.inbound != null){
+                tosend.flightId = data.inbound.code;
                 API.Booking.bookFlight(tosend).done(function(data){
                     console.log(data);
                 });
