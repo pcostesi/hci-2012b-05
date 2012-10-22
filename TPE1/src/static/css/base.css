@@ -344,6 +344,7 @@ input[type="text"]{
 }
 
 .buy-left{
+    float:left;
     width: 450px;
     margin: 5px;
 }

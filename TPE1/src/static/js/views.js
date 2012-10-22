@@ -332,6 +332,7 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
     setUpFinishButton: function(){
         var that = this;
         this.$(".finish-button").click(function(){
+            alert("entro");
             if(that.flightstatus.inbound != null && that.flightstatus.outbound != null){
                 MindTrips.flightInfo = that.flightstatus;
                 console.log(MindTrips.flightInfo);
@@ -668,6 +669,15 @@ MindTrips.PaymentView = MindTrips.BaseView.extend({
 
     bind: function(){
         var that = this;
+        API.Geo.getCities({
+            page_size: 120,
+        }).done(function(data){
+            var cities = new Array();
+            for(i=0;i<data.cities.length;i++){
+                cities[i]=data.cities[i].name;
+            }
+            that.$("#city").autocomplete({source:cities})
+        })
         this.$(".confirm-button").click(function(){
             var card_type = that.$("select#card_type").val();
             var card_number = that.$("#card_number").val();
@@ -680,7 +690,7 @@ MindTrips.PaymentView = MindTrips.BaseView.extend({
                     sec_code: card_scode,
                 }).done(function(data){
                     if (data['valid']){
-                        alert("Su vuelo ha sido confirmado");
+                        that.grabAllData();     
                    } else {
                     alert("La informacion de la tarjeta no es correcta");
                 };
@@ -690,7 +700,98 @@ MindTrips.PaymentView = MindTrips.BaseView.extend({
             };
         });
 }, 
+
+    grabAllData: function(){
+        this.completed = false;
+        this.completed2 = false;
+        var data = this.collection;
+        var tosend = {};
+        tosend.flightId = data.outbound.code;
+        var passengers = new Array();
+        this.grabPersonData(data.adult,passengers,tosend);
+        this.grabPersonData(data.children,passengers,tosend);
+        this.grabPersonData(data.infant,passengers,tosend);
+        this.grabPaymentDetails(data,tosend);
+        console.log(tosend);
+        this.completed2 = true;
+        this.sendRequest(data,tosend);
+
+    },
+
+    grabPaymentDetails: function(data,tosend){
+        var creditCard = {};
+        var that = this;
+        creditCard.number =  this.$("#card_number").val();
+        creditCard.expiration = that.$("#card_exp_month").val() + that.$("#card_exp_year").val();
+        creditCard.securityCode = that.$("#card_scode").val();
+        creditCard.firstName = that.$("#card_owner_name").val();
+        creditCard.lastName = that.$("#card_owner_surname").val();
+        tosend.creditCard = creditCard;
+        var billingAddress = {};
+        billingAddress.street = that.$("#contact_street").val();
+        billingAddress.floor = that.$("#floor").val();
+        billingAddress.apartment = that.$("#apartment").val();
+        billingAddress.postalCode = that.$("#postal_code").val();
+        tosend.billingAddress = billingAddress;
+        API.Geo.getCitiesByName({
+            name: that.$("#city").val(),
+        }).done(function(info){
+            that.completed = true;
+            var city = info.cities[0];
+            tosend.billingAddress.country = city.countryId;
+            tosend.billingAddress.city = city.cityId;
+            tosend.billingAddress.state = city.name;
+            that.sendRequest(data,tosend);    
+        });
+
+        var contact = {};
+        contact.email = that.$("#contact_email").val();
+        var tel = new Array();
+        tel.push(that.$("#contact_tel").val());
+        contact.phones = tel;
+        tosend.contact = contact;
+    },
+
+    sendRequest: function(data,tosend){
+        if(this.completed == true && this.completed2 == true){
+            API.Booking.bookFlight(tosend).done(function(info){
+                console.log(info);
+            });
+            if(this.collection.inbound != null){
+                tosend.flightId = this.collection.inbound.code;
+                API.Booking.bookFlight(tosend).done(function(data){
+                    console.log(data);
+                });
+            }
+        }
+    },
+    grabPersonData: function(data, passengers, tosend){
+        if(data != null){
+            for(i=0;i< data.array.length; i++){
+                var person = {};
+                var actual = data.array[i].type;
+                this.$('*['+actual+']').each(function(data){
+                    var name = $(this).attr("name");
+                    if( name == 'firstName'){
+                        person.firstName = $(this).val();
+                    }else if(name == 'lastName'){
+                        person.lastName = $(this).val();
+                    }else if(name == 'idNumber'){
+                        person.idNumber = $(this).val();
+                    }
+                });
+                var day = this.$('*['+actual+'dateday]').val();
+                var year = this.$('*['+actual+'dateyear]').val();
+                var month = this.$('*['+actual+'datemonth]').val();
+                person.birthdate = year+'-'+month+'-'+day;
+                person.idType = 1;
+                passengers.push(person);
+            }
+            tosend.passengers = passengers;
+        }
+    },
 isValidCreditCard: function(card_type, card_number) {
+    return true;
     if (card_type == "Visa") {
         var re = /^4\d{15}$/;
     } else if (card_type == "MC") {
