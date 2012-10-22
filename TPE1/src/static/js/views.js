@@ -709,7 +709,33 @@ MindTrips.PaymentView = MindTrips.BaseView.extend({
                 cities[i]=data.cities[i].name;
             }
             that.$("#city").autocomplete({source:cities})
-        })
+        
+        });
+
+        var creditcardmsg = this.$("[data-msg='ccm']");
+        var ccn = that.$("#card_number");
+        this.$("input[name='idNumber']").change(_.debounce(function(){
+            var card_type = that.$("select#card_type").val();
+            var card_number = that.$("#card_number").val();
+            var card_exp_date = that.$("#card_exp_month").val() + that.$("#card_exp_year").val();
+            var card_scode = that.$("#card_scode").val();
+            API.Booking.validateCreditCard({
+                number: card_number,
+                exp_date: card_exp_date,
+                sec_code: card_scode,
+            }).done(function(data){
+                if (data['valid']){
+                    ccn.setClass("valid-msg");
+                    creditcardmsg.removeClass("show");
+                } else {
+                    creditcardmsg.addClass("show");
+                    creditcardmsg.setClass("invalid-msg");
+                    ccn.setClass("invalid-msg");
+                };
+            });
+        }, 300));
+
+
         this.$(".confirm-button").click(function(){
             var card_type = that.$("select#card_type").val();
             var card_number = that.$("#card_number").val();
@@ -723,10 +749,10 @@ MindTrips.PaymentView = MindTrips.BaseView.extend({
                 }).done(function(data){
                     if (data['valid']){
                         that.grabAllData();     
-                   } else {
-                    alert("La informacion de la tarjeta no es correcta");
-                };
-            });
+                    } else {
+                        alert("La informacion de la tarjeta no es correcta");
+                    };
+                });
             } else{
                 alert("La informacion de la tarjeta no es correcta");
             };
@@ -822,35 +848,7 @@ MindTrips.PaymentView = MindTrips.BaseView.extend({
             tosend.passengers = passengers;
         }
     },
-isValidCreditCard: function(card_type, card_number) {
-    return true;
-    if (card_type == "Visa") {
-        var re = /^4\d{15}$/;
-    } else if (card_type == "MC") {
 
-        var re = /^5[1-5]\d{14}$/;
-    } else if (card_type == "AmEx") {
-
-        var re = /^3[4,7]\d{13}$/;
-    } else if (card_type == "Diners") {
-
-        var re = /^3[0,6,8]\d{14}$/;
-    }
-    if (re == null || !re.test(card_number)) return false;
-
-    card_number = card_number.split("-").join("");
-
-    var checksum = 0;
-    for (var i=(2-(card_number.length % 2)); i<=card_number.length; i+=2) {
-        checksum += parseInt(card_number.charAt(i-1));
-    }
-
-    for (var i=(card_number.length % 2) + 1; i<card_number.length; i+=2) {
-        var digit = parseInt(card_number.charAt(i-1)) * 2;
-        if (digit < 10) { checksum += digit; } else { checksum += (digit-9); }
-    }
-    if ((checksum % 10) == 0) return true; else return false;
-},
     render: function(eventName){
         var info = this.collection || [];
         console.log(info);
