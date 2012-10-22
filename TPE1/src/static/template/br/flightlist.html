@@ -1,14 +1,14 @@
-{{#flightstatus}}
+ï»¿{{#flightstatus}}
 <div class="black shadow flight-block">
     <div class="flight-data-info">
         <span>Final Price</span><br>
         <div class = "flight-data-text">
             {{#adult}}<span>Adulto(s): </span><span>{{quantity}}</span>
-            <span> - Preço por adulto: </span><span>{{currency}} </span><span>{{price}}</span><br>{{/adult}}
-            {{#children}}<span>Crianças: </span><span>{{quantity}}</span>
-            <span> - Preço por Crianças: </span><span>{{currency}} </span><span>{{price}}</span><br>{{/children}}
-            {{#infant}}<span>Crianças(s): </span><span>{{quantity}}</span>
-            <span> - Preço por Crianças: </span><span>{{currency}} </span><span>{{price}}</span><br>{{/infant}}
+            <span> - PreÃ§o por adulto: </span><span>{{currency}} </span><span>{{price}}</span><br>{{/adult}}
+            {{#children}}<span>CrianÃ§as: </span><span>{{quantity}}</span>
+            <span> - PreÃ§o por CrianÃ§as: </span><span>{{currency}} </span><span>{{price}}</span><br>{{/children}}
+            {{#infant}}<span>CrianÃ§as(s): </span><span>{{quantity}}</span>
+            <span> - PreÃ§o por CrianÃ§as: </span><span>{{currency}} </span><span>{{price}}</span><br>{{/infant}}
             <span>Impostos: </span><span>{{currency}} </span><span>{{taxes}}</span><br>
             <span>Cargos: </span><span>{{currency}} </span><span>{{charges}}</span>
         </div>
@@ -27,10 +27,10 @@
 
 <div class="black shadow flight-block hidden" buttonorder>
     <span> Sort by: </span>
-        <button type="button" price>Preço</button>
+        <button type="button" price>PreÃ§o</button>
         <button type="button" scale>Passada</button>
-        <button type="button" airline>Companhia Aérea</button>
-        <button type="button" duration>Duração</button>
+        <button type="button" airline>Companhia AÃ©rea</button>
+        <button type="button" duration>DuraÃ§Ã£o</button>
  </div>
 
 <div class="black shadow flight-block">
@@ -50,8 +50,8 @@
         </div>
         <div class="flight-tickets">
             {{#adult}}<span>{{quantity}} Adulto </span>{{/adult}}
-            {{#children}}<span>{{quantity}} Crianças </span>{{/children}}
-            {{#infant}}<span>{{quantity}} Crianças </span>{{/infant}}
+            {{#children}}<span>{{quantity}} CrianÃ§as </span>{{/children}}
+            {{#infant}}<span>{{quantity}} CrianÃ§as </span>{{/infant}}
             <span>|</span>
         </div>
         {{#outbound}}
@@ -85,7 +85,7 @@
     {{^flights}}
 
     <div class="flight-data">
-        <p class="copyright">Não existem voos disponíveis. Você pode ajustar os filtros para alargar a pesquisa</p>
+        <p class="copyright">NÃ£o existem voos disponÃ­veis. VocÃª pode ajustar os filtros para alargar a pesquisa</p>
 
     </div>
     {{/flights}}
