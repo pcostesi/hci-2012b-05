@@ -37,8 +37,19 @@
             <option value="6">6</option>
         </select>
         <br>
-        <span>Menores:</span>
+        <span>Niños:</span>
         <select name="children">
+            <option value="0" selected="selected">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+        </select>
+        <br>
+        <span>Infantes:</span>
+        <select name="infants">
             <option value="0" selected="selected">0</option>
             <option value="1">1</option>
             <option value="2">2</option>
@@ -50,9 +61,9 @@
         <br>
         <span>Clase:</span>
         <select name="class">
-            <option value="1" selected="selected">Economica</option>
-            <option value="2">Bussiness</option>
-            <option value="3">First-Class</option>
+            <option value="ECONOMY" selected="selected">Economica</option>
+            <option value="BUSINESS">Bussiness</option>
+            <option value="FIRST_CLASS">First-Class</option>
         </select>
         
 	</div>
@@ -63,9 +74,9 @@
             <label><input type="radio" name="round-trip" value="one-way" id="round-check">Solo Ida</label>
 	        <div id="round-container">
 	        	<label>
-	            <input type="radio" name="scale" value="with-scale" id="round-check" checked="checked">Con Escala</label>
+	            <input type="radio" name="scale" value="with-scale" id="round-check" checked="1">Con Escala</label>
 	            <label>
-	            <input type="radio" name="scale" value="no-scale" id="round-check">Sin Escala</label>
+	            <input type="radio" name="scale" value="0" id="round-check">Sin Escala</label>
 	        </div>
         </div>
         
@@ -75,4 +86,5 @@
 	<p>MindTrips es el sitio líder de búsqueda y reserva de vuelos On Line en todo el mundo.</p>
 </div>
 <div class="clearfix">
+
 </div>
