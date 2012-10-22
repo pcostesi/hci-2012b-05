@@ -80,12 +80,10 @@ MindTrips.LandingView = MindTrips.BaseView.extend({
         this.$("input[name='round-trip']").change(function(){
             if (that.$(this).val() == "one-way"){
                 that.$("[data-date-picker='return']").datepicker("disable");
-                that.$(".return input").attr("disabled", true);    
             } else {
                 that.$("[data-date-picker='return']").datepicker("enable");
-                that.$(".return input").attr("disabled", false);
             }  
-            that.$(".return").toggleClass("disabled");
+            that.$("#return-dates").toggleClass("disabled");
         });
     },
 
@@ -138,8 +136,8 @@ select: function(elem, ui){
             MindTrips.Traveller.children = that.$('[name="children"]').val();
             MindTrips.Traveller.infants = that.$('[name="infants"]').val();
             MindTrips.Traveller.cabin_type = that.$('[name="class"]').val();
-            MindTrips.Traveller.roundtrip = that.$("input[name='round-trip']").val();
-            MindTrips.Traveller.scales = that.$("input[name='scale']").val();
+            MindTrips.Traveller.roundtrip = that.$("[name='round-trip']:checked").val();
+            MindTrips.Traveller.scales = that.$("input[name='scale']:checked").val();
             MindTrips.router.navigate("search/", true);
         });
     },
@@ -293,6 +291,7 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
         this.collection = {};
         this.flightstatus = null;
         var fromlanding = MindTrips.Traveller;
+        console.log(fromlanding);
         if(fromlanding.roundtrip == "one-way"){
             API.Booking.getOneWayFlights({
                 from: fromlanding.from,
@@ -303,25 +302,29 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
                 infants: 0,
                 cabin_type: fromlanding.cabin_type,
             }).done(function(data){
-                console.log(data);
-                that.flights = that.makeReadableFlightData(data);
-                that.setCollections();
+                if(data.error == null){
+                    that.flights = that.makeReadableFlightData(data);
+                    that.setCollections();
+                }
+            });
+        }else if(fromlanding.roundtrip = "roundtrip"){
+            API.Booking.getRoundTripFlights({
+                from: fromlanding.from,
+                to: fromlanding.to,
+                dep_date: Date.parse(fromlanding.departureDate).toString("yyyy-MM-dd"),
+                ret_date: Date.parse(fromlanding.returnDate).toString("yyyy-MM-dd"),
+                adults: 0,
+                children: fromlanding.children,
+                infants: 0,
+                cabin_type: fromlanding.cabin_type,
+            }).done(function(data){
+                if(data.error == null){
+                    that.flights = that.makeReadableFlightData(data);
+                    that.setCollections();
+                }
+
             });
         }
-        API.Booking.getRoundTripFlights({
-            from: fromlanding.from,
-            to: fromlanding.to,
-            dep_date: Date.parse(fromlanding.departureDate).toString("yyyy-MM-dd"),
-            ret_date: Date.parse(fromlanding.returnDate).toString("yyyy-MM-dd"),
-            adults: fromlanding.adults,
-            children: fromlanding.children,
-            infants: 0,
-            cabin_type: fromlanding.cabin_type,
-        }).done(function(data){
-            console.log(data);
-            that.flights = that.makeReadableFlightData(data);
-            that.setCollections();
-        });
     },
 
     setCollections: function(){
