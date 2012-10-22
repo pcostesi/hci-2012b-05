@@ -13,7 +13,7 @@ var MindTrips = MindTrips;
                 appendTo(ul);
         },
         select: function(event, ui){
-            $(this).data("-option", ui.item.choice);
+            $(this).data("option", ui.item.choice);
         }
     });
 
@@ -35,6 +35,10 @@ var MindTrips = MindTrips;
                 append($("<a>").append(main)).
                 appendTo(ul);
         },
+        
+        select: function(elem, ui){
+            $(this).data("map-option", ui.item.choice);
+        }
     });
 })(jQuery);
 

@@ -523,3 +523,20 @@ input[type="text"]{
     border-radius: 5px;
     padding: 0px 10px;
 }
+
+div [data-msg] {
+    width: 100%;
+    display:none;
+}
+
+.show{
+    display:block;
+}
+
+.valid-msg{
+    background-color: #66FF66;
+}
+
+.invalid-msg{
+    background-color: #FF7A7A;
+}

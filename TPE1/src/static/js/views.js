@@ -1,9 +1,15 @@
 
 // Create the namespace
 MindTrips = window.MindTrips || {}
+MindTrips.Traveller = MindTrips.Traveller || {}
 
 // Base view with some boilerplate methods.
 MindTrips.BaseView = Backbone.View.extend({
+
+    constructor: function(){
+        Backbone.View.apply(this, arguments);
+        MindTrips.on("template:reload", this.render, this);
+    },
 
     template: function(data){
         var tpl = MindTrips.templates.get(this.templateName);
@@ -87,30 +93,27 @@ MindTrips.LandingView = MindTrips.BaseView.extend({
         map.mapcomplete({
             delay: 300,
             source: function(request, response){
-// Airports: 
-var airportsByName = API.Geo.getAirportsByName({
-    name: request.term,
-}).done(function(data){
-    var result = _.map(data['airports'], function(elem){
-        var label = elem['description'] + " (" + elem['airportId'] +")";
-        return {
-            label: label,
-            choice: {
-                lat: elem['latitude'],
-                lng: elem['longitude'],
-                data: elem,
-                id: elem['airportId'],
+                // Airports: 
+                var airportsByName = API.Geo.getAirportsByName({
+                    name: request.term,
+                }).done(function(data){
+                    var result = _.map(data['airports'], function(elem){
+                        var label = elem['description'] + " (" + elem['airportId'] +")";
+                        return {
+                            label: label,
+                            choice: {
+                                lat: elem['latitude'],
+                                lng: elem['longitude'],
+                                data: elem,
+                                id: elem['airportId'],
+                            },
+                            value: label,
+                        };
+                    });
+                    response(result);
+                });
             },
-            value: label,
-        };
-    });
-    response(result);
-});
-},
-select: function(elem, ui){
-    $(this).data("map-option", ui.item.choice);
-}
-});
+        });
     },
 
     setupSubmitButton: function(){
@@ -121,11 +124,10 @@ select: function(elem, ui){
             MindTrips.Traveller = {};
             MindTrips.Traveller.departureDate = dpDeparture.datepicker("getDate");
             MindTrips.Traveller.returnDate = dpReturn.datepicker("getDate");
-            var from = that.$('[data-mapcomplete="from"]').val();
-            from = from.substring(from.length-4, from.length-1);
+            var from = that.$('[data-mapcomplete="from"]').data("map-option")['id'];
+
             MindTrips.Traveller.from = from ;
-            var to = that.$('[data-mapcomplete="to"]').val();
-            to = to.substring(to.length-4, to.length-1);
+            var to = that.$('[data-mapcomplete="to"]').data("map-option")['id'];
             MindTrips.Traveller.to = to;
             MindTrips.Traveller.adults = that.$('[name="adults"]').val();
             MindTrips.Traveller.children = that.$('[name="children"]').val();
@@ -234,10 +236,9 @@ drawMarkers: function(){
 bind: function(){
     console.log("calling bind on map");
     var canvas = this.$(".map-canvas").get(0);
-    if (this.map === undefined){
-        this.map = new google.maps.Map(canvas, this.mapOptions);
-        console.log("map successfully bound");
-    }
+
+    this.map = new google.maps.Map(canvas, this.mapOptions);
+    console.log("map successfully bound");
     this.drawMarkers();
     this.$(".map-overlay").text(this.title);
 },
@@ -315,10 +316,8 @@ drawMarkers: function(deals){
 bind: function(){
     console.log("calling bind on map");
     var canvas = this.$(".landing-map-canvas").get(0);
-    if (this.map === undefined){
-        this.map = new google.maps.Map(canvas, this.mapOptions);
-        console.log("map successfully bound");
-    }
+    this.map = new google.maps.Map(canvas, this.mapOptions);
+    console.log("map successfully bound");
 },
 });
 
@@ -391,16 +390,16 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
 
     setUpOrderButtons: function(){
         var that = this;
-        this.$("*[price]").click(function(){
+        this.$("[data-button='price']").click(function(){
             that.orderByPrice();
         });
-        this.$("*[scale]").click(function(){
+        this.$("[data-button='scale']").click(function(){
             that.orderByScale();
         });
-        this.$("*[airline]").click(function(){
+        this.$("[data-button='airline']").click(function(){
             that.orderByName();
         });
-        this.$("*[duration]").click(function(){
+        this.$("[data-button='duration']").click(function(){
             that.orderByDuration();
         });
 
@@ -415,6 +414,8 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
                 MindTrips.Traveller = that.flightstatus;
                 console.log(MindTrips.Traveller);
                 MindTrips.router.navigate("flight/:id/pay", true);
+            } else {
+                console.log("no flight selected");
             }
         });
     },
@@ -754,7 +755,44 @@ MindTrips.PaymentView = MindTrips.BaseView.extend({
                 cities[i]=data.cities[i].name;
             }
             that.$("#city").autocomplete({source:cities})
-        })
+        
+        });
+
+        var creditcardmsg = this.$("[data-msg='ccm']");
+        var cardinfo = this.$("[data-card-info]");
+        var ccn = that.$("#card_number");
+        var handler = _.debounce(function(){
+            console.log("verifying input");
+            var card_type = that.$("select#card_type").val();
+            var card_number = that.$("#card_number").val();
+            var card_exp_date = that.$("#card_exp_month").val() + that.$("#card_exp_year").val();
+            var card_scode = that.$("#card_scode").val();
+            if (card_number == ""){
+                cardinfo.removeClass("invalid-msg");
+                creditcardmsg.removeClass("show");
+                return;
+            }
+            API.Booking.validateCreditCard({
+                number: card_number,
+                exp_date: card_exp_date,
+                sec_code: card_scode,
+            }).done(function(data){
+                console.log(data);
+                if (data['valid']){
+                    cardinfo.addClass("valid-msg");
+                    cardinfo.removeClass("invalid-msg");
+                    creditcardmsg.addClass("show");
+                } else {
+                    creditcardmsg.addClass("show");
+                    creditcardmsg.addClass("invalid-msg");
+                    cardinfo.addClass("invalid-msg");
+                };
+            });
+        }, 300);
+        cardinfo.keyup(handler);
+        cardinfo.change(handler);
+
+
         this.$(".confirm-button").click(function(){
             var card_type = that.$("select#card_type").val();
             var card_number = that.$("#card_number").val();
@@ -768,10 +806,10 @@ MindTrips.PaymentView = MindTrips.BaseView.extend({
                 }).done(function(data){
                     if (data['valid']){
                         that.grabAllData();     
-                   } else {
-                    alert("La informacion de la tarjeta no es correcta");
-                };
-            });
+                    } else {
+                        alert("La informacion de la tarjeta no es correcta");
+                    };
+                });
             } else{
                 alert("La informacion de la tarjeta no es correcta");
             };
@@ -867,35 +905,7 @@ MindTrips.PaymentView = MindTrips.BaseView.extend({
             tosend.passengers = passengers;
         }
     },
-isValidCreditCard: function(card_type, card_number) {
-    return true;
-    if (card_type == "Visa") {
-        var re = /^4\d{15}$/;
-    } else if (card_type == "MC") {
 
-        var re = /^5[1-5]\d{14}$/;
-    } else if (card_type == "AmEx") {
-
-        var re = /^3[4,7]\d{13}$/;
-    } else if (card_type == "Diners") {
-
-        var re = /^3[0,6,8]\d{14}$/;
-    }
-    if (re == null || !re.test(card_number)) return false;
-
-    card_number = card_number.split("-").join("");
-
-    var checksum = 0;
-    for (var i=(2-(card_number.length % 2)); i<=card_number.length; i+=2) {
-        checksum += parseInt(card_number.charAt(i-1));
-    }
-
-    for (var i=(card_number.length % 2) + 1; i<card_number.length; i+=2) {
-        var digit = parseInt(card_number.charAt(i-1)) * 2;
-        if (digit < 10) { checksum += digit; } else { checksum += (digit-9); }
-    }
-    if ((checksum % 10) == 0) return true; else return false;
-},
     render: function(eventName){
         var info = this.collection || [];
         console.log(info);

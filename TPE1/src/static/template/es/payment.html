@@ -616,9 +616,9 @@
 
         <div class="cardinfo black shadow">
              <h2>Datos de Pago:</h2><br>
-
+            <div data-msg='ccm'>La información de la tarjeta es erronea.</div>
             Tipo de tarjeta:<br>
-            <select required id="card_type">
+            <select required id="card_type" data-card-info="type">
                 <option value=""> - Seleccione - </option>
                 <option value="Visa">Visa</option>
                 <option value="MC">Mastercard</option>
@@ -627,10 +627,10 @@
             </select><br><br>
 
             Número de tarjeta:<br>
-            <input required id="card_number" type="text" placeholder="Ingrese los dígitos sin espacios ni guiones"><br><br>
+            <input required id="card_number" data-card-info="number" type="text" placeholder="Ingrese los dígitos sin espacios ni guiones"><br><br>
 
             Fecha de Vencimiento de la tarjeta:<br>
-            <select required id="card_exp_month">
+            <select required id="card_exp_month" data-card-info="month" >
                 <option value=""> - Mes - </option>
                 <option value="01">01</option>
                 <option value="02">02</option>
@@ -646,7 +646,7 @@
                 <option value="12">12</option>
             </select>
 
-            <select required id="card_exp_year">
+            <select required id="card_exp_year" data-card-info="year">
                 <option value=""> - Año - </option>
                 <option value="12">2012</option>
                 <option value="13">2013</option>
@@ -670,7 +670,7 @@
             </select><br><br>
 
             Código de Seguridad:<br>
-            <input required id="card_scode" type="text"><br><br>
+            <input required id="card_scode" type="text" data-card-info="cvc"><br><br>
 
             Nombre titular de la tarjeta:<br>
             <input required id="card_owner_name" type="text"><br><br>

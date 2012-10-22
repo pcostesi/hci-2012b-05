@@ -11,6 +11,9 @@ Backbone.View.prototype.close = function () {
 // Create the namespace
 MindTrips = window.MindTrips || {}
 var MindTrips = MindTrips;
+_.extend(MindTrips, Backbone.Events);
+
+MindTrips.flightInfo = {};
 MindTrips.Traveller = {};
 // Templates and template loader. Works only when you're not using file://
 MindTrips.templates = {
@@ -49,19 +52,19 @@ MindTrips.templates = {
 
     setLanguage: function(lang){
         var old = this.language;
-        var router = MindTrips.router;
         this.language = lang.toLowerCase();
+        if (this.language == old){
+            return;
+        }
         var that = this;
         var target = Backbone.history.fragment;
         console.log("Navigating to loading screen");
-        router.navigate("loading", true);
         this.load(_.keys(this.templates))
             .done(function(){
                 console.log("navigating to <" + target + ">");
-                router.navigate(target, true);
+                MindTrips.trigger("template:reload", "language:" + lang);
             }).fail(function(){
                 console.log("Falling back");
-                router.navigate(target);
                 that.setLanguage(old); 
             });
     },
