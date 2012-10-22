@@ -1,6 +1,7 @@
 
 // Create the namespace
 MindTrips = window.MindTrips || {}
+MindTrips.Traveller = MindTrips.Traveller || {}
 
 // Base view with some boilerplate methods.
 MindTrips.BaseView = Backbone.View.extend({
@@ -716,24 +717,33 @@ MindTrips.PaymentView = MindTrips.BaseView.extend({
         });
 
         var creditcardmsg = this.$("[data-msg='ccm']");
+        var cardinfo = this.$("[data-card-info]");
         var ccn = that.$("#card_number");
-        this.$("input[name='idNumber']").change(_.debounce(function(){
+        cardinfo.keyup(_.debounce(function(){
+            console.log("verifying input");
             var card_type = that.$("select#card_type").val();
             var card_number = that.$("#card_number").val();
             var card_exp_date = that.$("#card_exp_month").val() + that.$("#card_exp_year").val();
             var card_scode = that.$("#card_scode").val();
+            if (card_number == ""){
+                cardinfo.removeClass("invalid-msg");
+                creditcardmsg.removeClass("show");
+                return;
+            }
             API.Booking.validateCreditCard({
                 number: card_number,
                 exp_date: card_exp_date,
                 sec_code: card_scode,
             }).done(function(data){
+                console.log(data);
                 if (data['valid']){
-                    ccn.setClass("valid-msg");
-                    creditcardmsg.removeClass("show");
+                    cardinfo.addClass("valid-msg");
+                    cardinfo.removeClass("invalid-msg");
+                    creditcardmsg.addClass("show");
                 } else {
                     creditcardmsg.addClass("show");
-                    creditcardmsg.setClass("invalid-msg");
-                    ccn.setClass("invalid-msg");
+                    creditcardmsg.addClass("invalid-msg");
+                    cardinfo.addClass("invalid-msg");
                 };
             });
         }, 300));
