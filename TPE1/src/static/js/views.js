@@ -115,7 +115,7 @@ MindTrips.LandingView = MindTrips.BaseView.extend({
             },
 
             select: function(elem, ui){
-                map.data("map-option", ui.item.choice);
+                $(this).data("map-option", ui.item.choice);
             }
         });
     },
