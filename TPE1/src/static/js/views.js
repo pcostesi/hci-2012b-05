@@ -125,7 +125,7 @@ select: function(elem, ui){
             from = from.substring(from.length-4, from.length-1);
             MindTrips.Traveller.from = from ;
             var to = that.$('[data-mapcomplete="to"]').val();
-            to = to.substring(from.length-4, from.length-1);
+            to = to.substring(to.length-4, to.length-1);
             MindTrips.Traveller.to = to;
             MindTrips.Traveller.adults = that.$('[name="adults"]').val();
             MindTrips.Traveller.children = that.$('[name="children"]').val();
@@ -189,9 +189,39 @@ initialize: function(lat, lng, title){
 },
 
 drawMarkers: function(){
-// XXX: WE REALLY NEED THIS.
-// noop now. WE NEED TO CODE THIS ASAP.
+    var that = this;
+    var LatLngList = new Array();
+    API.Geo.getAirportById({
+            id: MindTrips.Traveller.from,
+        }).done(function(info){
+            if(info.error == null){
+                info = info.airport;
+                LatLngList.push(new google.maps.LatLng(info.latitude,info.longitude));
+            }
+            API.Geo.getAirportById({
+                id: MindTrips.Traveller.to,
+            }).done(function(data){
+                if(data.error == null){
+                    data = data.airport;
+                    LatLngList.push(new google.maps.LatLng(data.latitude,data.longitude));
+                }
+                that.drawPoints(LatLngList);
+            });
+        });
 },
+
+    drawPoints: function(locs){
+        var that = this;
+        var bounds = new google.maps.LatLngBounds();
+        for(i=0; i<locs.length; i++){
+            new google.maps.Marker({
+                position: locs[i],
+                map: that.map,
+            });
+            bounds.extend(locs[i]);
+        }
+        this.map.fitBounds(bounds);
+    },
 
 bind: function(){
     console.log("calling bind on map");

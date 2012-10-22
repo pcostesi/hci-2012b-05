@@ -11,7 +11,7 @@ Backbone.View.prototype.close = function () {
 // Create the namespace
 MindTrips = window.MindTrips || {}
 var MindTrips = MindTrips;
-MindTrips.flightInfo = {};
+MindTrips.Traveller = {};
 // Templates and template loader. Works only when you're not using file://
 MindTrips.templates = {
  
