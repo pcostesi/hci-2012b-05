@@ -2,7 +2,7 @@
 
 <div class=" payment center">
 
-        <div class=" flight-review black shadow">
+        <div class="flight-review black shadow">
             <div class="buy-left">
             <h2>Resumen del pasaje:</h2><br>
 
@@ -48,6 +48,7 @@
 
             <b>Llegada: </b>{{arrtime}} ({{arrtimezone}})<br><br>{{/outbound}}{{/outbound}}
         </div>
+                <div class="clearfix"></div> 
         </div>
         <div class="pax black shadow">
              <h2>Información de pasajero/s:</h2>
@@ -57,13 +58,13 @@
                     <div class="paxinfo">
                         <span>Adulto</span><br><br>
                         Nombre/s:<br>
-                        <input required id="name" type="text" {{type}} placeholder="Como aparece en el documento"><br><br>
+                        <input required name="firstName" type="text" {{type}} placeholder="Como aparece en el documento"><br><br>
 
                         Apellido/s:<br>
-                        <input required id="lastname" type="text" {{type}} placeholder="Como aparece en el documento"><br><br>
+                        <input required name="lastName" type="text" {{type}} placeholder="Como aparece en el documento"><br><br>
 
                         Fecha de Nacimiento:<br>
-                        <select required id="dob_Day" {{type}}>
+                        <select required name="day" {{type}}date>
                             <option value=""> - Día - </option>
                             <option value="1">1</option>
                             <option value="2">2</option>
@@ -98,7 +99,7 @@
                             <option value="31">31</option>
                         </select>
 
-                        <select required id="dob_month" {{type}}>
+                        <select required name="month" {{type}}date>
                             <option value=""> - Mes - </option>
                             <option value="01">01</option>
                             <option value="02">02</option>
@@ -114,7 +115,7 @@
                             <option value="12">12</option>
                         </select>
 
-                        <select required id="dob_year" {{type}}>
+                        <select required name="year" {{type}}date>
                             <option value=""> - Año - </option>
                             <option value="2012">2012</option>
                             <option value="2011">2011</option>
@@ -231,15 +232,8 @@
                             <option value="1900">1900</option>
                         </select><br><br>
 
-                        Sexo:<br>
-                        <select required id="sex" {{type}}>
-                            <option value=""> - Seleccione - </option>
-                            <option value="Male">Masculino</option>
-                            <option value="Female">Femenino</option>
-                        </select><br><br>
-
                         DNI:<br>
-                        <input required id="dni" type="text" {{type}}><br><br>
+                        <input required name="idNumber" type="text" {{type}}><br><br>
 
 
                     </div>
@@ -699,13 +693,13 @@
             <input required id="card_owner_name" type="text"><br><br>
 
             Direccion de compra:<br>
-            <input required id="contact_email" type="text">  
+            <input required id="contact_email" type="text"><br><br>  
 
-            Piso:
-            <input required id="floor" type="text">
+            Piso:<br>
+            <input required id="floor" type="text"><br><br>
 
-            Departamento:
-             <input required id="apartment" type="text">
+            Departamento:<br><br>
+             <input required id="apartment" type="text"><br><br>
 
             E-mail de contacto:<br>
             <input required id="contact_email" type="text"><br><br>

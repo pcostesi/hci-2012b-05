@@ -330,6 +330,7 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
     setUpFinishButton: function(){
         var that = this;
         this.$(".finish-button").click(function(){
+            alert("entro");
             if(that.flightstatus.inbound != null && that.flightstatus.outbound != null){
                 MindTrips.flightInfo = that.flightstatus;
                 console.log(MindTrips.flightInfo);
@@ -675,8 +676,9 @@ MindTrips.PaymentView = MindTrips.BaseView.extend({
                     exp_date: card_exp_date,
                     sec_code: card_scode,
                 }).done(function(data){
+                    that.grabAllData();
                     if (data['valid']){
-                        alert("Su vuelo ha sido confirmado");
+                        
                    } else {
                     alert("La informacion de la tarjeta no es correcta");
                 };
@@ -686,7 +688,21 @@ MindTrips.PaymentView = MindTrips.BaseView.extend({
             };
         });
 }, 
+
+    grabAllData: function(){
+        var data = this.collection;
+        if(data.adult != null){
+            for(i=0;i< data.adult.array.length; i++)
+                var actual = data.adult.array[i].type;
+                this.$('*['+actual+']').each(function(data){
+                    console.log($(this).attr("name"));
+                });
+
+
+        }
+    },
 isValidCreditCard: function(card_type, card_number) {
+    return true;
     if (card_type == "Visa") {
         var re = /^4\d{15}$/;
     } else if (card_type == "MC") {
