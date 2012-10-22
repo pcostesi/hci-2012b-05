@@ -3,45 +3,45 @@
 <div class=" payment center">
 
         <div class=" flight-review black shadow">
-            <h2>Flight Review:</h2><br>
+            <h2>Voo Análise:</h2><br>
 
-            Price per Passenger:<br><br>
+            Preço por passageiro:<br><br>
 
-        Ammount of passengers:<br><br>
+        Relaçao de passageiros:<br><br>
 
-        Taxes and charges:<br><br>
+        Impostos e cargos:<br><br>
 
-        Total PRice:<br><br>
+        Preço total:<br><br>
 
-        Airline:<br><br>
+        Companhia de aviação:<br><br>
 
-        Date of flight:<br><br>
+        Data do voo:<br><br>
 
-        Flight Number:<br><br>
+        Número do Voo:<br><br>
 
-        Stopover(s):<br><br>
+        Passada(s):<br><br>
 
-        Departure time:<br><br>
+        Hora de partida:<br><br>
 
-        Arrival Time:<br><br>
+        Hora de chegada:<br><br>
 
         </div>
         <div class="pax black shadow">
-             <h2>Passenger information:</h2>
+             <h2>Informação dos passageiros:</h2>
             <ul id="pax">
                 {{#pax}}
                 <li>
                     <div class="paxinfo">
                         <span>{{kind}} en {{class}}</span><br> 
-                        Name/s:<br>
-                        <input required id="name" type="text" placeholder="As read on the passport"><br><br>
+                        Nome/s:<br>
+                        <input required id="name" type="text" placeholder="Como ler sobre o passaporte"><br><br>
 
-                        Last Name/s:<br>
-                        <input required id="lastname" type="text" placeholder="As read on the passport"><br><br>
+                        Sobrenome/s:<br>
+                        <input required id="lastname" type="text" placeholder="Como ler sobre o passaporte"><br><br>
 
-                        Date of Birth:<br>
+                        Data de nascimento:<br>
                         <select required id="dob_Day">
-                            <option value=""> - Day - </option>
+                            <option value=""> - Dia - </option>
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
@@ -76,7 +76,7 @@
                         </select>
 
                         <select required id="dob_month">
-                            <option value=""> - Month - </option>
+                            <option value=""> - Mês  - </option>
                             <option value="01">01</option>
                             <option value="02">02</option>
                             <option value="03">03</option>
@@ -92,7 +92,7 @@
                         </select>
 
                         <select required id="dob_year">
-                            <option value=""> - Year - </option>
+                            <option value=""> - Ano - </option>
                             <option value="2012">2012</option>
                             <option value="2011">2011</option>
                             <option value="2010">2010</option>
@@ -208,11 +208,11 @@
                             <option value="1900">1900</option>
                         </select><br><br>
 
-                        Sex:<br>
+                        Sexo:<br>
                         <select required id="sex">
-                            <option value=""> - Select - </option>
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
+                            <option value=""> - Selecione - </option>
+                            <option value="Male">Macho</option>
+                            <option value="Female">Fêmea</option>
                         </select><br><br>
                     </div>
                 </li>
@@ -221,23 +221,23 @@
         </div>
 
         <div class="cardinfo black shadow">
-             <h2>Payment Information:</h2><br>
+             <h2>Informações de Pagamento:</h2><br>
 
-            Credit Card Type:<br>
+            Tipo de cartão de crédito:<br>
             <select required id="card_type">
-                <option value=""> - Select - </option>
+                <option value=""> - Selecione - </option>
                 <option value="Visa">Visa</option>
                 <option value="MC">Mastercard</option>
                 <option value="AmEx">American Express</option>
                 <option value="Diners">Diners Club</option>
             </select><br><br>
 
-            Credit Card Number:<br>
-            <input required id="card_number" type="text" placeholder="Insert digits without dashes or spaces"><br><br>
+            Número de cartão de crédito:<br>
+            <input required id="card_number" type="text" placeholder="Insira os dígitos sem hífens ou espaços"><br><br>
 
-            Credit Card Expiration Date:<br>
+            Data de validade do cartão de crédito:<br>
             <select required id="card_exp_month">
-                <option value=""> - Month - </option>
+                <option value=""> - Mês - </option>
                 <option value="01">01</option>
                 <option value="02">02</option>
                 <option value="03">03</option>
@@ -253,7 +253,7 @@
             </select>
 
             <select required id="card_exp_year">
-                <option value=""> - Year - </option>
+                <option value=""> - Ano - </option>
                 <option value="12">2012</option>
                 <option value="13">2013</option>
                 <option value="14">2014</option>
@@ -275,22 +275,22 @@
                 <option value="30">2030</option>
             </select><br><br>
 
-            Security Code:<br>
+            Código de Segurança:<br>
             <input required id="card_scode" type="text"><br><br>
 
-            Credit Card Owner:<br>
+            Cartão de Crédito Proprietário:<br>
             <input required id="card_owner_name" type="text"><br><br>
 
-            Credit Card Owner's DNI:<br>
+            CCartão de Crédito Proprietário DNI:<br>
             <input required id="card_owner_DNI" type="text"><br><br>
 
-            Contact E-mail:<br>
+            E-mail do contacto:<br>
             <input required id="contact_email" type="text"><br><br>
         </div>
 
         <div class="confirm">
             <label>
-                I've read the privacy terms of this site and I accept.
+                Eu li os termos de privacidade deste sitio e me aceitar.
                 <input type="checkbox">
             </label>
             <br>
