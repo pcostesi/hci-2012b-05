@@ -731,11 +731,11 @@ MindTrips.PaymentView = MindTrips.BaseView.extend({
         tosend.billingAddress = billingAddress;
         API.Geo.getCitiesByName({
             name: that.$("#city").val(),
-        }).done(function(data){
+        }).done(function(info){
             that.completed = true;
-            var city = data.cities[0];
+            var city = info.cities[0];
             tosend.billingAddress.country = city.countryId;
-            tosend.billingAddress.City = city.cityId;
+            tosend.billingAddress.city = city.cityId;
             tosend.billingAddress.state = city.name;
             that.sendRequest(data,tosend);    
         });
@@ -750,11 +750,11 @@ MindTrips.PaymentView = MindTrips.BaseView.extend({
 
     sendRequest: function(data,tosend){
         if(this.completed == true && this.completed2 == true){
-            API.Booking.bookFlight(tosend).done(function(data){
-                console.log(data);
+            API.Booking.bookFlight(tosend).done(function(info){
+                console.log(info);
             });
-            if(data.inbound != null){
-                tosend.flightId = data.inbound.code;
+            if(this.collection.inbound != null){
+                tosend.flightId = this.collection.inbound.code;
                 API.Booking.bookFlight(tosend).done(function(data){
                     console.log(data);
                 });
