@@ -1,0 +1,63 @@
+﻿<form class="searchbox" action="#flights/EZE/to/BRA">
+    <div class="black" id="search-flights">
+        <div class="flight-block">
+            <h2>Origem</h2>
+            <input type="text" autocomplete-tags="true" placeholder="Insert city of origin" name="origin-flight">
+            <br>
+            <label><input type="checkbox" name="tripType" checked="checked" value="close-airport-origin" id="checkbox">Aeroportos próximos</label>
+            <div id="round-container">
+                <input type="radio" name="round-trip" value="round" id="round-check" checked="checked" onclick="removeHiddenToReturn()"><span>Viajem de ida e volta</span>
+                <input type="radio" name="round-trip" value="one-way" id="round-check" onclick="addHiddenToReturn()"><span>Viajem de ida</span>
+            </div>
+            <div id="go-dates" data-date-picker="true"></div>
+        </div>
+        <div class="flight-block">
+            <h2>Destino</h2>
+            <input type="text" autocomplete-tags="true" placeholder="Insert destination city" name="return-flight"><br>
+            <label>
+                <input type="checkbox" name="tripType" checked="checked" value="close-airport-origin" id="checkbox">
+                Aeroportos próximos
+            </label>
+            <div id="round-container">
+                <input type="radio" name="scale" value="with-scale" id="round-check" checked="checked"><span>Com passada</span>
+                <input type="radio" name="scale" value="no-scale" id="round-check"><span>Fora passada</span>
+            </div>
+            <div id="return-dates" data-date-picker="true"></div>
+        </div>
+        <div class="flight-block">
+            <h2>Tickets</h2>
+            <span>Adultos:</span>
+            <select name="adults">
+                <option value="1" selected="selected">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+            </select>
+            <br>
+            <span>Crianças:</span>
+            <select name="children">
+                <option value="0" selected="selected">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+            </select>
+            <br>
+            <span>Classe:</span>
+            <select name="class">
+                <option value="1" selected="selected">Economia</option>
+                <option value="2">Bussiness</option>
+                <option value="3">First-Class</option>
+            </select>
+            <input type="submit" value="Submit" id="submit">
+        </div>
+
+        <div class="clearfix"></div>
+        <div> Add button to submit / search / query <a href="#flights/EZE/to/BRA"> like this </a></div>
+    </div>
+</form>
+

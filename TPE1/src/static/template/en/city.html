@@ -1,0 +1,14 @@
+<div class="city black shadow">
+	<h2>{{name}} - ({{cityId}})</h2>
+	<p>
+	{{#hasAirport}}
+	This city has an airport.
+	{{/hasAirport}}
+	{{^hasAirport}}
+	This city has no airports.
+	{{/hasAirport}}
+	<div class="city-img">
+		<img src="{{&url}}"></img>
+	</div>
+	</p>
+</div>

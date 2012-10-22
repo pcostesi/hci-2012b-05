@@ -1,0 +1,113 @@
+﻿<div class="airline black shadow">
+        <h2>Comentário</h2>
+        <ul>
+        {{#comments}}
+                <li><div class="comment">
+                        Vôo {{flight}}
+                        <div class="ratings">
+                        <h3>Rating: <span>{{overallRating}}</span></h3>
+                        <ul>
+                                <li>Comida: <span>{{foodRating}}</span></li>
+                                <li>Pontualidade: <span>{{punctualityRating}}</span></li>
+                                <li>Cordialidade: <span>{{friendlinessRating}}</span></li>
+                                <li>Conforto: <span>{{comfortRating}}</span></li>
+                                <li>Preço: <span>{{qualityPriceRating}}</span></li>
+                                <li>Programa Millas: <span>{{mileageProgramRating}}</span></li>
+                        </ul>
+                        </div>
+                        <p>{{comments}}</p>
+                </div></li>
+        {{/comments}}
+        </ul>
+        {{^comments}}
+        <p class="copyright">Sem comentário.</p>
+        {{/comments}}
+        <div class="post-comment">
+                <h3>Rating</h3>
+                <div class="ratings">
+                <table>
+                        <tr>
+                                <td>Comida:</td> <td><select name="food">
+                                    <option value="1" selected="selected">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                    </select></td>
+                </tr>
+                <tr>
+                                <td>Pontualidade:</td> <td><select name="punctual">
+                                    <option value="1" selected="selected">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                    </select></td>
+                </tr>
+                <tr>
+                                <td>Cordialidade:</td> <td><select name="friendly">
+                                    <option value="1" selected="selected">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                    </select></td>
+                        </tr>
+                <tr>
+                                <td>Conforto:</td> <td><select name="confort">
+                                    <option value="1" selected="selected">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                    </select></td>
+                        </tr>
+                <tr>
+                                <td>Preço:</td> <td><select name="price">
+                                    <option value="1" selected="selected">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                    </select></td>
+                        </tr>
+                <tr>
+                <td>Programa Millas:</td> <td><select name="miles">
+                        <option value="1" selected="selected">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                    </select></td>
+                        </tr>
+                </table>
+                </div>
+                <h3>Comentar</h3>
+                <input type="text" id="comment"></input>
+                <input type="button" value="Publicar" data-publish-button></input>
+        </div>
+</div>
