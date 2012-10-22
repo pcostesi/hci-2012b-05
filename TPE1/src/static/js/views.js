@@ -93,30 +93,27 @@ MindTrips.LandingView = MindTrips.BaseView.extend({
         map.mapcomplete({
             delay: 300,
             source: function(request, response){
-// Airports: 
-var airportsByName = API.Geo.getAirportsByName({
-    name: request.term,
-}).done(function(data){
-    var result = _.map(data['airports'], function(elem){
-        var label = elem['description'] + " (" + elem['airportId'] +")";
-        return {
-            label: label,
-            choice: {
-                lat: elem['latitude'],
-                lng: elem['longitude'],
-                data: elem,
-                id: elem['airportId'],
+                // Airports: 
+                var airportsByName = API.Geo.getAirportsByName({
+                    name: request.term,
+                }).done(function(data){
+                    var result = _.map(data['airports'], function(elem){
+                        var label = elem['description'] + " (" + elem['airportId'] +")";
+                        return {
+                            label: label,
+                            choice: {
+                                lat: elem['latitude'],
+                                lng: elem['longitude'],
+                                data: elem,
+                                id: elem['airportId'],
+                            },
+                            value: label,
+                        };
+                    });
+                    response(result);
+                });
             },
-            value: label,
-        };
-    });
-    response(result);
-});
-},
-select: function(elem, ui){
-    $(this).data("map-option", ui.item.choice);
-}
-});
+        });
     },
 
     setupSubmitButton: function(){
@@ -127,11 +124,10 @@ select: function(elem, ui){
             MindTrips.Traveller = {};
             MindTrips.Traveller.departureDate = dpDeparture.datepicker("getDate");
             MindTrips.Traveller.returnDate = dpReturn.datepicker("getDate");
-            var from = that.$('[data-mapcomplete="from"]').val();
-            from = from.substring(from.length-4, from.length-1);
+            var from = that.$('[data-mapcomplete="from"]').data("map-option")['id'];
+
             MindTrips.Traveller.from = from ;
-            var to = that.$('[data-mapcomplete="to"]').val();
-            to = to.substring(from.length-4, from.length-1);
+            var to = that.$('[data-mapcomplete="to"]').data("map-option")['id'];
             MindTrips.Traveller.to = to;
             MindTrips.Traveller.adults = that.$('[name="adults"]').val();
             MindTrips.Traveller.children = that.$('[name="children"]').val();
@@ -195,9 +191,39 @@ initialize: function(lat, lng, title){
 },
 
 drawMarkers: function(){
-// XXX: WE REALLY NEED THIS.
-// noop now. WE NEED TO CODE THIS ASAP.
+    var that = this;
+    var LatLngList = new Array();
+    API.Geo.getAirportById({
+            id: MindTrips.Traveller.from,
+        }).done(function(info){
+            if(info.error == null){
+                info = info.airport;
+                LatLngList.push(new google.maps.LatLng(info.latitude,info.longitude));
+            }
+            API.Geo.getAirportById({
+                id: MindTrips.Traveller.to,
+            }).done(function(data){
+                if(data.error == null){
+                    data = data.airport;
+                    LatLngList.push(new google.maps.LatLng(data.latitude,data.longitude));
+                }
+                that.drawPoints(LatLngList);
+            });
+        });
 },
+
+    drawPoints: function(locs){
+        var that = this;
+        var bounds = new google.maps.LatLngBounds();
+        for(i=0; i<locs.length; i++){
+            new google.maps.Marker({
+                position: locs[i],
+                map: that.map,
+            });
+            bounds.extend(locs[i]);
+        }
+        this.map.fitBounds(bounds);
+    },
 
 bind: function(){
     console.log("calling bind on map");
@@ -719,7 +745,7 @@ MindTrips.PaymentView = MindTrips.BaseView.extend({
         var creditcardmsg = this.$("[data-msg='ccm']");
         var cardinfo = this.$("[data-card-info]");
         var ccn = that.$("#card_number");
-        cardinfo.keyup(_.debounce(function(){
+        var handler = _.debounce(function(){
             console.log("verifying input");
             var card_type = that.$("select#card_type").val();
             var card_number = that.$("#card_number").val();
@@ -746,7 +772,9 @@ MindTrips.PaymentView = MindTrips.BaseView.extend({
                     cardinfo.addClass("invalid-msg");
                 };
             });
-        }, 300));
+        }, 300);
+        cardinfo.keyup(handler);
+        cardinfo.change(handler);
 
 
         this.$(".confirm-button").click(function(){
