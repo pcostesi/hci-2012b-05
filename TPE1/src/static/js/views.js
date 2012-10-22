@@ -685,9 +685,8 @@ MindTrips.PaymentView = MindTrips.BaseView.extend({
                     exp_date: card_exp_date,
                     sec_code: card_scode,
                 }).done(function(data){
-                    that.grabAllData();
                     if (data['valid']){
-                        
+                        that.grabAllData();     
                    } else {
                     alert("La informacion de la tarjeta no es correcta");
                 };
@@ -711,6 +710,7 @@ MindTrips.PaymentView = MindTrips.BaseView.extend({
         this.grabPaymentDetails(data,tosend);
         console.log(tosend);
         this.completed2 = true;
+        this.sendRequest(data,tosend);
 
     },
 
@@ -737,7 +737,7 @@ MindTrips.PaymentView = MindTrips.BaseView.extend({
             tosend.billingAddress.country = city.countryId;
             tosend.billingAddress.City = city.cityId;
             tosend.billingAddress.state = city.name;
-            console.log(tosend);
+            that.sendRequest(data,tosend);    
         });
 
         var contact = {};
@@ -749,7 +749,17 @@ MindTrips.PaymentView = MindTrips.BaseView.extend({
     },
 
     sendRequest: function(data,tosend){
-
+        if(this.completed == true && this.completed2 == true){
+            API.Booking.bookFlight(tosend).done(function(data){
+                console.log(data);
+            });
+            if(data.outbound != null){
+                tosend.flightId = data.outbound.code;
+                API.Booking.bookFlight(tosend).done(function(data){
+                    console.log(data);
+                });
+            }
+        }
     },
     grabPersonData: function(data, passengers, tosend){
         if(data != null){
