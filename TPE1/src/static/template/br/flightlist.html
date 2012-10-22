@@ -1,0 +1,92 @@
+{{#flightstatus}}
+<div class="black shadow flight-block">
+    <div class="flight-data-info">
+        <span>Final Price</span><br>
+        <div class = "flight-data-text">
+            {{#adult}}<span>Adulto(s): </span><span>{{quantity}}</span>
+            <span> - Preço a adulto: </span><span>{{currency}} </span><span>{{price}}</span><br>{{/adult}}
+            {{#children}}<span>Crianças: </span><span>{{quantity}}</span>
+            <span> - Preço a Crianças: </span><span>{{currency}} </span><span>{{price}}</span><br>{{/children}}
+            {{#infant}}<span>Crianças(s): </span><span>{{quantity}}</span>
+            <span> - Preço a Crianças: </span><span>{{currency}} </span><span>{{price}}</span><br>{{/infant}}
+            <span>Impostos: </span><span>{{currency}} </span><span>{{taxes}}</span><br>
+            <span>Cargos: </span><span>{{currency}} </span><span>{{charges}}</span>
+        </div>
+        <div class = "flight-price">
+            <span>Total: </span><span>{{currency}} </span><span>{{total}}</span>
+        </div>
+        <br><br>
+        <div class="flight-buttons">
+            <div class="flight-confirm">
+                <button type="button" name="confirm" data-flight-no={{code}} class="finish-button">Comprar</button>
+            </div>
+        </div>
+    </div>
+</div> 
+{{/flightstatus}}
+
+<div class="black shadow flight-block hidden" buttonorder>
+    <span> Sort by: </span>
+        <button type="button" price>Preço</button>
+        <button type="button" scale>Passada</button>
+        <button type="button" airline>Companhia Aérea</button>
+        <button type="button" duration>Duração</button>
+ </div>
+
+<div class="black shadow flight-block">
+    {{#flights}}
+    {{#inbound}}<div class="flight-data" status="inbound" id={{code}}> {{/inbound}}
+    {{#outbound}}<div class="flight-data" status="outbound" id={{code}}> {{/outbound}}
+        <div class="airline-logo">
+            {{#companies}}
+            <img src="{{logo}}" width="30" height="30" alt="{{countryId}}">
+        </div>
+        <div class="airline-name">
+            <span> {{name}} </span>
+        </div>
+        {{/companies}}
+        <div class="flight-price">
+            <span>Sector Price: </span><span>{{currency}}: {{total}}</span>
+        </div>
+        <div class="flight-tickets">
+            {{#adult}}<span>{{quantity}} Adulto </span>{{/adult}}
+            {{#children}}<span>{{quantity}} Crianças </span>{{/children}}
+            {{#infant}}<span>{{quantity}} Crianças </span>{{/infant}}
+            <span>|</span>
+        </div>
+        {{#outbound}}
+        <div class="flight-info">
+            <div class="flight-outbound">
+                <span>Partida:</span>
+                <span class="flight-text">Partir: <b>{{deptime}} ({{deptimezone}})</b> 
+                </span> <span class="flight-text">Chega: <b>{{arrtime}} ({{arrtimezone}})</b> </span> <span class="flight-text">{{duration}} </span>
+                <span class="flight-text">{{scale}} Passada(s)</span>
+            </div>
+        </div>
+        {{/outbound}}
+        {{#inbound}}
+        <div class="flight-info">
+            <div class="flight-outbound">
+                <span>Return:</span> 
+                <span class="flight-text">Partir: <b>{{deptime}} ({{deptimezone}})</b> 
+                </span> <span class="flight-text">Chega: <b>{{arrtime}} ({{arrtimezone}})</b> </span> <span class="flight-text">{{duration}} </span>
+                <span class="flight-text">{{scale}} Passada(s)</span>
+            </div>
+        </div>
+        {{/inbound}}
+        <div class="flight-buttons">
+            <div class="flight-confirm">
+                <button type="button" name="confirm" data-flight-no={{code}} class="confirm-button">Selecionar</button>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    {{/flights}}
+    {{^flights}}
+
+    <div class="flight-data">
+        <p class="copyright">Não existem voos disponíveis. Você pode ajustar os filtros para alargar a pesquisa</p>
+
+    </div>
+    {{/flights}}
+</div>
