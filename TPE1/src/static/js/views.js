@@ -120,10 +120,22 @@ select: function(elem, ui){
         var dpDeparture = this.$('[data-date-picker="departure"]');
         var dpReturn = this.$('[data-date-picker="return"]');
         this.$(".search-button").click(function(){
-            var departureDate = dpDeparture.datepicker("getDate");
-            var returnDate = dpReturn.datepicker("getDate");
+            MindTrips.Traveller = {};
+            MindTrips.Traveller.departureDate = dpDeparture.datepicker("getDate");
+            MindTrips.Traveller.returnDate = dpReturn.datepicker("getDate");
             var from = that.$('[data-mapcomplete="from"]').val();
-            MindTrips.router.navigate("search/"+departureDate+"/"+returnDate+"/"+from+"/", true);
+            from = from.substring(from.length-4, from.length-1);
+            MindTrips.Traveller.from = from ;
+            var to = that.$('[data-mapcomplete="to"]').val();
+            to = to.substring(from.length-4, from.length-1);
+            MindTrips.Traveller.to = to;
+            MindTrips.Traveller.adults = that.$('[name="adults"]').val();
+            MindTrips.Traveller.children = that.$('[name="children"]').val();
+            MindTrips.Traveller.infants = that.$('[name="infants"]').val();
+            MindTrips.Traveller.cabin_type = that.$('[name="class"]').val();
+            MindTrips.Traveller.roundtrip = that.$("input[name='round-trip']").val();
+            MindTrips.Traveller.scales = that.$("input[name='scale']").val();
+            MindTrips.router.navigate("search/", true);
         });
     },
 
@@ -274,26 +286,44 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
     templateName: "flightlist",
 
     initialize: function(){
-        // HARDCODED
         var that = this;
+        this.flights = {};
         this.collection = {};
         this.flightstatus = null;
-        var dep = Date.today().add(2).days();
+        var fromlanding = MindTrips.Traveller;
+        if(fromlanding.roundtrip == "one-way"){
+            API.Booking.getOneWayFlights({
+                from: fromlanding.from,
+                to: fromlanding.to,
+                dep_date: Date.parse(fromlanding.departureDate).toString("yyyy-MM-dd"),
+                adults: fromlanding.adults,
+                children: fromlanding.children,
+                infants: 0,
+                cabin_type: fromlanding.cabin_type,
+            }).done(function(data){
+                console.log(data);
+                that.flights = that.makeReadableFlightData(data);
+                that.setCollections();
+            });
+        }
         API.Booking.getRoundTripFlights({
-            from: "TUC",
-            to: "COR",
-            dep_date: dep.toString("yyyy-MM-dd"),
-            ret_date: dep.toString("yyyy-MM-dd"),
-            adults: 1,
-            children: 1,
+            from: fromlanding.from,
+            to: fromlanding.to,
+            dep_date: Date.parse(fromlanding.departureDate).toString("yyyy-MM-dd"),
+            ret_date: Date.parse(fromlanding.returnDate).toString("yyyy-MM-dd"),
+            adults: fromlanding.adults,
+            children: fromlanding.children,
             infants: 0,
+            cabin_type: fromlanding.cabin_type,
         }).done(function(data){
+            console.log(data);
             that.flights = that.makeReadableFlightData(data);
             that.setCollections();
         });
     },
 
     setCollections: function(){
+        console.log(this.flights);
         this.collection.flights = JSON.parse(JSON.stringify(this.flights));
         if(this.flightstatus != null){
             this.collection.flightstatus = this.flightstatus;
@@ -332,8 +362,9 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
         this.$(".finish-button").click(function(){
             alert("entro");
             if(that.flightstatus.inbound != null && that.flightstatus.outbound != null){
-                MindTrips.flightInfo = that.flightstatus;
-                console.log(MindTrips.flightInfo);
+                MindTrips.Traveller = {};
+                MindTrips.Traveller = that.flightstatus;
+                console.log(MindTrips.Traveller);
                 MindTrips.router.navigate("flight/:id/pay", true);
             }
         });
@@ -467,6 +498,7 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
 
     makeReadableFlightData: function(data){
         var flights = new Flights();
+        if(data.flights == null) return;
         for(i=0; i<data.flights.length; i++){
             var flight = new Flight();         
             var actualflight = data.flights[i];
@@ -658,8 +690,8 @@ MindTrips.PaymentView = MindTrips.BaseView.extend({
     templateName: "payment",
     initialize: function(flightId){
         var that = this;
-        console.log(MindTrips.flightInfo);
-        this.collection = MindTrips.flightInfo;
+        console.log(MindTrips.Traveller);
+        this.collection = MindTrips.Traveller;
         that.render();
     },
 
