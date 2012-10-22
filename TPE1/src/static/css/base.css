@@ -498,6 +498,11 @@ input[type="text"]{
     width: 640px;
 }
 
+.comment{
+    padding:10px;
+    border-right:2px solid rgba(150, 150, 150, 0.2);
+    float:left;
+}
 .city {
     border-radius: 5px;
     padding: 10px;

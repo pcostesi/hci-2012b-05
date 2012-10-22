@@ -226,15 +226,14 @@ drawMarkers: function(){
             });
             bounds.extend(locs[i]);
         }
-        //new google.maps.Polyline({
-        //    path: bounds,
-        //    strokeColor: "#FF0000",
-        //    strokeOpacity: 1.0,
-        //    strokeWeight: 2
-        //});
+        new google.maps.Polyline({
+            path: locs,
+            strokeColor: "#FF0000",
+            strokeOpacity: 1.0,
+            strokeWeight: 2
+        }).setMap(this.map);
         new google.maps.event.trigger(this.map,'resize');
         this.map.fitBounds(bounds);
-        //this.map.setZoom( map.getZoom() );
     },
 
 bind: function(){
@@ -719,7 +718,8 @@ MindTrips.AirlineView = MindTrips.BaseView.extend({
     initialize: function(airlineId){
         var that = this;
         var airline = API.Misc.getAirlineById({id:airlineId});
-        airline.done(function(data){
+        airline.done(function(data){   
+            console.log(data)
             that.model = new MindTrips.Airline(data['airline']);
             that.render();
         });
@@ -733,9 +733,37 @@ MindTrips.CommentsView = MindTrips.BaseView.extend({
         this.airlineId = airlineId;
         var reviews = API.Review.getAirlineReviews({airline_id:airlineId});
         reviews.done(function(rev){
-            console.log(rev['reviews']);
-            that.render();
+            that.model = new MindTrips.Reviews(rev['reviews']);
+            that.collection = rev['reviews'];
+            that.render("comments");
         });
+    },
+
+    bind: function(){
+        var that = this;
+        this.$('*[data-publish-button]').click(function(){
+            that.grabAllData();
+        });
+    },
+
+    grabAllData: function(){
+        var comments = {};
+        comments.airlineId = this.airlineId;
+        comments.flightNumber = this.$("#flightId").val();
+        comments.foodRating = this.$("#food").val();
+        comments.punctualityRating = this.$("#punctual").val();
+        comments.friendlinessRating = this.$("#friendly").val();
+        comments.comfortRating = this.$("#confort").val();
+        comments.qualityPriceRating = this.$("#price").val();
+        comments.mileageProgramRating = this.$("#miles").val();
+        comments.comments = this.$(".comment").val();
+        comments.yesRecommend = this$(".recomend").val();
+
+    },
+
+    render: function(eventName){
+        console.log(this.collection);
+        return this.renderData(eventName, {comments:this.collection});
     },
 
 });
