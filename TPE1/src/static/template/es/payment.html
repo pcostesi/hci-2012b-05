@@ -3,6 +3,7 @@
 <div class=" payment center">
 
         <div class=" flight-review black shadow">
+            <div class="buy-left">
             <h2>Resumen del pasaje:</h2><br>
 
             <b>Moneda:</b> {{currency}}<br><br>
@@ -24,6 +25,8 @@
             <b>Cargos: </b>{{charges}}<br><br>
 
             <b>Precio total: </b>{{total}}<br><br>
+        </div>
+        <div class="buy-right">
 
             {{#inbound}}{{#companies}}<b>Nombre de la aerolínea IDA: </b>{{name}}<br><br>{{/companies}}
 
@@ -44,7 +47,7 @@
             <b>Cantidad de escalas: </b>{{scale}}<br><br>
 
             <b>Llegada: </b>{{arrtime}} ({{arrtimezone}})<br><br>{{/outbound}}{{/outbound}}
-
+        </div>
         </div>
         <div class="pax black shadow">
              <h2>Información de pasajero/s:</h2>

@@ -343,6 +343,16 @@ input[type="text"]{
     z-index: 1;
 }
 
+.buy-left{
+    width: 450px;
+    margin: 5px;
+}
+.buy-right{
+    float:right;
+    width:450px;
+    margin:5px;
+}
+
 .flight-data{
     width: 940px;
     margin-top: 10px;
@@ -494,7 +504,6 @@ input[type="text"]{
 }
 
 .flight-review {
-    width: auto;
     margin: 10px auto;
     border-radius: 5px;
     padding: 0px 10px;
