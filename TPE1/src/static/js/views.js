@@ -5,6 +5,11 @@ MindTrips = window.MindTrips || {}
 // Base view with some boilerplate methods.
 MindTrips.BaseView = Backbone.View.extend({
 
+    constructor: function(){
+        Backbone.View.apply(this, arguments);
+        MindTrips.on("template:reload", this.render, this);
+    },
+
     template: function(data){
         var tpl = MindTrips.templates.get(this.templateName);
         return tpl(data);
@@ -186,10 +191,9 @@ drawMarkers: function(){
 bind: function(){
     console.log("calling bind on map");
     var canvas = this.$(".map-canvas").get(0);
-    if (this.map === undefined){
-        this.map = new google.maps.Map(canvas, this.mapOptions);
-        console.log("map successfully bound");
-    }
+
+    this.map = new google.maps.Map(canvas, this.mapOptions);
+    console.log("map successfully bound");
     this.drawMarkers();
     this.$(".map-overlay").text(this.title);
 },
@@ -261,10 +265,8 @@ drawMarkers: function(deals){
 bind: function(){
     console.log("calling bind on map");
     var canvas = this.$(".landing-map-canvas").get(0);
-    if (this.map === undefined){
-        this.map = new google.maps.Map(canvas, this.mapOptions);
-        console.log("map successfully bound");
-    }
+    this.map = new google.maps.Map(canvas, this.mapOptions);
+    console.log("map successfully bound");
 },
 });
 
@@ -312,16 +314,16 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
 
     setUpOrderButtons: function(){
         var that = this;
-        this.$("*[price]").click(function(){
+        this.$("[data-button='price']").click(function(){
             that.orderByPrice();
         });
-        this.$("*[scale]").click(function(){
+        this.$("[data-button='scale']").click(function(){
             that.orderByScale();
         });
-        this.$("*[airline]").click(function(){
+        this.$("[data-button='airline']").click(function(){
             that.orderByName();
         });
-        this.$("*[duration]").click(function(){
+        this.$("[data-button='duration']").click(function(){
             that.orderByDuration();
         });
 
@@ -334,6 +336,8 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
                 MindTrips.flightInfo = that.flightstatus;
                 console.log(MindTrips.flightInfo);
                 MindTrips.router.navigate("flight/:id/pay", true);
+            } else {
+                console.log("no flight selected");
             }
         });
     },
