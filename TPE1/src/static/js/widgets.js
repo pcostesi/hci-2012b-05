@@ -35,10 +35,6 @@ var MindTrips = MindTrips;
                 append($("<a>").append(main)).
                 appendTo(ul);
         },
-        
-        select: function(elem, ui){
-            $(this).data("map-option", ui.item.choice);
-        }
     });
 })(jQuery);
 
