@@ -1,18 +1,18 @@
 <div class="airline black shadow">
-        <h2>Comments</h2>
+        <h2>Comentário</h2>
         <ul>
         {{#comments}}
                 <li><div class="comment">
-                        Vuelo {{flight}}
+                        Vôo {{flight}}
                         <div class="ratings">
                         <h3>Rating: <span>{{overallRating}}</span></h3>
                         <ul>
-                                <li>Food: <span>{{foodRating}}</span></li>
-                                <li>Punctuality: <span>{{punctualityRating}}</span></li>
-                                <li>Friendliness: <span>{{friendlinessRating}}</span></li>
-                                <li>Comfort: <span>{{comfortRating}}</span></li>
-                                <li>Price: <span>{{qualityPriceRating}}</span></li>
-                                <li>Mileage Program: <span>{{mileageProgramRating}}</span></li>
+                                <li>Comida: <span>{{foodRating}}</span></li>
+                                <li>Pontualidade: <span>{{punctualityRating}}</span></li>
+                                <li>Cordialidade: <span>{{friendlinessRating}}</span></li>
+                                <li>Conforto: <span>{{comfortRating}}</span></li>
+                                <li>Preço: <span>{{qualityPriceRating}}</span></li>
+                                <li>Programa Millas: <span>{{mileageProgramRating}}</span></li>
                         </ul>
                         </div>
                         <p>{{comments}}</p>
@@ -20,14 +20,14 @@
         {{/comments}}
         </ul>
         {{^comments}}
-        <p class="copyright">No comments.</p>
+        <p class="copyright">Sem comentário.</p>
         {{/comments}}
         <div class="post-comment">
                 <h3>Rating</h3>
                 <div class="ratings">
                 <table>
                         <tr>
-                                <td>Food:</td> <td><select name="food">
+                                <td>Comida:</td> <td><select name="food">
                                     <option value="1" selected="selected">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -40,7 +40,7 @@
                     </select></td>
                 </tr>
                 <tr>
-                                <td>Punctuality:</td> <td><select name="punctual">
+                                <td>Pontualidade:</td> <td><select name="punctual">
                                     <option value="1" selected="selected">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -53,7 +53,7 @@
                     </select></td>
                 </tr>
                 <tr>
-                                <td>Friendliness:</td> <td><select name="friendly">
+                                <td>Cordialidade:</td> <td><select name="friendly">
                                     <option value="1" selected="selected">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -66,7 +66,7 @@
                     </select></td>
                         </tr>
                 <tr>
-                                <td>Comfort:</td> <td><select name="confort">
+                                <td>Conforto:</td> <td><select name="confort">
                                     <option value="1" selected="selected">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -79,7 +79,7 @@
                     </select></td>
                         </tr>
                 <tr>
-                                <td>Price:</td> <td><select name="price">
+                                <td>Preço:</td> <td><select name="price">
                                     <option value="1" selected="selected">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -92,7 +92,7 @@
                     </select></td>
                         </tr>
                 <tr>
-                <td>Mileage Program:</td> <td><select name="miles">
+                <td>Programa Millas:</td> <td><select name="miles">
                         <option value="1" selected="selected">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -106,7 +106,7 @@
                         </tr>
                 </table>
                 </div>
-                <h3>Comment</h3>
+                <h3>Comentar</h3>
                 <input type="text" id="comment"></input>
                 <input type="button" value="Publicar" data-publish-button></input>
         </div>
