@@ -519,8 +519,10 @@ input[type="text"]{
 .comment{
     padding:10px;
     border-right:2px solid rgba(150, 150, 150, 0.2);
+    border-bottom: 2px solid rgba(150, 150, 150, 0.2);
     float:left;
-    width: 220px;
+    width: 200px;
+    height: 260px;
 }
 .city {
     border-radius: 5px;

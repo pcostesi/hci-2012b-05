@@ -17,9 +17,12 @@ Flights = Backbone.Collection.extend({
 
 
 
+
 MindTrips.BaseCollection = Backbone.Collection.extend({});
 
 
 MindTrips.Airline = MindTrips.BaseModel.extend({});
-MindTrips.Reviews = MindTrips.BaseModel.extend({});
+MindTrips.Reviews = Backbone.Collection.extend({
+	model:FlightInfo
+});
 MindTrips.City = MindTrips.BaseModel.extend({});

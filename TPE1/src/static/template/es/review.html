@@ -1,5 +1,8 @@
 <div class="airline black shadow">
         <h2>Comentarios</h2>
+        <span>Ordenar por: </span>
+        <button type="button" order-button class="order-buttons">Numero Vuelo</button>
+        <button type="button" review-button class="order-buttons">Puntaje</button>
         <ul>
         {{#comments}}
                 <div class="comment">
@@ -23,6 +26,8 @@
         <p class="copyright">No hay comentarios.</p>
         {{/comments}}
         <div class="clearfix"></div> 
+    </div>
+    <div class="airline black shadow">
         <div class="post-comment">
                 <h3>Rating</h3>
                 <div class="ratings">

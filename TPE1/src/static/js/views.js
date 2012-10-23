@@ -770,6 +770,28 @@ MindTrips.CommentsView = MindTrips.BaseView.extend({
         this.$('*[data-publish-button]').click(function(){
             that.grabAllData();
         });
+        this.$("*[order-button]").click(function(){
+            reviews = that.model;
+            console.log(reviews);
+            reviews.comparator = function(elem){
+                return elem.get("flightNumber");
+            }
+            reviews.sort();
+            that.collection = JSON.parse(JSON.stringify(reviews));
+            console.log(that.collection);
+            that.render();
+        });
+        this.$("*[review-button]").click(function(){
+            reviews = that.model;
+            console.log(reviews);
+            reviews.comparator = function(elem){
+                return elem.get("overalRating");
+            }
+            reviews.sort();
+            that.collection = JSON.parse(JSON.stringify(reviews));
+            console.log(that.collection);
+            that.render();
+        });
     },
 
     grabAllData: function(){
