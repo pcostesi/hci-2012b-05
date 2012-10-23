@@ -18,7 +18,7 @@
         <br><br>
         <div class="flight-buttons">
             <div class="flight-confirm">
-                <button type="button" name="confirm" class="finish-button">Comprar</button>
+                <button type="button" name="confirm" class="finish-button order-buttons">Comprar</button>
             </div>
         </div>
     </div>
@@ -26,13 +26,14 @@
 {{/flightstatus}}
 
 <div class="black shadow flight-block hidden" buttonorder>
+    <div class="order-data">
     <span> Ordenar por: </span>
-        <button type="button" data-button="price">Precio</button>
-        <button type="button" data-button="scale">Escalas</button>
-        <button type="button" data-button="airline">Aerolinea</button>
-        <button type="button" data-button="duration">Duracion</button>
+        <button type="button" data-button="price" class="order-buttons">Precio</button>
+        <button type="button" data-button="scale" class="order-buttons">Escalas</button>
+        <button type="button" data-button="airline" class="order-buttons">Aerolinea</button>
+        <button type="button" data-button="duration" class="order-buttons">Duracion</button>
  </div>
-
+</div>
 <div class="black shadow flight-block">
     {{#flights}}
     {{#inbound}}<div class="flight-data" status="inbound" id={{code}}> {{/inbound}}
@@ -76,7 +77,7 @@
         {{/inbound}}
         <div class="flight-buttons">
             <div class="flight-confirm">
-                <button type="button" name="confirm" data-flight-no={{code}} class="confirm-button">Seleccionar</button>
+                <button type="button" name="confirm" data-flight-no={{code}} class="confirm-button order-buttons">Seleccionar</button>
             </div>
         </div>
         <div class="clearfix"></div>

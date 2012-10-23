@@ -171,7 +171,6 @@
             options.type = "POST";
             options.dataType = "json";
             options.contentType = 'application/json; charset=UTF-8';
-            return call("Booking", data, options);
         },
 
 
@@ -200,10 +199,9 @@
         },
 
         reviewAirline: function(data, options) {
-            data = data || {};
-            data.method = "ReviewAirline";
+            data = {data: JSON.stringify(data)} || {};
+            data.method = "ReviewAirline2";
             options = options || {};
-            options.type = "POST";
             return call("Review", data, options);
         }
 
