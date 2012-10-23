@@ -292,7 +292,6 @@ initialize: function(lat, lng){
 
 getDealsFromCity: function(data){
     var num = parseInt(Math.random()*data.cities.length);
-    console.log(data);
     currentcity = data.cities[num];
     tittle = currentcity.name;
     this.$(".map-overlay").text(this.$(".map-overlay").html() + " " +tittle );
@@ -300,7 +299,6 @@ getDealsFromCity: function(data){
     API.Booking.getFlightDeals({
         from: currentcity.cityId,
     }).done(function(deals){
-        console.log(deals);
         that.drawMarkers(deals);
         var loc = new google.maps.LatLng(currentcity.latitude,currentcity.longitude);
         new google.maps.Marker({
@@ -312,7 +310,6 @@ getDealsFromCity: function(data){
 },
 drawMarkers: function(deals){
     deals = deals.deals;
-    console.log(deals);
     var yellow = '/static/img/yellow-dot.png';
     var green = '/static/img/green-dot.png';
     var blue = '/static/img/blue-dot.png';
@@ -361,7 +358,6 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
         this.collection = {};
         this.flightstatus = null;
         var fromlanding = MindTrips.Traveller;
-        console.log(fromlanding);
         if(fromlanding.roundtrip == "one-way"){
             API.Booking.getOneWayFlights({
                 from: fromlanding.from,
@@ -372,7 +368,6 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
                 infants: fromlanding.infants,
                 cabin_type: fromlanding.cabin_type,
             }).done(function(data){
-                console.log(data);
                 if(data.error == null){
                     that.flights = that.makeReadableFlightData(data);
                     that.setCollections();
@@ -389,7 +384,6 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
                 infants: fromlanding.infants,
                 cabin_type: fromlanding.cabin_type,
             }).done(function(data){
-                console.log(data);
                 if(data.error == null){
                     that.flights = that.makeReadableFlightData(data);
                     that.setCollections();
@@ -400,7 +394,6 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
     },
 
     setCollections: function(){
-        console.log(this.flights);
         this.collection.flights = JSON.parse(JSON.stringify(this.flights));
         if(this.flightstatus != null){
             this.collection.flightstatus = this.flightstatus;
@@ -437,14 +430,11 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
     setUpFinishButton: function(){
         var that = this;
         this.$(".finish-button").click(function(){
-            alert("entro");
             if(that.flightstatus.inbound != null && that.flightstatus.outbound != null){
                 MindTrips.Traveller = {};
                 MindTrips.Traveller = that.flightstatus;
-                console.log(MindTrips.Traveller);
                 MindTrips.router.navigate("flight/:id/pay", true);
             } else {
-                console.log("no flight selected");
             }
         });
     },
@@ -745,7 +735,6 @@ MindTrips.AirlineView = MindTrips.BaseView.extend({
         var that = this;
         var airline = API.Misc.getAirlineById({id:airlineId});
         airline.done(function(data){   
-            console.log(data)
             that.model = new MindTrips.Airline(data['airline']);
             that.render();
         });
@@ -772,24 +761,20 @@ MindTrips.CommentsView = MindTrips.BaseView.extend({
         });
         this.$("*[order-button]").click(function(){
             reviews = that.model;
-            console.log(reviews);
             reviews.comparator = function(elem){
                 return elem.get("flightNumber");
             }
             reviews.sort();
             that.collection = JSON.parse(JSON.stringify(reviews));
-            console.log(that.collection);
             that.render();
         });
         this.$("*[review-button]").click(function(){
             reviews = that.model;
-            console.log(reviews);
             reviews.comparator = function(elem){
                 return elem.get("overalRating");
             }
             reviews.sort();
             that.collection = JSON.parse(JSON.stringify(reviews));
-            console.log(that.collection);
             that.render();
         });
     },
@@ -811,7 +796,7 @@ MindTrips.CommentsView = MindTrips.BaseView.extend({
             comments.yesRecommend = false;
         }
         API.Review.reviewAirline(comments).done(function(data){
-            console.log(data);
+            that.render();
         });
 
     },
@@ -827,7 +812,6 @@ MindTrips.PaymentView = MindTrips.BaseView.extend({
     templateName: "payment",
     initialize: function(flightId){
         var that = this;
-        console.log(MindTrips.Traveller);
         this.collection = MindTrips.Traveller;
         that.render();
     },
@@ -864,7 +848,6 @@ MindTrips.PaymentView = MindTrips.BaseView.extend({
                 exp_date: card_exp_date,
                 sec_code: card_scode,
             }).done(function(data){
-                console.log(data);
                 if (data['valid']){
                     cardinfo.addClass("valid-msg");
                     cardinfo.removeClass("invalid-msg");
@@ -894,11 +877,10 @@ MindTrips.PaymentView = MindTrips.BaseView.extend({
                     if (data['valid']){
                         that.grabAllData();     
                     } else {
-                        alert("La informacion de la tarjeta no es correcta");
+                       
                     };
                 });
-            } else{
-                alert("La informacion de la tarjeta no es correcta");
+            } 
             };
         });
 }, 
@@ -914,7 +896,6 @@ MindTrips.PaymentView = MindTrips.BaseView.extend({
         this.grabPersonData(data.children,passengers,tosend);
         this.grabPersonData(data.infant,passengers,tosend);
         this.grabPaymentDetails(data,tosend);
-        console.log(tosend);
         this.completed2 = true;
         this.sendRequest(data,tosend);
 
@@ -956,14 +937,11 @@ MindTrips.PaymentView = MindTrips.BaseView.extend({
 
     sendRequest: function(data,tosend){
         if(this.completed == true && this.completed2 == true){
-            console.log(tosend);
             API.Booking.bookFlight(tosend).done(function(info){
-                console.log(info);
             });
             if(this.collection.inbound != null){
                 tosend.flightId = this.collection.inbound.code;
                 API.Booking.bookFlight(tosend).done(function(data){
-                    console.log(data);
                 });
             }
         }
@@ -996,7 +974,6 @@ MindTrips.PaymentView = MindTrips.BaseView.extend({
 
     render: function(eventName){
         var info = this.collection || [];
-        console.log(info);
         return this.renderData(eventName, {payment:info});
     },
 
