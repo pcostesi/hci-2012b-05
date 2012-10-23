@@ -361,6 +361,20 @@ input[type="text"]{
     padding-top: 7px;
     padding-bottom: 10px;
 }
+.order-buttons{
+    color: white;
+    border: none;
+    box-shadow: 1px 2px 5px rgba(100, 0, 0, 0.5);
+    background: rgba(100, 0, 0, 0.5);
+    font-size: 100%;
+    margin-bottom: 15px;
+}
+.order-data{
+    width: 940px;
+    margin-top: 10px;
+    padding-top: 7px;
+}
+
 .flight-data-info{
 
     width: 940px;
@@ -453,6 +467,10 @@ input[type="text"]{
     float:right;
 }
 
+.incomplete{
+    border: 1px solid #FF0000 !important;
+}
+
 .mapcomplete img  {
     float: left;
 }
@@ -502,6 +520,7 @@ input[type="text"]{
     padding:10px;
     border-right:2px solid rgba(150, 150, 150, 0.2);
     float:left;
+    width: 220px;
 }
 .city {
     border-radius: 5px;

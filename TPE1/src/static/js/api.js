@@ -164,10 +164,9 @@
         },
 
         bookFlight: function(data, options) {
-            data = data || {};
-            data.method = "BookFlight";
+            data = { data: data } || {};
+            data.method = "BookFlight2";
             options = options || {};
-            options.type = "POST";
             return call("Booking", data, options);
         },
         getFlightDeals: function(data,options) {
@@ -187,10 +186,9 @@
         },
 
         reviewAirline: function(data, options) {
-            data = data || {};
-            data.method = "ReviewAirline";
+            data = {data: JSON.stringify(data)} || {};
+            data.method = "ReviewAirline2";
             options = options || {};
-            options.type = "POST";
             return call("Review", data, options);
         }
 

@@ -3,7 +3,7 @@
 	<input type="button" value="Buscar" class="search-button">
 	<div class="col departure">
 		<h2>Origin</h2>
-		<input type="text" autocomplete-tags="true" placeholder="Ingrese una ciudad de origen" name="origin-flight" data-mapcomplete="from">
+		<input type="text" autocomplete-tags="true" placeholder="Insert an origin city" name="origin-flight" data-mapcomplete="from">
             <br>
 	        <div class="hide-on-minimized">
 	            <label><input type="checkbox" name="tripType" checked="checked" value="close-airport-origin" id="checkbox">Nearby Airports</label>
@@ -14,7 +14,7 @@
 
 	<div class="col return">
 		<h2>Destination</h2>
-		<input type="text" autocomplete-tags="true" placeholder="Ingrese una ciudad de destino" name="return-flight" data-mapcomplete="to"><br>
+		<input type="text" autocomplete-tags="true" placeholder="Insert a destination" name="return-flight" data-mapcomplete="to"><br>
         <div class="hide-on-minimized">
         	<label>
             <input type="checkbox" name="tripType" checked="checked" value="close-airport-origin" id="checkbox">
@@ -37,8 +37,19 @@
             <option value="6">6</option>
         </select>
         <br>
-        <span>Children:</span>
+        <span>Childrens:</span>
         <select name="children">
+            <option value="0" selected="selected">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+        </select>
+        <br>
+        <span>Infants:</span>
+        <select name="infants">
             <option value="0" selected="selected">0</option>
             <option value="1">1</option>
             <option value="2">2</option>
@@ -50,22 +61,22 @@
         <br>
         <span>Class:</span>
         <select name="class">
-            <option value="1" selected="selected">Economy</option>
-            <option value="2">Bussiness</option>
-            <option value="3">First-Class</option>
+            <option value="ECONOMY" selected="selected">Economic</option>
+            <option value="BUSINESS">Bussiness</option>
+            <option value="FIRST_CLASS">First-Class</option>
         </select>
         
 	</div>
 	<div class="col hide-on-minimized" id="search-extras">
 		<h2>Extras</h2>
 		<div id="round-container">
-			<label><input type="radio" name="round-trip" value="round-trip" id="round-check" checked="checked">Round Trip</label>
-            <label><input type="radio" name="round-trip" value="one-way" id="round-check">One way</label>
+			<label><input type="radio" name="round-trip" value="round-trip" id="round-check" checked="checked">Round</label>
+            <label><input type="radio" name="round-trip" value="one-way" id="round-check">One Way</label>
 	        <div id="round-container">
 	        	<label>
-	            <input type="radio" name="scale" value="with-scale" id="round-check" checked="checked">With Stopover</label>
+	            <input type="radio" name="scale" value="with-scale" id="round-check" checked="1">With Stopover</label>
 	            <label>
-	            <input type="radio" name="scale" value="no-scale" id="round-check">Without Stopver</label>
+	            <input type="radio" name="scale" value="0" id="round-check">Without Stopver</label>
 	        </div>
         </div>
         
@@ -75,4 +86,5 @@
 	<p>Mindtrips is the leading site in flight searching and reservations online.</p>
 </div>
 <div class="clearfix">
+
 </div>

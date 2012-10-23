@@ -125,6 +125,7 @@ MindTrips.LandingView = MindTrips.BaseView.extend({
         var dpDeparture = this.$('[data-date-picker="departure"]');
         var dpReturn = this.$('[data-date-picker="return"]');
         this.$(".search-button").click(function(){
+            if(!that.validateData()) return;
             MindTrips.Traveller = {};
             MindTrips.Traveller.departureDate = dpDeparture.datepicker("getDate");
             MindTrips.Traveller.returnDate = dpReturn.datepicker("getDate");
@@ -141,6 +142,30 @@ MindTrips.LandingView = MindTrips.BaseView.extend({
             MindTrips.Traveller.scales = that.$("input[name='scale']:checked").val();
             MindTrips.router.navigate("search/", true);
         });
+    },
+
+    validateData: function(){
+        var ok = true;
+        if(typeof this.$('[data-mapcomplete="from"]').data("map-option") == 'undefined'){
+            this.$('[data-mapcomplete="from"]').addClass("incomplete");
+            ok = false;
+        }
+        if(typeof this.$('[data-mapcomplete="to"]').data("map-option") == 'undefined'){
+            this.$('[data-mapcomplete="to"]').addClass("incomplete");
+            ok = false;
+        }
+        if(this.$('[data-date-picker="departure"]').val() == ""){
+            this.$('[data-date-picker="departure"]').addClass("incomplete");
+            ok = false;
+        }
+        if(this.$("[name='round-trip']:checked").val() != "one-way" && this.$('[data-date-picker="return"]').val() == ""){
+            this.$('[data-date-picker="return"]').addClass("incomplete");
+            ok = false;
+        }
+        if(ok){
+            return true;
+        }
+        return false;
     },
 
     bind: function(){
@@ -287,6 +312,7 @@ getDealsFromCity: function(data){
 },
 drawMarkers: function(deals){
     deals = deals.deals;
+    console.log(deals);
     var yellow = '/static/img/yellow-dot.png';
     var green = '/static/img/green-dot.png';
     var blue = '/static/img/blue-dot.png';
@@ -749,15 +775,22 @@ MindTrips.CommentsView = MindTrips.BaseView.extend({
     grabAllData: function(){
         var comments = {};
         comments.airlineId = this.airlineId;
-        comments.flightNumber = this.$("#flightId").val();
-        comments.foodRating = this.$("#food").val();
-        comments.punctualityRating = this.$("#punctual").val();
-        comments.friendlinessRating = this.$("#friendly").val();
-        comments.comfortRating = this.$("#confort").val();
-        comments.qualityPriceRating = this.$("#price").val();
-        comments.mileageProgramRating = this.$("#miles").val();
-        comments.comments = this.$(".comment").val();
-        comments.yesRecommend = this$(".recomend").val();
+        comments.flightNumber = parseInt(this.$('[name="flightId"]').val());
+        comments.foodRating = parseInt(this.$('[name="food"]').val());
+        comments.punctualityRating = parseInt(this.$('[name="punctual"]').val());
+        comments.friendlinessRating = parseInt(this.$('[name="friendly"]').val());
+        comments.comfortRating = parseInt(this.$('[name="confort"]').val());
+        comments.qualityPriceRating = parseInt(this.$('[name="price"]').val());
+        comments.mileageProgramRating = parseInt(this.$('[name="miles"]').val());
+        comments.comments = this.$("#comment").val();
+        if(this.$('[name="recomend"]').val() == "true"){
+            comments.yesRecommend = true;
+        }else{
+            comments.yesRecommend = false;
+        }
+        API.Review.reviewAirline(comments).done(function(data){
+            console.log(data);
+        });
 
     },
 
@@ -901,6 +934,7 @@ MindTrips.PaymentView = MindTrips.BaseView.extend({
 
     sendRequest: function(data,tosend){
         if(this.completed == true && this.completed2 == true){
+            console.log(tosend);
             API.Booking.bookFlight(tosend).done(function(info){
                 console.log(info);
             });
