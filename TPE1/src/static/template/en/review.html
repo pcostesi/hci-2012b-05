@@ -1,9 +1,12 @@
-<div class="airline black shadow">
+<<div class="airline black shadow">
         <h2>Comments</h2>
+        <span>Order by: </span>
+        <button type="button" order-button class="order-buttons">Flight number</button>
+        <button type="button" review-button class="order-buttons">Score</button>
         <ul>
         {{#comments}}
-                <li><div class="comment">
-                        Vuelo {{flight}}
+                <div class="comment">
+                        Flight {{flightNumber}}
                         <div class="ratings">
                         <h3>Rating: <span>{{overallRating}}</span></h3>
                         <ul>
@@ -11,24 +14,31 @@
                                 <li>Punctuality: <span>{{punctualityRating}}</span></li>
                                 <li>Friendliness: <span>{{friendlinessRating}}</span></li>
                                 <li>Comfort: <span>{{comfortRating}}</span></li>
-                                <li>Price: <span>{{qualityPriceRating}}</span></li>
+                                <li>Prices: <span>{{qualityPriceRating}}</span></li>
                                 <li>Mileage Program: <span>{{mileageProgramRating}}</span></li>
                         </ul>
                         </div>
                         <p>{{comments}}</p>
-                </div></li>
+                </div>
         {{/comments}}
         </ul>
         {{^comments}}
         <p class="copyright">No comments.</p>
         {{/comments}}
+        <div class="clearfix"></div> 
+    </div>
+    <div class="airline black shadow">
         <div class="post-comment">
                 <h3>Rating</h3>
                 <div class="ratings">
                 <table>
-                        <tr>
-                                <td>Food:</td> <td><select name="food">
-                                    <option value="1" selected="selected">1</option>
+                <tr>
+                    <td>Flight:</td>
+                    <td><input type="text" name="flightId" placeholder="Numero Vuelo"></td>
+                </tr>
+                <tr>
+                    <td>Food:</td> <td><select name="food">
+                    <option value="1" selected="selected">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
                         <option value="4">4</option>
@@ -79,7 +89,7 @@
                     </select></td>
                         </tr>
                 <tr>
-                                <td>Price:</td> <td><select name="price">
+                                <td>Prices:</td> <td><select name="price">
                                     <option value="1" selected="selected">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -92,7 +102,7 @@
                     </select></td>
                         </tr>
                 <tr>
-                <td>Mileage Program:</td> <td><select name="miles">
+                <td>Mileage program:</td> <td><select name="miles">
                         <option value="1" selected="selected">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -104,10 +114,16 @@
                         <option value="9">9</option>
                     </select></td>
                         </tr>
+                <tr>
+                <td>Would you recommend it?</td> <td><select name="recomend">
+                        <option value="true" selected="selected">Yes</option>
+                        <option value="false">No</option>
+                    </select></td>
+                        </tr>
                 </table>
                 </div>
                 <h3>Comment</h3>
                 <input type="text" id="comment"></input>
-                <input type="button" value="Publicar" data-publish-button></input>
+                <input type="button" value="Publish" data-publish-button></input>
         </div>
 </div>
