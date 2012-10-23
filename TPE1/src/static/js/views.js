@@ -412,12 +412,11 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
     setUpFinishButton: function(){
         var that = this;
         this.$(".finish-button").click(function(){
-            alert("entro");
             if(that.flightstatus.inbound != null && that.flightstatus.outbound != null){
                 MindTrips.Traveller = {};
                 MindTrips.Traveller = that.flightstatus;
                 console.log(MindTrips.Traveller);
-                MindTrips.router.navigate("flight/:id/pay", true);
+                MindTrips.router.navigate("pay", true);
             } else {
                 console.log("no flight selected");
             }
@@ -800,23 +799,7 @@ MindTrips.PaymentView = MindTrips.BaseView.extend({
         this.$(".confirm-button").click(function(){
             var card_type = that.$("select#card_type").val();
             var card_number = that.$("#card_number").val();
-            if (that.isValidCreditCard(card_type, card_number)) {
-                var card_exp_date = that.$("#card_exp_month").val() + that.$("#card_exp_year").val();
-                var card_scode = that.$("#card_scode").val();
-                API.Booking.validateCreditCard({
-                    number: card_number,
-                    exp_date: card_exp_date,
-                    sec_code: card_scode,
-                }).done(function(data){
-                    if (data['valid']){
-                        that.grabAllData();     
-                    } else {
-                        alert("La informacion de la tarjeta no es correcta");
-                    };
-                });
-            } else{
-                alert("La informacion de la tarjeta no es correcta");
-            };
+        
         });
 }, 
 
@@ -858,7 +841,7 @@ MindTrips.PaymentView = MindTrips.BaseView.extend({
             that.completed = true;
             var city = info.cities[0];
             tosend.billingAddress.country = city.countryId;
-            tosend.billingAddress.city = city.cityId;
+            tosend.billingAddress.City = city.cityId;
             tosend.billingAddress.state = city.name;
             that.sendRequest(data,tosend);    
         });

@@ -86,6 +86,7 @@ MindTrips.AppRouter = Backbone.Router.extend({
         "search"            : "search",
         "search/*params"    : "search",
         "flight/:id/pay"    : "payment",
+        "pay"               : "payment",
         "airline/:id"       : "airline",
         "city/:id"          : "city",
     },
