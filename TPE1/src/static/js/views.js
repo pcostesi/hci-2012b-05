@@ -230,7 +230,8 @@ drawMarkers: function(){
             path: locs,
             strokeColor: "#FF0000",
             strokeOpacity: 1.0,
-            strokeWeight: 2
+            strokeWeight: 2,
+            geodesic: true,
         }).setMap(this.map);
         new google.maps.event.trigger(this.map,'resize');
         this.map.fitBounds(bounds);
@@ -411,14 +412,18 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
     setUpFinishButton: function(){
         var that = this;
         this.$(".finish-button").click(function(){
-            if(that.flightstatus.inbound != null && that.flightstatus.outbound != null){
-                MindTrips.Traveller = {};
-                MindTrips.Traveller = that.flightstatus;
-                console.log(MindTrips.Traveller);
-                MindTrips.router.navigate("pay", true);
-            } else {
-                console.log("no flight selected");
+            if(!that.flightstatus.inbound){
+                console.log("No outbound flight selected");
+                return;
+            } 
+            if (!that.flightstatus.outbound && MindTrips.Traveller.roundtrip){
+                return;
             }
+            MindTrips.Traveller = {};
+            MindTrips.Traveller = that.flightstatus;
+            console.log(MindTrips.Traveller);
+            MindTrips.router.navigate("pay", true);
+        
         });
     },
 
@@ -591,7 +596,7 @@ MindTrips.FlightListView = MindTrips.BaseView.extend({
         if(actualflight[route][0].segments.length == 1){
             var actualscale = actualflight[route][0].segments[0];
             var airId = this.getAirlineLogo(actualscale.airlineId,data);
-            flight.set("code", actualscale.flightId);
+            flight.set("code", actualscale.flightNumber);
             var companiesdata = new FlightCompanie();
                 companiesdata.set("logo", airId);
                 companiesdata.set("name", actualscale.airlineName);
@@ -827,7 +832,7 @@ MindTrips.PaymentView = MindTrips.BaseView.extend({
         this.$(".confirm-button").click(function(){
             var card_type = that.$("select#card_type").val();
             var card_number = that.$("#card_number").val();
-        
+            that.grabAllData();
         });
 }, 
 
@@ -869,7 +874,7 @@ MindTrips.PaymentView = MindTrips.BaseView.extend({
             that.completed = true;
             var city = info.cities[0];
             tosend.billingAddress.country = city.countryId;
-            tosend.billingAddress.City = city.cityId;
+            tosend.billingAddress.city = city.cityId;
             tosend.billingAddress.state = city.name;
             that.sendRequest(data,tosend);    
         });
@@ -886,13 +891,19 @@ MindTrips.PaymentView = MindTrips.BaseView.extend({
         if(this.completed == true && this.completed2 == true){
             API.Booking.bookFlight(tosend).done(function(info){
                 console.log(info);
+                // MAGICAL HARCODED METHOD HERE!
+                console.log(data);
+
             });
             if(this.collection.inbound != null){
                 tosend.flightId = this.collection.inbound.code;
                 API.Booking.bookFlight(tosend).done(function(data){
                     console.log(data);
+                    // YET ANOTHER MAGICAL HARCODED METHOD HERE!
+                
                 });
             }
+            MindTrips.router.navigate("hellyeah", true);
         }
     },
     grabPersonData: function(data, passengers, tosend){
@@ -927,4 +938,14 @@ MindTrips.PaymentView = MindTrips.BaseView.extend({
         return this.renderData(eventName, {payment:info});
     },
 
+});
+
+
+MindTrips.OverviewView = MindTrips.BaseView.extend({
+    templateName: "overview",
+
+    render: function(eventName){
+        this.renderData(eventName, MindTrips.Traveller);
+        return this;
+    },
 });

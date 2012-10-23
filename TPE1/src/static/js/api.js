@@ -20,6 +20,7 @@
         options.data     = data;
         options.dataType = options.dataType || "jsonp";
         options.success  = options.success || callback;
+        options.contentType = options.contentType || 'application/x-www-form-urlencoded; charset=UTF-8';
 
         return $.ajax(options);
     };
@@ -163,13 +164,25 @@
             return call("Booking", data, options)
         },
 
-        bookFlight: function(data, options) {
+        bookFlightOld: function(data, options) {
             data = data || {};
             data.method = "BookFlight";
             options = options || {};
             options.type = "POST";
+            options.dataType = "json";
+            options.contentType = 'application/json; charset=UTF-8';
             return call("Booking", data, options);
         },
+
+
+        bookFlight: function(data, options) {
+            data = data || {};
+            data.method = "BookFlight2";
+            options = options || {};
+            options.type = "GET";
+            return call("Booking", data, options);
+        },
+
         getFlightDeals: function(data,options) {
             data = data || {};
             data.method = "GetFlightDeals";

@@ -1,35 +1,65 @@
 
 <div class=" payment center">
-
+    {{#inbound}}
     <div class=" flight-review black shadow">
-        <h2>Resumen Final del pasaje:</h2><br>
+        <h2>Resumen Final del pasaje de ida:</h2><br>
 
-        Precio por pasajero:<br><br>
+        Precio por pasajero: {{fare}} {{currency}}<br><br>
 
-        Cantidad de pasajeros:<br><br>
+        Impuestos y cargos: {{taxes}} {{currency}}<br><br>
 
-        Impuestos y cargos:<br><br>
+        Precio total: {{total}} {{currency}}<br><br>
 
-        Precio total:<br><br>
+        Nombre de la aerolínea: {{#companies}}{{name}}{{/companies}} <br><br>
 
-        Nombre de la aerolínea:<br><br>
+        Número del vuelo: {{code}} <br><br>
 
-        Fecha del vuelo:<br><br>
+        Cantidad de escalas: {{#inbound}}{{scale}}{{/inbound}} <br><br>
 
-        Número del vuelo:<br><br>
+        Horario de salida: {{#inbound}}{{deptime}}{{/inbound}} <br><br>
 
-        Cantidad de escalas:<br><br>
-
-        Horario de salida:<br><br>
-
-        Horario de llegada:<br><br>
-
-        Tarjeta:<br><br>
-
-        E-mail de contacto:<br><br>
+        Horario de llegada: {{#inbound}}{{arrtime}}{{/inbound}} <br><br>
 
     </div>
+    {{/inbound}}
 
+    {{#outbound}}
+    <div class=" flight-review black shadow">
+        <h2>Resumen Final del pasaje de vuelta:</h2><br>
+
+        Precio por pasajero: {{fare}} {{currency}}<br><br>
+
+        Impuestos y cargos: {{taxes}} {{currency}}<br><br>
+
+        Precio total: {{total}} {{currency}}<br><br>
+
+        Nombre de la aerolínea: {{#companies}}{{name}}{{/companies}} <br><br>
+
+        Número del vuelo: {{code}} <br><br>
+
+        Cantidad de escalas: {{#outbound}}{{scale}}{{/outbound}} <br><br>
+
+        Horario de salida: {{#outbound}}{{deptime}}{{/outbound}} <br><br>
+
+        Horario de llegada: {{#outbound}}{{arrtime}}{{/outbound}} <br><br>
+
+
+    </div>
+    {{/outbound}}
+
+    <div class="black shadow">
+
+        Cantidad de pasajeros:<br>
+        {{#adult}}Adultos: {{quantity}}<br>{{/adult}}
+        {{#children}}Chicos: {{quantity}}<br>{{/children}}
+        {{#infant}}Infantes: {{quantity}}<br>{{/infant}}
+
+        <br>
+<br><br>
+Cargos: {{charges}} {{currency}} <br><br>
+        Impuestos: {{taxes}} {{currency}}<br><br>
+        Total: {{total}} {{currency}}
+    </div>
     <div class="return">
         <br>
         <input type="button" class="return-button"  value="Volver">
