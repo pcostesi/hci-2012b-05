@@ -802,7 +802,6 @@ MindTrips.CommentsView = MindTrips.BaseView.extend({
     },
 
     render: function(eventName){
-        console.log(this.collection);
         return this.renderData(eventName, {comments:this.collection});
     },
 
@@ -877,10 +876,10 @@ MindTrips.PaymentView = MindTrips.BaseView.extend({
                     if (data['valid']){
                         that.grabAllData();     
                     } else {
-                       
+                    
                     };
                 });
-            } 
+            } else{
             };
         });
 }, 
