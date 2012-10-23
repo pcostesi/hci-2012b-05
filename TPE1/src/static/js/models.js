@@ -4,7 +4,6 @@ MindTrips = window.MindTrips || {}
 var MindTrips = MindTrips;
 
 
-
 MindTrips.BaseModel = Backbone.Model.extend({});
 
 FlightInfo = Backbone.Model.extend({});
@@ -22,4 +21,5 @@ MindTrips.BaseCollection = Backbone.Collection.extend({});
 
 
 MindTrips.Airline = MindTrips.BaseModel.extend({});
+MindTrips.Reviews = MindTrips.BaseModel.extend({});
 MindTrips.City = MindTrips.BaseModel.extend({});

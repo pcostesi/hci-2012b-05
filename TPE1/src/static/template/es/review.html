@@ -2,8 +2,8 @@
         <h2>Comentarios</h2>
         <ul>
         {{#comments}}
-                <li><div class="comment">
-                        Vuelo {{flight}}
+                <div class="comment">
+                        Vuelo {{flightNumber}}
                         <div class="ratings">
                         <h3>Rating: <span>{{overallRating}}</span></h3>
                         <ul>
@@ -16,19 +16,24 @@
                         </ul>
                         </div>
                         <p>{{comments}}</p>
-                </div></li>
+                </div>
         {{/comments}}
         </ul>
         {{^comments}}
         <p class="copyright">No hay comentarios.</p>
         {{/comments}}
+        <div class="clearfix"></div> 
         <div class="post-comment">
                 <h3>Rating</h3>
                 <div class="ratings">
                 <table>
-                        <tr>
-                                <td>Comida:</td> <td><select name="food">
-                                    <option value="1" selected="selected">1</option>
+                <tr>
+                    <td>Vuelo:</td>
+                    <td><input type="text" name="flightId" placeholder="Numero Vuelo"></td>
+                </tr>
+                <tr>
+                    <td>Comida:</td> <td><select name="food">
+                    <option value="1" selected="selected">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
                         <option value="4">4</option>
@@ -102,6 +107,12 @@
                         <option value="7">7</option>
                         <option value="8">8</option>
                         <option value="9">9</option>
+                    </select></td>
+                        </tr>
+                <tr>
+                <td>La Recomendaria?</td> <td><select name="recomend">
+                        <option value="true" selected="selected">Si</option>
+                        <option value="false">No</option>
                     </select></td>
                         </tr>
                 </table>
