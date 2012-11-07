@@ -4,14 +4,9 @@
         android:orderInCategory="100"
         android:showAsAction="never" />
     
-    <item android:id="@+id/flight_status" 
-        android:title="@string/flight_status" 
-        android:orderInCategory="98" 
-        android:showAsAction="ifRoom"></item>
-    
-    <item android:id="@+id/ratings" 
+    <item android:id="@+id/main" 
         android:orderInCategory="97" 
         android:showAsAction="ifRoom" 
-        android:title="@string/ratings"></item>
+        android:title="@string/home"></item>
     
 </menu>
