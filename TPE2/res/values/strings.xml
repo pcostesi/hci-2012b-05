@@ -13,5 +13,23 @@
     <string name="airline">Airline</string>
     <string name="send_review">Send Review</string>
     <string name="comments">Insert your comments</string>
+    <string name="friendliness">Friendliness</string>
+    <string name="food">Food</string>
+    <string name="comfort">Comfort</string>
+    <string name="qualityprice">Quality vs Price</string>
+    <string name="punctuality">Punctuality</string>
+    <string name="mileage">Mileage</string>
+    <string name="review">Review</string>
+    <string name="flight">Save Flight</string>
+    <string name="airline1">Airline:</string>
+    <string name="flight_id">Flight ID:</string>
+    <string name="departure">Departure</string>
+    <string name="airport">Airport:</string>
+    <string name="placeholder">Flight Data</string>
+    <string name="gatetime">Gate Time:</string>
+    <string name="gate">Gate:</string>
+    <string name="termina">Terminal:</string>
+    <string name="tofftime">Takeoff Time:</string>
+    <string name="arrival">Arrival</string>
 
 </resources>
