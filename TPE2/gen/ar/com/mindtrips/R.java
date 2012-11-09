@@ -95,6 +95,7 @@ public final class R {
         public static final int friendliness=0x7f05000d;
         public static final int gate=0x7f05001b;
         public static final int gatetime=0x7f05001a;
+        public static final int airport_or_city=0x7f050005;
         public static final int hello_world=0x7f050001;
         public static final int home=0x7f050006;
         public static final int menu_settings=0x7f050002;

@@ -30,6 +30,7 @@
     <string name="gate">Gate:</string>
     <string name="termina">Terminal:</string>
     <string name="tofftime">Takeoff Time:</string>
+    <string name="airport_or_city">Airport or City</string>
     <string name="arrival">Arrival</string>
 
 </resources>

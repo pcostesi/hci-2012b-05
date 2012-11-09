@@ -48,5 +48,4 @@
         android:layout_below="@+id/fragment_container" >
 
     </FrameLayout>
-
 </RelativeLayout>
