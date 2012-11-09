@@ -16,7 +16,7 @@ public class MainActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-RequestReceiver receiver = new RequestReceiver() {
+        RequestReceiver receiver = new RequestReceiver() {
 			
 			public void onStarted() {
 			}
