@@ -4,5 +4,8 @@
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="departure">Departure</string>
+    <string name="airport_or_city">Airport or City</string>
+    <string name="arrival">Arrival</string>
 
 </resources>
