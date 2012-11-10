@@ -5,6 +5,7 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import ar.edu.itba.hci2012.api.FlightsAPIService;
 import ar.edu.itba.hci2012.api.QueryIntent;
@@ -19,16 +20,18 @@ public class MainActivity extends Activity {
         RequestReceiver receiver = new RequestReceiver() {
 			
 			public void onStarted() {
+				Log.i("API", "Started api request");
 			}
 			
 			public void onData(String data) {
 				System.out.println(data);
+				Log.i("data", data);
 			}
 
 			@Override
 			public void onNetworkError(String error) {
 				// TODO Auto-generated method stub
-				
+				Log.e("network", "NETWORK ERROR!!!!");
 			}
 
 			@Override
@@ -49,9 +52,10 @@ public class MainActivity extends Activity {
 				
 			}
 		};
-		
+		Log.i("Test", "Starting");
 		Intent req = new QueryIntent(receiver, FlightsAPIService.GET, "Misc", "GetCurrencies", null, null);
 		startService(req);
+		Log.i("Test", "Service called");
 
     }
 
