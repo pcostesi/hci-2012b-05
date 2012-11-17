@@ -1,6 +1,5 @@
 package ar.com.mindtrips;
 
-import objects.Ratings;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +13,7 @@ import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.Switch;
 import ar.com.mindtrips.R.id;
+import ar.com.mindtrips.objects.Ratings;
 
 public class RatingActivity extends Activity {
 	
