@@ -1,28 +1,36 @@
 package ar.com.mindtrips;
 
+import org.json.JSONObject;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import ar.edu.itba.hci2012.api.RequestReceiver;
+import ar.edu.itba.hci2012.api.intent.Get;
+import ar.edu.itba.hci2012.api.intent.QueryIntent;
 
 public class MainActivity extends FragmentActivity {
-	
+	FlightSelector selector;
+	FlightData activity;
+	ProgressBar progress;
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        FlightSelector selector = new FlightSelector();
-        FlightData activity = new FlightData();
+        selector = new FlightSelector();
+        activity = new FlightData();
         getSupportFragmentManager().beginTransaction().add(R.id.flight_data_container, activity).commit();
         getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, selector).commit();
-        ProgressBar progress = (ProgressBar) findViewById(R.id.loading);
+        progress = (ProgressBar) findViewById(R.id.loading);
         progress.setVisibility(View.INVISIBLE);
+        
 	}
 
     @Override
@@ -47,6 +55,23 @@ public class MainActivity extends FragmentActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+    
+    public void changeData(String airline, Integer flightid){
+    	progress.setVisibility(View.VISIBLE);
+    	RequestReceiver reciver = new RequestReceiver(){
+			
+    		public void onSuccess(JSONObject json) {
+    			System.out.println(json.toString());
+			}
+			public void onError(String msg, int code) {
+				System.out.println(msg + " " + code);
+			}
+    	};
+    	QueryIntent intent = new Get(reciver,"Status","GetFlightStatus");
+    	intent.put("airline_id", airline);
+    	intent.put("flight_num", flightid.toString());
+		startService(intent);
     }
 }
 
