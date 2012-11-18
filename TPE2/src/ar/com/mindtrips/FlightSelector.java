@@ -6,6 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -131,6 +132,9 @@ public class FlightSelector extends Fragment {
 	}
 
 	public void incorrectData() {
-		airlineid.setTextColor(0xFF0000);
+		airlineid.setTextColor(Color.RED);
+	}
+	public void correctData(){
+		airlineid.setTextColor(Color.BLACK);
 	}
 }

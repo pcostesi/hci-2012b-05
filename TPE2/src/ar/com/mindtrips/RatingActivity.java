@@ -1,5 +1,8 @@
 package ar.com.mindtrips;
 
+import org.json.JSONObject;
+import org.json.JSONStringer;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +17,9 @@ import android.widget.RatingBar;
 import android.widget.Switch;
 import ar.com.mindtrips.R.id;
 import ar.com.mindtrips.objects.Ratings;
+import ar.edu.itba.hci2012.api.RequestReceiver;
+import ar.edu.itba.hci2012.api.intent.Post;
+import ar.edu.itba.hci2012.api.intent.QueryIntent;
 
 public class RatingActivity extends Activity {
 	
@@ -32,7 +38,9 @@ public class RatingActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_rating);
 		setListeners();
-		
+		Bundle extras = getIntent().getExtras();
+		data.airlineId = extras.getString("airline");
+		data.flightNumber = extras.getInt("flightId");
 	}	
 
 	@Override
@@ -44,19 +52,30 @@ public class RatingActivity extends Activity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle item selection
-		Intent intent;
 		switch (item.getItemId()) {
 		case R.id.main:
-			intent = new Intent(this, MainActivity.class);
-			startActivity(intent);
+			finish();
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
 	}
 	
-	public void getRatings(){
-		
+	public void sendReview(){
+		RequestReceiver reciver = new RequestReceiver() {
+
+			@Override
+			public void onSuccess(JSONObject json) {
+				System.out.println(json);
+				
+			}
+			public void onError(String msg, int code) {
+				System.out.println(msg + " " + code);
+			}
+		};
+		Intent intent = new Post(reciver, "Review", "ReviewAirline", data.toJson());
+		startService(intent);
+		 
 	}
 	
 	public void setListeners(){
@@ -82,7 +101,7 @@ public class RatingActivity extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				data.comment = comment.getText().toString();
-				System.out.println(comment.getText());
+				sendReview();
 				
 			}
 			
