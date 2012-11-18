@@ -3,10 +3,8 @@ package ar.com.mindtrips;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.os.Bundle;
-import android.app.Activity;
 import android.content.Intent;
-import android.support.v4.app.Fragment;
+import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -28,6 +26,7 @@ public class MainActivity extends FragmentActivity {
 	Button flight;
 	String airline;
 	String flightId;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -94,6 +93,7 @@ public class MainActivity extends FragmentActivity {
 			return super.onOptionsItemSelected(item);
 		}
 	}
+
 
 	public void changeData(final String airline, final Integer flightid) {
 		progress.setVisibility(View.VISIBLE);

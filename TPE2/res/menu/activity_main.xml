@@ -13,5 +13,6 @@
         android:orderInCategory="97" 
         android:showAsAction="ifRoom" 
         android:title="@string/ratings"></item>
+    <item android:id="@+id/searchbar" android:showAsAction="always" android:visible="true" android:actionLayout="@layout/fragment_deal_search" android:title="Search"></item>
     
 </menu>
