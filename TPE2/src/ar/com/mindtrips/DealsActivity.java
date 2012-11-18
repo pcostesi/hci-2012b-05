@@ -17,7 +17,7 @@ public class DealsActivity extends Activity {
 	    if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
 	      String query = intent.getStringExtra(SearchManager.QUERY);
 	      //doMySearch(query);
-	      System.out.println("YAY FUCKERS");
+	      System.out.println("YAY F UCKERS");
 	    }
 	}
 }
