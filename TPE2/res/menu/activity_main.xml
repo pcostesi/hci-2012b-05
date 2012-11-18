@@ -3,7 +3,6 @@
     <item
         android:id="@+id/searchbar"
         android:actionViewClass="android.widget.SearchView"
-        android:menuCategory="container"
         android:showAsAction="ifRoom|collapseActionView"
         android:title="Search"
         android:visible="true"/>

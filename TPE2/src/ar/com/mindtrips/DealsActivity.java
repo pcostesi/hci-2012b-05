@@ -12,12 +12,13 @@ public class DealsActivity extends Activity {
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.activity_deals);
 
+	      System.out.println("YAY FUCKERS");
 	    // Get the intent, verify the action and get the query
 	    Intent intent = getIntent();
 	    if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
 	      String query = intent.getStringExtra(SearchManager.QUERY);
 	      //doMySearch(query);
-	      System.out.println("YAY F UCKERS");
+	      System.out.println("QUERYING HELL");
 	    }
 	}
 }

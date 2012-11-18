@@ -75,7 +75,7 @@ public class FlightSelector extends Fragment {
 
 	private void setUpOk(View view) {
 		airlinename = (AutoCompleteTextView) view.findViewById(
-				R.id.airlineName);
+				R.id.airlinename);
 		airlineid = (EditText) view.findViewById(R.id.airlineid);
 		airlinename.addTextChangedListener(new TextWatcher() {
 			public void afterTextChanged(Editable arg0) {
@@ -123,7 +123,7 @@ public class FlightSelector extends Fragment {
 
 	private void setAutocomplete(String[] data) {
 		AutoCompleteTextView textView = (AutoCompleteTextView) getView()
-				.findViewById(R.id.airlineName);
+				.findViewById(R.id.airlinename);
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(
 				container.getContext(), android.R.layout.simple_list_item_1,
 				data);

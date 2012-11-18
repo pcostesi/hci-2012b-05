@@ -1,12 +1,19 @@
 package ar.com.mindtrips;
 
+import java.util.Calendar;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.SearchManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -18,6 +25,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
+import android.widget.Toast;
 import ar.edu.itba.hci2012.api.RequestReceiver;
 import ar.edu.itba.hci2012.api.intent.Get;
 import ar.edu.itba.hci2012.api.intent.QueryIntent;
@@ -66,12 +74,14 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.activity_main, menu);
-		
-	    // Get the SearchView and set the searchable configuration
-	    SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-	    SearchView searchView = (SearchView) menu.findItem(R.id.searchbar).getActionView();
-	    searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-		
+
+		// Get the SearchView and set the searchable configuration
+		SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+		SearchView searchView = (SearchView) menu.findItem(R.id.searchbar)
+				.getActionView();
+		searchView.setSearchableInfo(searchManager
+				.getSearchableInfo(getComponentName()));
+
 		return true;
 	}
 
@@ -104,7 +114,6 @@ public class MainActivity extends FragmentActivity {
 		}
 	}
 
-
 	public void changeData(final String airline, final Integer flightid) {
 		progress.setVisibility(View.VISIBLE);
 		RequestReceiver reciver = new RequestReceiver() {
@@ -133,9 +142,28 @@ public class MainActivity extends FragmentActivity {
 		intent.put("flight_num", flightid.toString());
 		startService(intent);
 	}
-	private void setCorrectData(String airline, String flightId){
+
+	private void setCorrectData(String airline, String flightId) {
 		this.airline = airline;
 		this.flightId = flightId;
-		
+
+	}
+
+	private void setService() {
+		Intent myIntent = new Intent(MainActivity.this, LocalService.class);
+		PendingIntent pendingIntent = PendingIntent.getService(
+				MainActivity.this, 0, myIntent, 0);
+
+		AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTimeInMillis(System.currentTimeMillis());
+		calendar.set(Calendar.SECOND, 10);
+		alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
+				calendar.getTimeInMillis(),
+				AlarmManager.INTERVAL_FIFTEEN_MINUTES, pendingIntent);
+
+		Toast.makeText(MainActivity.this, "Start Alarm", Toast.LENGTH_LONG)
+				.show();
 	}
 }

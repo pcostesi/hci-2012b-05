@@ -6,7 +6,6 @@ import org.json.JSONObject;
 public class Ratings {
 	public String airlineId = null;
 	public Integer flightNumber = null;
-	public Integer overallRating = 1;
 	public Integer friendlinessRating = 1;
 	public Integer foodRating = 1;
 	public Integer punctualityRating = 1;
@@ -21,7 +20,6 @@ public class Ratings {
 	    try {
 	        jsonObject.put("airlineId", airlineId);
 	        jsonObject.put("flightNumber", flightNumber);
-	        jsonObject.put("overallRating", overallRating);
 	        jsonObject.put("friendlinessRating", friendlinessRating);
 	        jsonObject.put("foodRating", foodRating);
 	        jsonObject.put("punctualityRating", punctualityRating);
@@ -30,9 +28,9 @@ public class Ratings {
 	        jsonObject.put("qualityPriceRating", qualityPriceRating);
 	        jsonObject.put("yesRecommend", yesRecommend);
 	        if(comment != null){
-	        	jsonObject.put("comment", comment);
+	        	jsonObject.put("comments", comment);
 	        }else{
-	        	jsonObject.put("comment", "");
+	        	jsonObject.put("comments", "");
 	        }
 	        return jsonObject.toString();
 	    } catch (JSONException e) {

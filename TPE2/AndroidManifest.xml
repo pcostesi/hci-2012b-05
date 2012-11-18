@@ -3,6 +3,8 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <uses-sdk
         android:minSdkVersion="15"
         android:targetSdkVersion="15" />
@@ -21,8 +23,10 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <meta-data android:name="android.app.default_searchable"
-                   android:value=".DealsActivity" />
+
+            <meta-data
+                android:name="android.app.default_searchable"
+                android:value=".DealsActivity" />
         </activity>
         <activity
             android:name=".RatingActivity"
@@ -36,10 +40,20 @@
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
+
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
+
+        <service
+            android:name="ar.edu.itba.hci2012.api.FlightsAPIService"
+            android:enabled="true"
+            android:process=":remote" >
+            <intent-filter>
+                <action android:name="ar.edu.itba.hci2012.api.ACTION_QUERY" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

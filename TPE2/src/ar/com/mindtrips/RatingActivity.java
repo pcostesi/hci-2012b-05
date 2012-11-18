@@ -40,7 +40,7 @@ public class RatingActivity extends Activity {
 		setListeners();
 		Bundle extras = getIntent().getExtras();
 		data.airlineId = extras.getString("airline");
-		data.flightNumber = extras.getInt("flightId");
+		data.flightNumber = (Integer.parseInt(extras.getString("flightId")));
 	}	
 
 	@Override
@@ -114,12 +114,6 @@ public class RatingActivity extends Activity {
 			}
 		});	
 		foodRating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-			public void onRatingChanged(RatingBar ratingBar, float rating,
-					boolean fromUser) {	
-				data.foodRating = ((int)(rating*2))+1;
-			}
-		});	
-		friendlinessRating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
 			public void onRatingChanged(RatingBar ratingBar, float rating,
 					boolean fromUser) {	
 				data.foodRating = ((int)(rating*2))+1;
