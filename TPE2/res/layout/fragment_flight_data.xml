@@ -17,5 +17,4 @@
             android:shrinkColumns="1" >
         </TableLayout>
     </ScrollView>
-
 </LinearLayout>

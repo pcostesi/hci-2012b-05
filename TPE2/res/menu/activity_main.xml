@@ -1,6 +1,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
+        android:id="@+id/searchbar"
+        android:actionViewClass="android.widget.SearchView"
+        android:menuCategory="container"
+        android:showAsAction="ifRoom|collapseActionView"
+        android:title="Search"
+        android:visible="true"/>
+    <item
         android:id="@+id/menu_settings"
         android:orderInCategory="100"
         android:showAsAction="never"
@@ -17,6 +24,4 @@
         android:showAsAction="ifRoom"
         android:title="@string/ratings">
     </item>
-
-
 </menu>
