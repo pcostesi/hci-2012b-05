@@ -2,13 +2,17 @@ package ar.com.mindtrips;
 
 import org.json.JSONObject;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.SearchView;
 import ar.edu.itba.hci2012.api.RequestReceiver;
 import ar.edu.itba.hci2012.api.intent.Get;
 import ar.edu.itba.hci2012.api.intent.QueryIntent;
@@ -36,6 +40,12 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.activity_main, menu);
+		
+	    // Get the SearchView and set the searchable configuration
+	    SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+	    SearchView searchView = (SearchView) menu.findItem(R.id.searchbar).getActionView();
+	    searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+		
 		return true;
 	}
 
