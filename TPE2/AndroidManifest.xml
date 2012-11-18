@@ -22,7 +22,15 @@
         </activity>
         <activity android:name=".RatingActivity" android:label="@string/ratings"></activity>
         <activity android:label="@string/flight_status" android:name=".FlightStatusActivity"></activity>
+        <activity android:name=".DealsActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
 
-    </application>
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
+</application>
 
 </manifest>
