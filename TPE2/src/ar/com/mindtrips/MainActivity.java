@@ -1,31 +1,20 @@
 package ar.com.mindtrips;
 
-import java.util.Calendar;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.app.SearchManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
-import android.widget.Toast;
 import ar.edu.itba.hci2012.api.RequestReceiver;
 import ar.edu.itba.hci2012.api.intent.Get;
 import ar.edu.itba.hci2012.api.intent.QueryIntent;
@@ -38,6 +27,7 @@ public class MainActivity extends FragmentActivity {
 	Button flight;
 	String airline;
 	String flightId;
+	String flightdata;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -56,6 +46,12 @@ public class MainActivity extends FragmentActivity {
 		review.setVisibility(View.INVISIBLE);
 		flight.setVisibility(View.INVISIBLE);
 		setOnClick();
+		Bundle extras = getIntent().getExtras();
+		if(extras != null){
+			this.airline = extras.getString("airline");
+			this.flightId = extras.getString("flightId");
+			changeData(this.airline, this.flightId);
+		}
 	}
 
 	public void setOnClick() {
@@ -93,7 +89,11 @@ public class MainActivity extends FragmentActivity {
 	}
 
 	private void setAlerts() {
-
+		Intent intent = new Intent(this, LocalService.class);
+		intent.putExtra("airline", airline);
+		intent.putExtra("flightId", flightId);
+		intent.putExtra("oldstatus", flightdata);
+		startService(intent);
 	}
 
 	@Override
@@ -114,18 +114,19 @@ public class MainActivity extends FragmentActivity {
 		}
 	}
 
-	public void changeData(final String airline, final Integer flightid) {
+	public void changeData(final String airline, final String flightid) {
 		progress.setVisibility(View.VISIBLE);
 		RequestReceiver reciver = new RequestReceiver() {
 
 			public void onSuccess(JSONObject json) {
-				setCorrectData(airline, flightid.toString());
+				setCorrectData(airline, flightid);
 				progress.setVisibility(View.INVISIBLE);
 				activity.clearRows();
 				review.setVisibility(View.VISIBLE);
 				flight.setVisibility(View.VISIBLE);
 				selector.correctData();
 				try {
+					flightdata = json.getString("status");
 					activity.setUpData(json);
 				} catch (JSONException e) {
 					e.printStackTrace();
@@ -138,8 +139,9 @@ public class MainActivity extends FragmentActivity {
 			}
 		};
 		QueryIntent intent = new Get(reciver, "Status", "GetFlightStatus");
+		System.out.println(airline + " " + flightid);
 		intent.put("airline_id", airline);
-		intent.put("flight_num", flightid.toString());
+		intent.put("flight_num", flightid);
 		startService(intent);
 	}
 
@@ -147,23 +149,5 @@ public class MainActivity extends FragmentActivity {
 		this.airline = airline;
 		this.flightId = flightId;
 
-	}
-
-	private void setService() {
-		Intent myIntent = new Intent(MainActivity.this, LocalService.class);
-		PendingIntent pendingIntent = PendingIntent.getService(
-				MainActivity.this, 0, myIntent, 0);
-
-		AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTimeInMillis(System.currentTimeMillis());
-		calendar.set(Calendar.SECOND, 10);
-		alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
-				calendar.getTimeInMillis(),
-				AlarmManager.INTERVAL_FIFTEEN_MINUTES, pendingIntent);
-
-		Toast.makeText(MainActivity.this, "Start Alarm", Toast.LENGTH_LONG)
-				.show();
 	}
 }

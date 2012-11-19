@@ -1,9 +1,9 @@
 package ar.com.mindtrips;
 
 import org.json.JSONObject;
-import org.json.JSONStringer;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -15,11 +15,10 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.Switch;
-import ar.com.mindtrips.R.id;
+import android.widget.Toast;
 import ar.com.mindtrips.objects.Ratings;
 import ar.edu.itba.hci2012.api.RequestReceiver;
 import ar.edu.itba.hci2012.api.intent.Post;
-import ar.edu.itba.hci2012.api.intent.QueryIntent;
 
 public class RatingActivity extends Activity {
 	
@@ -66,7 +65,15 @@ public class RatingActivity extends Activity {
 
 			@Override
 			public void onSuccess(JSONObject json) {
-				System.out.println(json);
+				if(json.has("review")){
+					Context context = getApplicationContext();
+					CharSequence text = getResources().getString(R.string.sent);
+					int duration = Toast.LENGTH_LONG;
+
+					Toast toast = Toast.makeText(context, text, duration);
+					toast.show();
+					finish();
+				}
 				
 			}
 			public void onError(String msg, int code) {
@@ -90,15 +97,12 @@ public class RatingActivity extends Activity {
 		recommend = (Switch) findViewById(R.id.recommend);
 		
 		recommend.setOnCheckedChangeListener(new OnCheckedChangeListener(){
-			@Override
 			public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
 				data.yesRecommend = arg1;
 			}
 			
 		});
 		finish.setOnClickListener(new Button.OnClickListener(){
-
-			@Override
 			public void onClick(View arg0) {
 				data.comment = comment.getText().toString();
 				sendReview();

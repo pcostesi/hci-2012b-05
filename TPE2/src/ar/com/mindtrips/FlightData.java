@@ -4,10 +4,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,7 +75,7 @@ public class FlightData extends Fragment {
 			TableRow row = new TableRow(local);
 			TextView t = new TextView(local);
 			TextView d = new TextView(local);
-			t.setText(id);
+			//t.setText);
 			d.setText(data);
 			row.addView(t);
 			row.addView(d);
