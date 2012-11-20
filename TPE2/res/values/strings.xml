@@ -42,5 +42,5 @@
     <string name="saved">Flight Saved!</string>
     <string name="changed">Flight Changed!</string>
     <string name="baggage">Baggage Gate:</string>
-    
+    <string name="landed">Landed</string>
 </resources>

@@ -53,6 +53,8 @@ public class FlightData extends Fragment {
 		case 'C':
 			stat = getResources().getString(R.string.canceled);
 			break;
+		case 'L':
+			stat = getResources().getString(R.string.landed);
 		default:
 			stat = "";
 		}
