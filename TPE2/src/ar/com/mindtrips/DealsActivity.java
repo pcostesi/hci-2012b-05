@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.widget.ListView;
 import ar.edu.itba.hci2012.api.RequestReceiver;
 
+
 public class DealsActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MindTrips</string>
+    <string name="hello_world">Hola Mundo</string>
+    <string name="menu_settings">Ajustes</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="flight_status">Vuelos</string>
+    <string name="ratings">Ratings</string>
+    <string name='home'>Inicio</string>
+    <string name="recomend">Nos recomendaria?</string>
+    <string name="yes">Si</string>
+    <string name="no">No</string>
+    <string name="airline">Aerolinea</string>
+    <string name="send_review">Enviar Review</string>
+    <string name="comments">Ingrese sus Comentarios</string>
+    <string name="friendliness">Amabilidad</string>
+    <string name="food">Comida</string>
+    <string name="comfort">Comfort</string>
+    <string name="qualityprice">Calidad vs Precio</string>
+    <string name="punctuality">Puntualidad</string>
+    <string name="mileage">Millas</string>
+    <string name="review">Review</string>
+    <string name="flight">Seguir Vuelo</string>
+    <string name="airline1">Aerolinea:</string>
+    <string name="flight_id">ID Vuelo:</string>
+    <string name="departure">Salida</string>
+    <string name="airport">Aeropuerto:</string>
+    <string name="placeholder">Informacion de Vuelo</string>
+    <string name="gatetime">Hora de Embarque:</string>
+    <string name="gate">Puerta:</string>
+    <string name="termina">Terminal:</string>
+    <string name="tofftime">Hora de Despegue:</string>
+    <string name="airport_or_city">Aeropuerto o Ciudad</string>
+    <string name="arrival">Arrivo:</string>
+    <string name="expgatetime">Estimado Embarque:</string>
+    <string name="sent">Comentario Enviado!</string>
+    <string name="status">Estado: </string>
+    <string name="planificated">Planificado</string>
+    <string name="active">Activo</string>
+    <string name="deflected">Demorado</string>
+    <string name="canceled">Cancelado</string>
+    <string name="saved">Vuelo Guardado!</string>
+    <string name="changed">Vuelo Modificado!</string>
+    <string name="baggage">Retiro de Equipaje:</string>
+</resources>

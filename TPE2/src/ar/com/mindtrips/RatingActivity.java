@@ -1,6 +1,9 @@
 package ar.com.mindtrips;
 
+import org.json.JSONObject;
+
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -12,8 +15,11 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.Switch;
-import ar.com.mindtrips.R.id;
+import android.widget.TextView;
+import android.widget.Toast;
 import ar.com.mindtrips.objects.Ratings;
+import ar.edu.itba.hci2012.api.RequestReceiver;
+import ar.edu.itba.hci2012.api.intent.Post;
 
 public class RatingActivity extends Activity {
 	
@@ -27,12 +33,16 @@ public class RatingActivity extends Activity {
 	private Button finish;
 	private Switch recommend;
 	private Ratings data = new Ratings();
+	private TextView airlineName;
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_rating);
 		setListeners();
-		
+		Bundle extras = getIntent().getExtras();
+		data.airlineId = extras.getString("airline");
+		data.flightNumber = (Integer.parseInt(extras.getString("flightId")));
+		airlineName.setText(data.airlineId+ " - " + data.flightNumber);
 	}	
 
 	@Override
@@ -44,22 +54,42 @@ public class RatingActivity extends Activity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle item selection
-		Intent intent;
 		switch (item.getItemId()) {
 		case R.id.main:
-			intent = new Intent(this, MainActivity.class);
-			startActivity(intent);
+			finish();
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
 	}
 	
-	public void getRatings(){
-		
+	public void sendReview(){
+		RequestReceiver reciver = new RequestReceiver() {
+
+			@Override
+			public void onSuccess(JSONObject json) {
+				if(json.has("review")){
+					Context context = getApplicationContext();
+					CharSequence text = getResources().getString(R.string.sent);
+					int duration = Toast.LENGTH_LONG;
+
+					Toast toast = Toast.makeText(context, text, duration);
+					toast.show();
+					finish();
+				}
+				
+			}
+			public void onError(String msg, int code) {
+				System.out.println(msg + " " + code);
+			}
+		};
+		Intent intent = new Post(reciver, "Review", "ReviewAirline", data.toJson());
+		startService(intent);
+		 
 	}
 	
 	public void setListeners(){
+		airlineName = (TextView) findViewById(R.id.airlineName);
 		friendlinessRating = (RatingBar) findViewById(R.id.friendlinessRating);
 		foodRating = (RatingBar) findViewById(R.id.foodRating);
 		punctualityRating = (RatingBar) findViewById(R.id.punctualityRating);
@@ -71,18 +101,15 @@ public class RatingActivity extends Activity {
 		recommend = (Switch) findViewById(R.id.recommend);
 		
 		recommend.setOnCheckedChangeListener(new OnCheckedChangeListener(){
-			@Override
 			public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
 				data.yesRecommend = arg1;
 			}
 			
 		});
 		finish.setOnClickListener(new Button.OnClickListener(){
-
-			@Override
 			public void onClick(View arg0) {
 				data.comment = comment.getText().toString();
-				System.out.println(comment.getText());
+				sendReview();
 				
 			}
 			
@@ -95,12 +122,6 @@ public class RatingActivity extends Activity {
 			}
 		});	
 		foodRating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-			public void onRatingChanged(RatingBar ratingBar, float rating,
-					boolean fromUser) {	
-				data.foodRating = ((int)(rating*2))+1;
-			}
-		});	
-		friendlinessRating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
 			public void onRatingChanged(RatingBar ratingBar, float rating,
 					boolean fromUser) {	
 				data.foodRating = ((int)(rating*2))+1;

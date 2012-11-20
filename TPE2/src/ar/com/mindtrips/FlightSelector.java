@@ -6,18 +6,17 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
-import android.widget.TextView;
 import ar.edu.itba.hci2012.api.RequestReceiver;
 import ar.edu.itba.hci2012.api.intent.Get;
 import ar.edu.itba.hci2012.api.intent.QueryIntent;
@@ -115,8 +114,7 @@ public class FlightSelector extends Fragment {
 		String flightnu = airlineid.getText().toString();
 		System.out.println("airline: " + airlinei + " num" + flightnu);
 		if (flightnu.length() == 4 && airlinei != null) {
-			((MainActivity) getActivity()).changeData(airlinei,
-					Integer.parseInt(flightnu));
+			((MainActivity) getActivity()).changeData(airlinei,flightnu);
 		}
 	}
 
@@ -131,6 +129,9 @@ public class FlightSelector extends Fragment {
 	}
 
 	public void incorrectData() {
-		airlineid.setTextColor(0xFF0000);
+		airlineid.setTextColor(Color.RED);
+	}
+	public void correctData(){
+		airlineid.setTextColor(Color.BLACK);
 	}
 }

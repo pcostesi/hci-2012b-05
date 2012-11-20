@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <Button
+        android:id="@+id/send"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:text="@string/send_review" />
+
+    <TextView
+        android:id="@+id/airlineName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="28dp"
+        android:text="@string/airline"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <RatingBar
+        android:id="@+id/foodRating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/airlineName"
+        android:layout_toRightOf="@+id/airlineName"
+        android:numStars="4" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/foodRating"
+        android:layout_toLeftOf="@+id/airlineName"
+        android:text="@string/food"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <RatingBar
+        android:id="@+id/friendlinessRating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/foodRating"
+        android:layout_below="@+id/foodRating"
+        android:numStars="4" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/friendlinessRating"
+        android:layout_alignRight="@+id/textView2"
+        android:text="@string/friendliness"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <RatingBar
+        android:id="@+id/comfortRating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/friendlinessRating"
+        android:layout_below="@+id/friendlinessRating"
+        android:numStars="4" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/comfortRating"
+        android:layout_alignRight="@+id/textView1"
+        android:text="@string/comfort"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <RatingBar
+        android:id="@+id/mileageProgramRating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/comfortRating"
+        android:layout_below="@+id/comfortRating"
+        android:numStars="4" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/mileageProgramRating"
+        android:layout_toLeftOf="@+id/airlineName"
+        android:text="@string/mileage"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <RatingBar
+        android:id="@+id/punctualityRating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/mileageProgramRating"
+        android:layout_below="@+id/mileageProgramRating"
+        android:numStars="4" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/punctualityRating"
+        android:layout_toLeftOf="@+id/airlineName"
+        android:text="@string/punctuality"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <RatingBar
+        android:id="@+id/qualityPriceRating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/punctualityRating"
+        android:layout_below="@+id/punctualityRating"
+        android:numStars="4" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/qualityPriceRating"
+        android:layout_toLeftOf="@+id/airlineName"
+        android:text="@string/qualityprice"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <Switch
+        android:id="@+id/recommend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/qualityPriceRating"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="96dp"
+        android:checked="true"
+        android:text="@string/recomend"
+        android:textOff="@string/no"
+        android:textOn="@string/yes" />
+
+    <EditText
+        android:id="@+id/comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/recommend"
+        android:layout_marginTop="30dp"
+        android:ems="10"
+        android:hint="@string/comments"
+        android:inputType="textMultiLine"
+        android:maxLines="5" >
+
+        <requestFocus />
+    </EditText>
+
+</RelativeLayout>

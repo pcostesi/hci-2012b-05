@@ -26,11 +26,21 @@
     <string name="departure">Departure</string>
     <string name="airport">Airport:</string>
     <string name="placeholder">Flight Data</string>
-    <string name="gatetime">Gate Time:</string>
+    <string name="gatetime">Scheduled Gate Time:</string>
+    <string name="expgatetime">Expected Gate Time:</string>
     <string name="gate">Gate:</string>
     <string name="termina">Terminal:</string>
     <string name="tofftime">Takeoff Time:</string>
     <string name="airport_or_city">Airport or City</string>
     <string name="arrival">Arrival</string>
-
+	<string name="sent">Comment Sent!</string>
+	<string name="status">Status: </string>
+	<string name="planificated">Planification</string>
+    <string name="active">Active</string>
+    <string name="deflected">Deflected</string>
+    <string name="canceled">Canceled</string>
+    <string name="saved">Flight Saved!</string>
+    <string name="changed">Flight Changed!</string>
+    <string name="baggage">Baggage Gate:</string>
+    
 </resources>

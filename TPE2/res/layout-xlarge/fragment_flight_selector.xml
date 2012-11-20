@@ -8,6 +8,8 @@
         android:id="@+id/airlinen"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
         android:text="@string/airline1"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -15,9 +17,9 @@
         android:id="@+id/airlinename"
         android:layout_width="94dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/airlinei"
+        android:layout_toLeftOf="@+id/airlinei"
+        android:layout_toRightOf="@+id/airlinen"
         android:ems="10" >
 
         <requestFocus />
@@ -27,8 +29,9 @@
         android:id="@+id/airlinei"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/airlinename"
+        android:layout_alignBaseline="@+id/airlinename"
+        android:layout_alignBottom="@+id/airlinename"
+        android:layout_centerHorizontal="true"
         android:text="@string/flight_id"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -37,7 +40,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/airlinei"
+        android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/airlinei"
         android:layout_weight="1"
         android:ems="10"
