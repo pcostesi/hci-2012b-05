@@ -102,7 +102,7 @@ public class FlightSelector extends Fragment {
 			}
 
 			public void afterTextChanged(Editable s) {
-				if (s.toString().length() == 4) {
+				if (s.toString().length() >= 1) {
 					checkFinished();
 				}
 			}
@@ -113,7 +113,7 @@ public class FlightSelector extends Fragment {
 		String airlinei = airlines.get(airlinename.getText().toString());
 		String flightnu = airlineid.getText().toString();
 		System.out.println("airline: " + airlinei + " num" + flightnu);
-		if (flightnu.length() == 4 && airlinei != null) {
+		if (flightnu.length() >= 1 && airlinei != null) {
 			((MainActivity) getActivity()).changeData(airlinei,flightnu);
 		}
 	}
