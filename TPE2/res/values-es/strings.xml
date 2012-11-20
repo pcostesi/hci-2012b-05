@@ -31,6 +31,15 @@
     <string name="termina">Terminal:</string>
     <string name="tofftime">Hora de Despegue:</string>
     <string name="airport_or_city">Aeropuerto o Ciudad</string>
-    <string name="arrival">Arrivo</string>
+    <string name="arrival">Arrivo:</string>
+    <string name="expgatetime">Estimado Embarque:</string>
     <string name="sent">Comentario Enviado!</string>
+    <string name="status">Estado: </string>
+    <string name="planificated">Planificado</string>
+    <string name="active">Activo</string>
+    <string name="deflected">Demorado</string>
+    <string name="canceled">Cancelado</string>
+    <string name="saved">Vuelo Guardado!</string>
+    <string name="changed">Vuelo Modificado!</string>
+    <string name="baggage">Retiro de Equipaje:</string>
 </resources>

@@ -15,6 +15,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
+import android.widget.Toast;
 import ar.edu.itba.hci2012.api.RequestReceiver;
 import ar.edu.itba.hci2012.api.intent.Get;
 import ar.edu.itba.hci2012.api.intent.QueryIntent;
@@ -94,24 +95,16 @@ public class MainActivity extends FragmentActivity {
 		intent.putExtra("flightId", flightId);
 		intent.putExtra("oldstatus", flightdata);
 		startService(intent);
+		Context context = getApplicationContext();
+		CharSequence text = getResources().getString(R.string.saved);
+		int duration = Toast.LENGTH_LONG;
+		Toast toast = Toast.makeText(context, text, duration);
+		toast.show();
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle item selection
-		Intent intent;
-		switch (item.getItemId()) {
-		case R.id.ratings:
-			intent = new Intent(this, RatingActivity.class);
-			startActivity(intent);
-			return true;
-		case R.id.flight_status:
-			intent = new Intent(this, FlightStatusActivity.class);
-			startActivity(intent);
-			return true;
-		default:
-			return super.onOptionsItemSelected(item);
-		}
+		return false;
 	}
 
 	public void changeData(final String airline, final String flightid) {
@@ -139,7 +132,6 @@ public class MainActivity extends FragmentActivity {
 			}
 		};
 		QueryIntent intent = new Get(reciver, "Status", "GetFlightStatus");
-		System.out.println(airline + " " + flightid);
 		intent.put("airline_id", airline);
 		intent.put("flight_num", flightid);
 		startService(intent);

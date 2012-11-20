@@ -29,28 +29,29 @@ public class FlightData extends Fragment {
 		TableLayout table = (TableLayout) view
 				.findViewById(R.id.flight_data_table);
 		data = data.getJSONObject("status");
-		putRow("Status", setStatus(data.getString("status")), table);
-		putRow("Departure", "", table);
+		putRow("status", setStatus(data.getString("status")), table);
+		putRow("departure", "", table);
 		addRows(data.getJSONObject("departure"), table);
 		putRow("", "", table);
-		putRow("Arrival", "", table);
+		putRow("arrival", "", table);
 		addRows(data.getJSONObject("arrival"), table);
+		putRow("baggageGate",data.getJSONObject("arrival").getJSONObject("airport").getString("baggageGate"),table);
 	}
 
 	private String setStatus(String status) {
 		String stat;
 		switch (status.toCharArray()[0]) {
 		case 'S':
-			stat = "Planification";
+			stat = getResources().getString(R.string.planificated);
 			break;
 		case 'A':
-			stat = "Active";
+			stat = getResources().getString(R.string.active);
 			break;
 		case 'D':
-			stat = "Deflected";
+			stat = getResources().getString(R.string.deflected);
 			break;
 		case 'C':
-			stat = "Canceled";
+			stat = getResources().getString(R.string.canceled);
 			break;
 		default:
 			stat = "";
@@ -75,7 +76,25 @@ public class FlightData extends Fragment {
 			TableRow row = new TableRow(local);
 			TextView t = new TextView(local);
 			TextView d = new TextView(local);
-			//t.setText);
+			if(id == "airport"){
+				t.setText(getResources().getString(R.string.airport));
+			}else if(id == "terminal"){
+				t.setText(getResources().getString(R.string.termina));
+			}else if(id == "gate"){
+				t.setText(getResources().getString(R.string.gate));
+			}else if(id == "scheduledTime"){
+				t.setText(getResources().getString(R.string.gatetime));
+			}else if(id == "actualGateTime"){
+				t.setText(getResources().getString(R.string.expgatetime));
+			}else if(id == "status"){
+				t.setText(getResources().getString(R.string.status));
+			}else if(id == "departure"){
+				t.setText(getResources().getString(R.string.departure));
+			}else if(id == "arrival"){
+				t.setText(getResources().getString(R.string.arrival));
+			}else if(id == "baggageGate"){
+				t.setText(getResources().getString(R.string.baggage));
+			}
 			d.setText(data);
 			row.addView(t);
 			row.addView(d);

@@ -44,7 +44,6 @@ public class LocalService extends IntentService {
 		call.put("airline_id", airline);
 		call.put("flight_num", flightId);
 		startService(call);
-		sendNotification();
 		SystemClock.sleep(30000);
 		scheduleNextUpdate();
 	}
@@ -66,7 +65,7 @@ public class LocalService extends IntentService {
 		NotificationCompat.Builder mBuilder =
 		        new NotificationCompat.Builder(this)
 				.setSmallIcon(R.drawable.star)
-		        .setContentTitle("My notification")
+		        .setContentTitle(getResources().getString(R.string.changed))
 		        .setContentText(airline + " - " + flightId );
 		Intent resultIntent = new Intent(this, MainActivity.class);
 		resultIntent.putExtra("airline", airline);

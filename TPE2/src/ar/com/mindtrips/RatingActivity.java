@@ -15,6 +15,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 import ar.com.mindtrips.objects.Ratings;
 import ar.edu.itba.hci2012.api.RequestReceiver;
@@ -32,6 +33,7 @@ public class RatingActivity extends Activity {
 	private Button finish;
 	private Switch recommend;
 	private Ratings data = new Ratings();
+	private TextView airlineName;
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -40,6 +42,7 @@ public class RatingActivity extends Activity {
 		Bundle extras = getIntent().getExtras();
 		data.airlineId = extras.getString("airline");
 		data.flightNumber = (Integer.parseInt(extras.getString("flightId")));
+		airlineName.setText(data.airlineId+ " - " + data.flightNumber);
 	}	
 
 	@Override
@@ -86,6 +89,7 @@ public class RatingActivity extends Activity {
 	}
 	
 	public void setListeners(){
+		airlineName = (TextView) findViewById(R.id.airlineName);
 		friendlinessRating = (RatingBar) findViewById(R.id.friendlinessRating);
 		foodRating = (RatingBar) findViewById(R.id.foodRating);
 		punctualityRating = (RatingBar) findViewById(R.id.punctualityRating);

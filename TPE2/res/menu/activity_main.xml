@@ -11,16 +11,4 @@
         android:orderInCategory="100"
         android:showAsAction="never"
         android:title="@string/menu_settings"/>
-    <item
-        android:id="@+id/flight_status"
-        android:orderInCategory="98"
-        android:showAsAction="ifRoom"
-        android:title="@string/flight_status">
-    </item>
-    <item
-        android:id="@+id/ratings"
-        android:orderInCategory="97"
-        android:showAsAction="ifRoom"
-        android:title="@string/ratings">
-    </item>
 </menu>
