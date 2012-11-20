@@ -43,4 +43,6 @@
     <string name="changed">Flight Changed!</string>
     <string name="baggage">Baggage Gate:</string>
     <string name="landed">Landed</string>
+    <string name="cityerror">The city is not valid</string>
+    
 </resources>

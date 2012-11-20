@@ -43,4 +43,5 @@
     <string name="changed">Vuelo Modificado!</string>
     <string name="baggage">Retiro de Equipaje:</string>
     <string name="landed">Aterrizado</string>
+    <string name="cityerror">La ciudad ingresada es incorrecta</string>
 </resources>
